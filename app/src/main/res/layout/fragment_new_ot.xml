@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tapices05"
+    tools:context=".ui.newOrdTrab.FragmentNewOrdTrab">
+
+    <TextView
+        android:id="@+id/tvTituloConfig"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/headNewOT"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.01" />
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="#9E9CA2"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTituloConfig"
+        app:layout_constraintVertical_bias="0.015"/>
+
+    <EditText
+        android:id="@+id/etNombreEquip"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/hintNombEquip"
+        android:textSize="15sp"
+        android:inputType="none"
+        android:enabled="false"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/divider1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnSeleccEquip"
+        app:layout_constraintVertical_bias="0.01"/>
+
+    <Button
+        android:id="@+id/btnSeleccEquip"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:background="@drawable/boton_redondo"
+        android:text="Eq"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/divider1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/etNombreEquip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.01"/>
+
+    <EditText
+        android:id="@+id/etTrabSolic"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:gravity="top"
+        android:hint="@string/hintTrabSolic"
+        android:inputType="textMultiLine"
+        android:textSize="15sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/style_bordes_edittex1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etNombreEquip"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.02"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <TextView
+        android:id="@+id/tvEjector"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:text="@string/tvSpnSelecEjecut"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textAlignment="textEnd"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@+id/etTrabSolic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.04"/>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/tvSpnSelecPriorid"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textAlignment="textEnd"
+        app:layout_constraintTop_toBottomOf="@+id/tvEjector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.038"/>
+
+   <Spinner
+       android:id="@+id/spnEjecutores"
+       android:layout_width="0dp"
+       android:layout_height="wrap_content"
+       android:layout_marginStart="10dp"
+       android:layout_marginEnd="10dp"
+       android:background="@drawable/style_spinners"
+       app:layout_constraintTop_toBottomOf="@+id/etTrabSolic"
+       app:layout_constraintStart_toStartOf="@id/guideline1"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintVertical_bias="0.03"/>
+
+    <Spinner
+        android:id="@+id/spnPriorids"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/style_spinners"
+        app:layout_constraintTop_toBottomOf="@+id/spnEjecutores"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:layout_constraintVertical_bias="0.02"/>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="#9E9CA2"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spnPriorids"
+        app:layout_constraintVertical_bias="0.035"/>
+
+    <TextView
+        android:id="@+id/tvIndicFotos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="@string/tvAnexFotos"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="#035FA9"
+        app:layout_constraintTop_toBottomOf="@+id/divider2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.05"
+        app:layout_constraintHorizontal_bias="0.05"/>
+
+    <Button
+        android:id="@+id/btnEnviarOt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="@string/btnEnviarOT"
+        tools:layout_editor_absoluteX="288dp"
+        tools:layout_editor_absoluteY="357dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintVertical_bias="0.02"/>
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="#9E9CA2"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnEnviarOt"
+        app:layout_constraintVertical_bias="0.015"/>
+
+    <GridView
+        android:id="@+id/gvImagenes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/tapices07c"
+        android:numColumns="1"
+        android:verticalSpacing="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider3"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="#9E9CA2"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gvImagenes"
+        app:layout_constraintVertical_bias="0.15"/>
+
+    <TextView
+        android:id="@+id/tvIdEquipo"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvIndicFotos"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.05"/>
+
+    <ProgressBar
+        android:id="@+id/progresBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

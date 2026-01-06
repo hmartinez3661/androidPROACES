@@ -1,0 +1,563 @@
+<resources>
+
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <!-- ENCABESADO DE LOS FRAGMENTS -->
+    <string name="app_name">MANTPREV</string>
+    <string name="appSlogan">Órdenes de Trabajo para mantenimiento Industrial.</string>
+    <string name="appEmail">support@mantprev.com</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Androi Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Configuraciones</string>
+
+    <string name="nuevaOTfrag">Nueva Orden de Trabajo</string>
+    <string name="listaOTs">Listado General de OTs</string>
+    <string name="misOTsList">Mis Ordenes de Trabajo</string>
+    <string name="revNvasOTsList">Revisar las nuevas OTs</string>
+    <string name="revNvasOTsIndiv">Revisar Nueva OT</string>
+    <string name="fragReportEjecOTs">Reportar la ejecución de OTs</string>
+    <string name="fragFotosDeOTs">Fotos anexadas a OT</string>
+    <string name="fragVerOrdTrab">Visualizar Ord. Trab.</string>
+    <string name="fragRecurFallas">Recurrencia de Fallas</string>
+    <string name="fragTendenAverias">Tendencia Averías en Equipos</string>
+    <string name="fragParoMantto">Paros por Mantenimiento</string>
+    <string name="fragConsumReptos">Consumo de Repuestos</string>
+    <string name="fragAprovLaboral">Historial laboral de Técnicos</string>
+    <string name="fragTpmsEstimReal">Tiempos Estimados/Reales</string>
+    <string name="fragHistorEquips">Historial de Equipos</string>
+    <string name="fragFichasTecnic">Fichas Técnicas</string>
+    <string name="fragDetailRecurrFails">Detalle Recurrencia Fallas</string>
+    <string name="fragRecurrFailsGraf1">Gráfica Recurrencia Fallas</string>
+    <string name="fragRecurrFailsGraf2">Gráfica Recurrencia Falla</string>
+    <string name="fragHrsPatoPorMantto">Hrs. paro maquinas por Mantenimiento</string>
+    <string name="fragCostosReptos">Costo por consumo de Repuestos</string>
+    <string name="fragConfigAdmin">Config. de Administrador</string>
+    <string name="fragConfigArbolEquips">Configuración de Equipos</string>
+    <string name="fragConfigUsers">Usuarios Mantprev</string>
+    <string name="fragConfigGenetal">Config. generales</string>
+    <string name="fragmentLogin">LOGIN</string>
+    <string name="fragPersTecnico">Personal Técnico</string>
+    <string name="fragNombresFallas">Nombres de Fallas</string>
+    <string name="fragRecupPassw">Recuperación Password</string>
+    <string name="fragShowFoto">Viendo fotos OT</string>
+
+
+    <!--  MENU HOME -->
+    <string name="appName"><i>MANTPREV</i></string>
+    <string name="wellcomeUser"><i>Bienvenido</i></string>
+    <string name="text_home2"><i>(Ordenes de Trabajo para Mantenimiento Industrial)</i></string>
+    <string name="text_home3"><i>Mantenimiento Industrial)</i></string>
+    <string name="btnNewOT">CREAR NUEVA ORDEN DE TRAB.</string>
+    <string name="btnMisOTs">VER MIS ORDENES DE TRAB.</string>
+    <string name="btnAsigds">Ords. Trab. ASIGNADAS A MI</string>
+    <string name="infoHome1">RESUMEN ORDENES DE TRABAJO</string>
+    <string name="infoHome2">(OTs generadas en los últimos 30 días)</string>
+    <string name="OtsGeneraas">Total de OTs generadas:</string>
+    <string name="OTsRevisadas">OTs revisadas:</string>
+    <string name="OTsSinRevis">OTs sin revisar:</string>
+    <string name="OTsEnProceso">OTs en proceso de Ejecución:</string>
+    <string name="OTsRechazadas">OTs rechazadas:</string>
+    <string name="OTsFinalizad">OTs Finalizadas y reportadas:</string>
+    <string name="tvCantidad"><i>###</i></string>
+
+
+    <!--  NOMBRES EN MENU LATERAL -->
+    <string name="menu_home">Inicio</string>
+    <string name="menu_listadoOTs">Listado General de OTs</string>
+    <string name="menu_verMisOTs">Ver mis Ord. de Trabajo</string>
+    <string name="menu_revisarNvasOTs">Autorizar nuevas OTs</string>
+    <string name="menu_reportEjecsOTs">Cerrar Ordenes Trab.</string>
+    <string name="msg_IndicesMantto">Indices de Mantenimiento</string>
+    <string name="menu_recurFallas">Recurrencia de Fallas</string>
+    <string name="menu_tendecAverias">Tendencia de Averías</string>
+    <string name="menu_tmpsParoMantto">Tiempos de paro por Mantto.</string>
+    <string name="menu_consumReptos">Costos consumo Repuestos</string>
+    <string name="menu_aprovLaboral">Aprovechamiento laboral</string>
+    <string name="menu_tmpsEstimReales">Tiempos Estimados/Reales</string>
+    <string name="msg_informAdic">Información adicional</string>
+    <string name="menu_HistorEquips">Historial de Equipos</string>
+    <string name="menu_FichasTecn">Fichas Técnicas</string>
+    <string name="msg_config">Configuraciones Admin.</string>
+    <string name="menu_config">Configuraciones</string>
+
+
+    <!--  OPCIONES DE STATUS DE OTs  -->
+    <string name="nuevaOT">Nueva OT</string>
+    <string name="otRevisada">Revisada</string>
+    <string name="otEnProceso">En proceso</string>
+    <string name="otFinalizada">Finalizada</string>
+    <string name="otRechazada">Rechazada</string>
+
+
+    <!-- MENSAJES VARIOS -->
+    <string name="enterDataMsg">Por favor ingrese todos los datos solicitados!!!</string>
+    <string name="msgNoNewOT">No hay nuevas Ordenes de Trabajo</string>
+
+    <!-- TEXTOS FIJOS DE LOS CORREOS ELECTRONICOS Y MENSJES WHATSAPP  -->
+    <string name="emailAsunto">nueva Orden de Trabajo</string>
+    <string name="saludo">Buen día,</string>
+    <string name="content01">Mantprev le informa que el usuario</string>
+    <string name="content02">ha generado una nueva Orden de Trabajo con las siguientes especificaciones</string>
+    <string name="content03"><u>Equipo/Máquina ...............:</u></string>
+    <string name="content04"><u>Trabajo solicitado ......:</u></string>
+    <string name="content05"><u>Para Ejecutor ................:</u></string>
+    <string name="content07"><u>Prioridad solicitada ....:</u></string>
+    <string name="content08">Favor revisar esta Orden de Trabajo y hacer los preparativos para su ejecución</string>
+    <string name="content09">Atentamente:</string>
+    <string name="content10">Equipo Mantprev</string>
+    <string name="content11">Estimado usuario, Mantprev le informa que su password provisional para ingresar a la aplicación es el siguiente:</string>
+    <string name="content12">Código confirmación MANTPREV</string>
+    <string name="content13">Mantprev App le informa que el código para confirmar su cuenta en Industrial Work Orders es el siguiente:</string>
+
+
+    <!-- tblHead TABLA LISTA DE ORDENES DE TRABAJO  -->
+    <string name="tblHeadNumOT"># OT:</string>
+    <string name="tblHeadTrabSolic">TRABAJO SOLICITADO:</string>
+    <string name="tblHeadNombEquip">NOMBRE EQUIPO:</string>
+    <string name="tbHeadEjecutor">EJECUTOR:</string>
+    <string name="tblHeadPriorid">PRIORIDAD:</string>
+    <string name="tblHeadStatusOT">ESTATUS ACTUAL:</string>
+    <string name="tblHeadFecha">FECHA:</string>
+    <string name="tblHeadVerOT">VER OT:</string>
+    <string name="tblHeadNameSolict">NOMBRE SOLICIT.:</string>
+
+    <!-- NUEVAS ORDENS DE TRABAJO  -->
+    <string name="headNewOT">SELECCIONE EL EQUIPO E INGRESE TODA LA INFORMACION</string>
+    <string name="hintNombEquip">Seleccione el Equipo ---></string>
+    <string name="hintTrabSolic">Ingrese el trabajo a solicitar</string>
+    <string name="tvSpnSelecEjecut">Selecc. Ejecutor:</string>
+    <string name="tvSpnSelecPriorid">Selecc. Prioridad:</string>
+    <string name="tvAnexFotos">Anexar fotos a la OT</string>
+    <string name="btnEnviarOT">Enviar OT</string>
+    <string name="windowEquips">SELECCIONE EL EQUIPO DE LA OT</string>
+    <string name="exitoOT">La Orden de Trabajo fue enviada con éxito!</string>
+    <string name="failSentOT">Fallo al enviar la Orden de Trabajo!</string>
+
+    <!--  OPCIONES AL ADJUNTAR FOTOS A LA OT  -->
+    <string name="titleOpc">Seleccione una opción:</string>
+    <string name="opcTakePict">Tomar una foto</string>
+    <string name="opcChoseGall">Seleccionar desde galeria</string>
+    <string name="opcCancel">Cancelar</string>
+    <string name="indicacion">Seleccione imagen(es)</string>
+
+    <!-- FRAGMENTS LISTAS DE OTs  -->
+    <string name="headMisOTs1">Mis OTs según rango de fechas</string>
+    <string name="headMisOTs2">(Modifique rango de fechas si lo desea)</string>
+    <string name="headListaOTs1">Lista OTs según mes seleccionado</string>
+    <string name="headListaOTs1b">Lista OTs asignadas a mi</string>
+    <string name="headListaOTs2">(Cambie el mes o Equipo/Area si lo desea)</string>
+    <string name="equipoArea">Equipo/Area:</string>
+    <string name="tvNombreEquipo">Planta general</string>
+    <string name="msgErrorFechas">FECHA INICIAL DEBE SER MENOR FECHA FINAL</string>
+    <string name="headCkeckOTs1">Todas las nuevas Ordenes de Trabajo</string>
+    <string name="mesListado">Mes del listado:</string>
+    <string name="headCheckOTs2">(Revise c/OT y cambie el estatus)</string>
+    <string name="tvFechaInic">Fecha Inicial:</string>
+    <string name="tvFechaFinal">Fecha Final:</string>
+    <string name="btnRecargar">Recargar</string>
+    <string name="tvSpnEjecutor">Filtrar p/Ejecutores</string>
+
+    <!-- MENSAJES REVISION/AUTORIZACION DE OTs  -->
+    <string name="tituloVent01">Revise, acepte o modifique la información proporcionada</string>
+    <string name="ejectSelected">Ejecutor selecc.:</string>
+    <string name="prioridSelect">Prioridad selecc.:</string>
+    <string name="fotosAnexada">Ver fotos anexadas a la OT</string>
+    <string name="etMaquina">Máquina:</string>
+    <string name="tvIndicacion2">Confirme o modifique la siguiente inform.:</string>
+    <string name="tvClasificOT">Clasificación OT:</string>
+    <string name="tvStatuscOT">Nuevo estatus OT:</string>
+    <string name="tvNumPersEstim">Num. técnicos estimados:</string>
+    <string name="tvNumHrsEstim">Número horas estimadas:</string>
+    <string name="tvIndicPrev">Indicaciones previas a ejecución del trabajo:</string>
+    <string name="etIndicPrevHint">Indicaciones al personal ejecutor (opcional)</string>
+    <string name="explicRechaso">Explicaciones en caso de rechazo:</string>
+    <string name="btnSavaChanges">Guardar revisión OT</string>
+    <string name="mensajeRechazoOT">Si rechaza la OT, explique por qué</string>
+    <string name="exitoSaveRevOT">La revisión de la OT fue guardada con éxito !!!</string>
+    <string name="falloSaveRevOT">La revisión de la OT no se pudo guardar</string>
+    <string name="numeroWO">Fotos OT#:</string>
+    <string name="msgNoReúestos">No se utlizaron Repuestos en esta OT</string>
+    <string name="msgNoServExt">No Servicios Externos en esta OT</string>
+    <string name="msgNoatachedFotos">No se anexaron Fotos</string>
+
+    <!-- REPORTAR EJECUCION DE OTs  -->
+    <string name="reportEjecOTsIndic1">Reportar Ejecución de OTs</string>
+    <string name="reportEjecOTsIndic2">(Todas las OTs Revisadas o En Proceso)</string>
+    <string name="reportEjecOTsIndic3">Seleccione la OT para ingresar la info de ejecución</string>
+
+    <!-- NAME OF TABS  -->
+    <string name="tabOrdTrab">Orden de Trabajo</string>
+    <string name="tabRepteEjec">Reportar Ejecución de ord. trab.</string>
+
+    <!-- REPORTE DE EJECUCION DE OTs -->
+    <string name="msgNoRepteEjec">La OT todavía no tiene reporte de Ejecución</string>
+    <string name="encabesadoVent11">OT original o revisada por personal de Mantenimiento</string>
+    <string name="estatusAct">Estatus Actual:</string>
+    <string name="revisadaPor">Revisada por:</string>
+    <string name="avisoToast01">Seleccione primero el nombre de un Técnico</string>
+    <string name="avisoToast02">Digite primero el nombre del Repuesto</string>
+    <string name="avisoToast03">Digige primero el nombre del Serv. Externo</string>
+    <string name="tvIndicacionesX">Ingrese la información solicitada en el reporde de ejecución OT</string>
+    <string name="tvfechaEjecuc">Fecha Ejecución:*</string>
+    <string name="tvHrsParoProd">Hrs. paro Producc.:*</string>
+    <string name="tvHrsTrabajo">Hrs. de Trabajo:*</string>
+    <string name="tvCalidadTrab">Calidad Trab.:(1–10)*</string>
+    <string name="tvIndicRepEjec">Escriba un reporte del Trabajo realizado:*</string>
+    <string name="etReportEjec">Reporte del trabajo hecho</string>
+    <string name="tvNombFalla">Nombre de falla:*</string>
+    <string name="tvNombrFalla">Seleccione una falla</string>
+    <string name="tvSupervOT">Supervisor de OT:*</string>
+    <string name="tvNombrSupOT">Seleccione Supervisor</string>
+    <string name="tvPersRecivTrab">Recibió el Trabajo:</string>
+    <string name="etNombRecivTrab">Persona recibio trabajo</string>
+    <string name="tvIndicPersonal">Agregar personal que hizo el trabajo:*</string>
+    <string name="tvEncabesadoPers">Seleccionar técnicos:*</string>
+    <string name="tvNombrePers">Toque para seleccionar</string>
+    <string name="tvTXTagregarAtabla">Agregar</string>
+    <string name="tblHeadPersonal">Nombre del Técnico</string>
+    <string name="quitarLinea">Quitar</string>
+    <string name="tvIndicRepuest">Toque para agregar repuestos utilizados:</string>
+    <string name="tvEncabesReptos">Nombre del Repuesto</string>
+    <string name="etNombreRepsto">Escriba nombre del repuesto</string>
+    <string name="tvEncabesCosto">Costo $</string>
+    <string name="nombreRepto">Nombre Repuesto</string>
+    <string name="tvIndicServExt">Toque para agregar servicios externos:</string>
+    <string name="tvEncabesSevExt">Nombre del servicio</string>
+    <string name="etNombreServExt">Escriba el servicio</string>
+    <string name="tblHeadNombServ">Nombre Servicio</string>
+    <string name="tvAgregarFotosCierre">Agregar fotos del tabajo hecho</string>
+    <string name="btnGuardaRepEjec">Guardar reporte ejecución</string>
+    <string name="btnGuardaRepEjecOK">Ëxito !!!, Se guardo el Reporte de Ejecución OT</string>
+    <string name="btnGuardaRepEjecNot">NO SE GUARDO REPORTE EJECUCION OT</string>
+    <string name="mensajeCalidad">La calidad del trabajo no puede ser mayor que 10.0</string>
+    <string name="ventanaFallas">SELECCIONE NOMBRE FALLA</string>
+    <string name="ventanaEjecut">Seleccione el personal técnico y después agréguelo a la tabla.</string>
+    <string name="ventanaSuperv">SELECCIONE SUPERVISOR OT</string>
+    <string name="msjGuardarOT">Se guardo OT con éxito !!!</string>
+    <string name="msjInformTabl">Hay información no agregada a la Tabla</string>
+
+    <!-- REVISION REPORTE DE EJECUCION DE OTs NO EDITABLE -->
+    <string name="tvEncabRevRepEjec">Reporte de ejecución del trabajo realizado</string>
+    <string name="tvIndRepteHist">Detalle del trabajo realizado:</string>
+    <string name="tvIndPersEjec">Personal que hizo el trabajo</string>
+    <string name="tvIndVerRepuests">Ver repuestos utilizados</string>
+    <string name="tvIndVerServExt">Ver Servicios externos recibidos</string>
+    <string name="tvIndVerFotosTrab">Ver Fotos del trabajo hecho</string>
+
+    <!-- RECURRENCIA FALLAS  -->
+    <string name="headerRepteFallas">Recurrencia Fallas según rango de fechas</string>
+    <string name="header2RepteFallas">(Modifique el rango de fechas si lo desea)</string>
+    <string name="headerGraficRecFallas">Gráfica de Recurrencia Fallas</string>
+    <string name="tblHeadNombFalla">NOMBRE DE FALLA</string>
+    <string name="tblHeadRecurr">Recurr.</string>
+    <string name="tblHeaHrsParo">HRS. PARO</string>
+    <string name="tbHeadDetalle">DETALLE</string>
+    <string name="tblHeadGrafica">GRAFICA</string>
+    <string name="tvRowDetalle">Ver Detalle</string>
+    <string name="tvRowGrafica">Ver Gráfica</string>
+    <string name="tvRowVerOT">Ver OT</string>
+    <string name="msgNoHayFallas">No hay Datos que mostrar</string>
+
+    <!-- RECURRENCIA FALLAS DETAIL -->
+    <string name="msgRangoFalla1">FALLAS ENTRE:</string>
+    <string name="msgRangoFalla2">Y</string>
+    <string name="tvNombreFalla">Nomb. Falla:</string>
+    <string name="tvTblHeadCol0">FECHA</string>
+    <string name="tvTblHeadCol1">EQUIPO</string>
+    <string name="tvTblHeadCol2">HRS. PARO</string>
+    <string name="tvTblHeadCol3">HRS. TRAB.</string>
+    <string name="tvTblSumaTotal">TOTALES ——>     .</string>
+
+    <!-- TENDENCIAS DE AVERIAS -->
+    <string name="tvHead1TendAver">Tendencia de averías según rango de fechas</string>
+    <string name="tvVerTablaDts">Ver tabla datos</string>
+    <string name="tvTituloInfo">TABLA DE DATOS DE AVERIAS</string>
+    <string name="Tbl2HeadCol0">No. OT</string>
+    <string name="Tbl2HeadCol1">FECHA OT</string>
+    <string name="Tbl2HeadCol2">TRABAJO SOLICITADO</string>
+    <string name="Tbl2HeadCol3">PARA EQUIPO</string>
+    <string name="Tbl2HeadCol4">CLASIFICACION OT</string>
+    <string name="Tbl2HeadCol5">VER OT</string>
+
+    <!-- HORAS DE PARO DE MAQUINA POR MANTENIMIENTO -->
+    <string name="tvHeadParoMaqMant">Tiempo paro máquinas por mantenimiento</string>
+    <string name="TblHeadHrsParo">HRS. PARO</string>
+    <string name="grafDescipc">Paros máquinas por Mantenimiento (Hrs)</string>
+    <string name="grafHeadHrsParo">Gráfica hrs. paro maquinas por Mantenimiento</string>
+
+    <!-- COSTOS POR CONSUMO DE REPUESTOS -->
+    <string name="msgGraficaReptos">Costos en moneda local, ejemplo:</string>
+    <string name="grafHeadReptos">Costos por consumo de Repuestos</string>
+    <string name="tablaHeadReptos">Detalle Costos consumo de Repuestos</string>
+    <string name="col0NombRepto">Nombre del Repuesto</string>
+    <string name="col1CostoRepto">Costo</string>
+    <string name="col2NOmbEquip">Máquina/Equipo</string>
+    <string name="col4FechaCierre">Fecha cierre</string>
+
+    <!-- APROVECHAMIENTO LABORAL -->
+    <string name="col4TblArovLab">%1$s %2$s</string>
+    <string name="tvIndicAprovLab">Historial laboral de Técnicos</string>
+    <string name="tvDiasFeriados">Días feriados en el periodo ............... :</string>
+    <string name="tvMensajeAprLab">(Se asume 8 horas trabajo/dÍa y 2 días de descando/Semana. Si algún técnico no aparece en la tabla inferior es porque no ha participado en la ejecucion de OTs)</string>
+    <string name="tvCol0AprLab">NOMBRE</string>
+    <string name="tvCol1AprLab">EJECUTOR</string>
+    <string name="tvCol2AprLab">HRS. OTs</string>
+    <string name="tvCol3AprLab">HRS. PERIODO</string>
+    <string name="tvCol4AprLab">% TRAB.</string>
+    <string name="tvCol5AprLab">PROM. CALD.</string>
+    <string name="tvNombreTecn">Nombre del técnico:</string>
+    <string name="tvTipoEject">Tipo de Ejecutor:</string>
+    <string name="tvHrsLabPer">Horas laborales periodo:</string>
+    <string name="tvMensaje2">(Se asume 8 horas trabajo/día y 2 días descanso/Semana)</string>
+    <string name="tvFechaEjec">FECHA EJEC.</string>
+    <string name="tvTrabRealiz">TRABAJO REALIZADO</string>
+    <string name="tvHrsTrabaj">HRS. TRAB.</string>
+    <string name="tvCalidad">CALIDAD</string>
+
+    <!-- REPORTE HISTORICO DE MANTENIMIENTO -->
+    <string name="tvHeadRepHistor">Historial mantenimiento de equipos</string>
+    <string name="tvHead2RepHistor">Seleccione fechas, luego equipo (Se incluirán sub-equipos)</string>
+    <string name="tvFechaEjec2">FECHA EJECUC.:</string>
+    <string name="tvPersSolic">PERS. SOLICITO:</string>
+    <string name="tvRepHist">REPORTE HISTORICO:</string>
+
+    <!-- FICHAS TECNICAS EQUIPOS -->
+    <string name="mesajeFt1">Ficha Fécnica fue actualizada con éxito !!!</string>
+    <string name="mesajeFt2">No se pudo actualizar Ficha Técnica</string>
+    <string name="headFichaTec">SELECCIONE EL EQUIPO, LUEGO INGRESE TODA INFORMACION TECNICA IMPORTANTE</string>
+    <string name="headDtsTecn">Información Técnica:</string>
+    <string name="hintDtsTecn">Ingrese la información técnica</string>
+    <string name="tvAgregarFt">Agregar foto del equipo</string>
+    <string name="btnGuardarFt">Guardar</string>
+
+    <!-- CONFIGURACIONES MANTPREV -->
+    <string name="headConfig">Configuraciones MANTPREV</string>
+    <string name="textExplicac">Para obtener un mejor beneficio del sistema para su empresa, revise y haga los cambios necesarios en las siguientes opciones de cofiguración:</string>
+    <string name="btnArbolEquips">Máquinas/Equipos</string>
+    <string name="btnUsuarios">Otros Usuarios App</string>
+    <string name="btnConfigGen">Config. Generales</string>
+    <string name="btnPersTecn">Personal Técnico</string>
+    <string name="btnNombFallas">Fallas recurrentes</string>
+    <string name="btnSuscrips">Suscripciones</string>
+    <string name="msgNoADMIN">SÓLO USUARIOS ADMIN PUEDEN ENTRAR A ESTA OPCIÓN</string>
+    <string name="msgAccRestr">Acceso restringido por su rol de usuario</string>
+
+    <!-- CONFIGURACION ARBOL DE EQUIPOS -->
+    <string name="tvTituloArbolEq">Configuración de Equipos</string>
+    <string name="tvIndicAE0">Edite los nombres de los Departamentos de producción y sus respectivos equipos, luego agregue todos los demás que
+                              sean necesarios de acuerdo a la realidad de su empresa</string>
+    <string name="tvListaSubEqups">Secciones/SubEquipos de:</string>
+    <string name="tvTitProdLines">Departamentos/Líneas de Produccion:</string>
+    <string name="tblHeadDeptos">Deptos./Líneas Produc.</string>
+    <string name="tblHeadAddDepto">Agregar Depto.</string>
+    <string name="tvTitSubEquips">Secciones/Sub-equipos</string>
+    <string name="tvTit2SubEquips">(Editar los nombres directamente sobre la celda de la tabla)</string>
+    <string name="tblHeadSubEquips">Deptos./Lin. Produc./Sub-equipos</string>
+    <string name="tblCellEitar">Editar</string>
+    <string name="tblCellDelete">Eliminar Depto.</string>
+    <string name="tblCellAddSubEqu">+ Sub-equipo</string>
+    <string name="tblCellElimin">Eliminar</string>
+    <string name="msgEquipElim">Equipo fue Eliminado con éxito!!!</string>
+    <string name="msgExitoActualiz">Éxito: Los equipos fueron actualizados</string>
+    <string name="dialogBuilder1">El equipo, y sus transacciones serán borradas. Proceder?</string>
+    <string name="dialogBuilder1a">Se borrarán Secciones/sub-equipos y todo su historial. Proceder?</string>
+    <string name="dialogBuilder1b">Borrar</string>
+    <string name="msgEliminDepto">Depto./Lin. Producc. se eliminó con éxito !!</string>
+    <string name="msgErrSaveEquip">No fue posible guardar el nuevo Equipo !!</string>
+
+    <!-- USUARIOS DE MANTPREV APP -->
+    <string name="tvUsersExplic1">Ingrese sus datos como un Usuario Administrador, se le enviará un código para que confirme su email y después se le dirigirá a las opciones de configuración.</string>
+    <string name="tvUsersExplic1b">Se le envió un código de confirmación a su email, por favor ingrese el código que le fue enviado y confirme.</string>
+    <string name="tvUsersExplic2">Ingrese los datos preliminares de todos los que serán usuarios del sistema, incluyendo los Supervisores de
+                                  Mantenimiento y el personal de producción que estarán autorizados a generar OTs; cada uno de ellos recibirá un email
+                                  con las indicaciones como entrar por primera vez a la App. POR FAVOR ASIGNE EL ROL ADECUADO PARA CADA USUARIO.</string>
+    <string name="tvTituloUser1">Ingresar usuario ADMIN</string>
+    <string name="tvTituloUser2">Ingresar otros Usuarios</string>
+    <string name="tvIrPaso3">Ir a Config.</string>
+    <string name="tvNombreApell">Nombre:*</string>
+    <string name="tvEmail">Email:*</string>
+    <string name="tvPassword">Password:*</string>
+    <string name="tvNombEmpresa">Empresa:*</string>
+    <string name="spnNombrePais">País:*</string>
+    <string name="tvTitulo1">USUARIO ADMINISTRADOR</string>
+    <string name="etHintNombre">Primer nombre y primer apellido</string>
+    <string name="etHintEmail">Ingrese su correo electrónico</string>
+    <string name="etHintEmail2">Ingrese Email del nuevo usuario</string>
+    <string name="etHintPassword1">Password</string>
+    <string name="etHintPassword2">Confirme</string>
+    <string name="etHintNombEmpres">Nombre de Empresa</string>
+    <string name="btnGuardarUser">Guardar</string>
+    <string name="btnConfirmar">Confirmar</string>
+    <string name="etRol">Rol:*</string>
+    <string name="linkConfig">ir Configur.</string>
+    <string name="tvTitulo02">AGREGAR MAS USUARIOS</string>
+    <string name="tvTituloTbl">Tabla de Usuarios y sus Roles:</string>
+    <string name="colNombreUser">Nombre de usuario</string>
+    <string name="colEmail">"Correo electrónico</string>
+    <string name="colRol">ROL</string>
+    <string name="colBorrar">Borrar</string>
+    <string name="msgUser01">Favor ingresar toda la información.</string>
+    <string name="msgUser02">El password no coincide, favor revisar.</string>
+    <string name="msgUser03">Error en email ingresado, favor revisar.</string>
+    <string name="msgUser04">Éxito, el usuario fue agregado !!!</string>
+    <string name="msgUser05">Realmente desea borrar el usuario?</string>
+    <string name="msgUser06">Si, proceder</string>
+    <string name="msgUser07">El usuario fue eliminado exitosamente !!!</string>
+    <string name="msgUser08">Por favor incluir sólo un nombre y un apellido</string>
+    <string name="msgUser09">Por favor ingresar el nombre de la empresa.</string>
+    <string name="msgUser11">Por favor seleccionar un país.</string>
+    <string name="msgUser12">DISCULPAS: Mantprev solo acepta cuentas de correo corporativos. Por favor ingrese su correo.</string>
+    <string name="msgUser13">Un usuario con el mismo Email ya existe en la BD Mantprev. Favor verificar</string>
+    <string name="txtEmail01">Nuevo usuario Martprev-App</string>
+    <string name="txtEmail02">Mantprev-App (Ordenes de Trabajo para Mantenimiento Industrial), le informa que usted ha sido agregado al grupo de trabajo de</string>
+    <string name="txtEmail03">por</string>
+    <string name="txtEmail04">quien es un usuario administrador de la aplicación</string>
+    <string name="txtEmail05">El rol de trabajo que le fue asignado en el sistema es el de.....:</string>
+    <string name="txtEmail06">Como usuario</string>
+    <string name="txtEmail07">, usted podrá realizar las siguientes actividades en el sistema.....:</string>
+    <string name="txtEmail09">Adicionalmente le informamos que después que usted descargue la aplicación, podrá ingresar por primera vez con su Email y el password provisional:</string>
+    <string name="txtEmail10">Generar Ordenes de Trabajo, ingresar reportes de ejecución de trabajos, administrar o ayudar a administrar el sistema, incluyendo las configuraciones.</string>
+    <string name="txtEmail11">Generar Ordenes de Trabajo e ingresar reportes de ejecución de trabajos realizados.</string>
+    <string name="txtEmail12">Generar Ordenes de Trabajo de su respectiva área o Departamento.</string>
+    <string name="txtEmail13">Mantprev-App (Ordenes de Trabajo para Mantenimiento Industrial), le informa que usted es primer usuario del grupo de trabajo de la empresa:</string>
+    <string name="txtEmail14">Adicionalmente le informamos que usted prodrá ingresar al sistema con su email y su password descargando la aplicación:</string>
+    <string name="txtEmail15">y también desde su PC con su buscador web preferido copiando el siguiente link:</string>
+    <string name="txtEmail16">Para mayor comodidad y para sacar el mayor provecho del sistema para su empresa quisieramos recomendarle realizar todas las configuraciones correspondientes.</string>
+    <string name="txtEmail17">Si tiene alguna pregunta, duda u observación, por favor escríbanos a support@mantprev.com, le responderemos con prontitud.</string>
+    <string name="txtEmail18">Password no ha cambiado</string>
+
+    <!-- LOGIN A LA APP -->
+    <string name="tvLogin">BIENVENIDO A MANTPREV</string>
+    <string name="tvLogin1">Por favor ingrese su Email y Password:</string>
+    <string name="tvLogin2">Por favor ingrese su password definitivo:</string>
+    <string name="tvHintEmail2">Email</string>
+    <string name="tvHintPassw2">Password</string>
+    <string name="btnLogin">LOGIN</string>
+    <string name="linkNvoGrupo">Crear una cuenta para su Empresa</string>
+    <string name="chkOpenSesion">Mantener la sesión abierta</string>
+    <string name="tvRecupPassw">Olvide mi password</string>
+    <string name="tvCerrarSesec">Cerrar Sesión</string>
+    <string name="msgIngrDts">Favor ingrese su Email y su Password</string>
+    <string name="errorDtsUser">NO SE PUDO ENCONTRAR USUARIO, FAVOR REVISE EMAIL Y PASSWORD</string>
+    <string name="errorEmail">NO SE PUDO ENCONTRAR USUARIO, FAVOR REVISE EMAIL</string>
+    <string name="msgActualUser">Éxito !!!, sus datos fueron actualizados</string>
+    <string name="tvRecupPassw1">RECUPERACIÓN DE PASSWORD</string>
+    <string name="tvRecupPassw2">(Por favor ingrese su Email, le enviaremos un password provisional a su cuenta de correo)</string>
+    <string name="btnRecupPassw">Enviar password provis.</string>
+    <string name="msgRecupPassw">Éxito !!!, un password provisional ha sido enviado a su correo</string>
+    <string name="msgEmailRepet">Ya existe un usuario con el Email ingresado</string>
+
+
+    <!-- PERSONAL TECNICO -->
+    <string name="tvHeadPersTec1">Personal Técnico</string>
+    <string name="tvHeadPersTenc">Edite/Ingrese los datos del personal técnico de su empresa que ejecuta las Ordenes de Trabajo, asigne la especialidad (tipo de Ejecutor) que mejor se ajuste al técnico.</string>
+    <string name="tvEjecutor">Ejecutor:*</string>
+    <string name="linkConfGen">Config.Gen.</string>
+    <string name="tituloPersTec">PERSONAL TÉCNICO</string>
+    <string name="tituloTablPersTec">Tabla de personal Técnico:</string>
+    <string name="col0TblPT">NOMBRE</string>
+    <string name="col1TblPT">Móvil WhatsApp"</string>
+    <string name="col2TblPT">Tipo Ejecutor</string>
+    <string name="col3TblPT">Editar</string>
+    <string name="msgPersAdded">Éxito!, nuevo técnico fua agregado.</string>
+    <string name="msgPersActual">Éxito!, los datos fueron actualizados.</string>
+    <string name="pregBorrar">Realmente quiere borrar nombre de Técnico?</string>
+    <string name="msgExito3">El Técnico fue borrado con éxito !!!</string>
+
+    <!-- CONFIGURACIONES GENERALES -->
+    <string name="tvHeadConfig">Configuraciones Generales</string>
+    <string name="headConfigGen">Edite los nombres de las opciones de configuración directamente sobre cada línea, y agregue, o elimine los items según mejor se adapte a la metodología de trabajo de su empresa.</string>
+    <string name="tvEjecutOTs">Ejecutores de OTs:</string>
+    <string name="tblEjecutOTs">EJECUTORES DE OTS</string>
+    <string name="tvAgregarRow">AGREGAR</string>
+    <string name="tvClasificOTs">Clasificación de OTs:</string>
+    <string name="tblClasificOTs">CLASIFICACIÓN DE OTs</string>
+    <string name="tvPrioridsOTs">Prioridades de OTs:</string>
+    <string name="tblPriorids">PRIORIDADES DE OTs</string>
+    <string name="tblClasifFails">Clasificación Fallas</string>
+    <string name="tvPreferNotif">Preferencias de notificaciones:</string>
+    <string name="chkBoxEmails">Enviar emails cuando un usuario crea una OT</string>
+    <string name="chkBoxMensajs">Enviar mensajes WhatsApp al crearse las OTs</string>
+    <string name="tvRecordat">Por favor asegúrese de guardar los cambios realizados.</string>
+    <string name="msgMax15Lin">Cantidad máxima de líneas para configuración es 15</string>
+    <string name="msgEjecutActual">Lista de ejecutores fue actualizada</string>
+    <string name="msgClasifActual">Lista de Clasificaciones fue actualizada</string>
+    <string name="msgPrioridActual">Lista de prioridades fue actualizada</string>
+    <string name="msgActualClasifFallas">Lista de Clasificación de Fallas fue actualizada</string>
+    <string name="msgConfigEmails">Configuración Emails fue actualizada</string>
+    <string name="msgConfigMensajes">Configuración de Mensajes fue actualizada</string>
+    <string name="tvOpcNoEdit">(Las primeras tres opciones no son editables)</string>
+
+    <!-- LAY-OUT RESOURCE FILE -->
+    <string name="lrFile01">xxxxxxxxxxxxxxx</string>
+    <string name="lrFile02">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</string>
+    <string name="lrFecha">xx/xx/xxxx</string>
+    <string name="tvNumOT">OT: 8888</string>
+    <string name="tvValor00">0.0</string>
+    <string name="tvValor05">0.5</string>
+    <string name="tvValor60">6.0</string>
+    <string name="tvNum">#</string>
+    <string name="tvHrs">HRS.</string>
+    <string name="tvHrsParp">HRS. PARO</string>
+    <string name="tvID">id</string>
+
+
+    <!-- NOMBRES FALLAS RECURRENTES -->
+    <string name="tvIndicFallasRecurr">Ingrese los nombres de las fallas mas recurrentes en su empresa para mantener un seguimiento estadístico</string>
+    <string name="tvTituloFallas">Fallas recurrentes</string>
+    <string name="tvTipoFalla">Tipo de Falla:</string>
+    <string name="tvNombFallaX">Nombre Falla:</string>
+    <string name="hintNombreFalla">Nombre de Falla</string>
+    <string name="encTblFallas">Lista de Nombres de Fallas</string>
+    <string name="msgExito">Éxito!!, nombre falla fue guardada</string>
+    <string name="pregBorrar2">Realmente quiere borrar falla?</string>
+    <string name="msgExito4">Falla fue borrada con éxito!</string>
+
+    <!-- SUSCRIPCIONES AL MANTPRE APP -->
+    <string name="suscripT1">Suscripciones MANTPREV</string>
+    <string name="suscripT2">RENOVACIÓN DE SUSCRIPCIONES</string>
+    <string name="suscripNomEmpr">Nombre Empresa:</string>
+    <string name="suscripFecha1">Suscrip. valida hasta:</string>
+    <string name="suscripIndic1">Seleccione una opción de renovación:</string>
+    <string name="rbSuscripBasic">BÁSICA (Max. 10 Usuarios US$45/mes)</string>
+    <string name="rbSuscripProf1">PROFESIONAL (Max. 20 Usuarios US$70/mes)</string>
+    <string name="rbSuscripProf2">PROFESIONAL+ (+30 Usuarios US$100/mes)</string>
+    <string name="suscripIndic2">Seleccione la cantidad de meses a renovar:</string>
+    <string name="rbUnAnio">12 meses</string>
+    <string name="rbDosAnios">24 meses</string>
+    <string name="rbTresAnios">36 meses</string>
+    <string name="tvTotalPagar">Total a pagar:</string>
+    <string name="tvFechaProxPag">Próxima fecha renovación:</string>
+    <string name="tvTxtRelleno">********</string>
+
+    <string name="toastSuscrip">Su suscripción a MANTPREV ha finalizado, favor solicitar renovación.</string>
+    <string name="emailSucrSubjec">Suscripción a MANTPREV app ha expirado</string>
+    <string name="msgSuscrip1">ha intentado generar una nueva Orden de Trabajo, pero no pudo hacerlo por que la suscripción al MANTPREV app ha expirado.</string>
+    <string name="msgSuscrip2">Le sugerimos hacer los arreglos para renovar la suscripción.</string>
+    <string name="toastSuscrip2">NO se ingreso Usuario, la cantidad máxima permitida ya fue alcanzada</string>
+    <string name="toastSuscrip3">Favor seleccione las opciones correspondientes.</string>
+    <string name="renovSuscip">Renovación suscripción Mantprev Industrial Work Orders</string>
+    <string name="renovSuscip01">Mantprev le informa que ha recibido exitosamente el pago de US$</string>
+    <string name="renovSuscip02">por la renovación de la suscripción de</string>
+    <string name="renovSuscip03">al Sistema Work Orders for Industrial Maintenance. Queremos agradecerle por confiar en Mantprev para administrar las Ordenes de Trabajo de su empresa. Lo invitamos a aprovechar al máximo todas las características que Mantprev Industrial Work Orders tiene disponibles.</string>
+    <string name="renovSuscip04">Los detalles actuales de la suscripción de</string>
+    <string name="renovSuscip05">a Mantprev Industrial Work Orders son los siguientes:</string>
+    <string name="renovSuscip06">Tipo de Suscripción ----------------></string>
+    <string name="renovSuscip07">Próxima fecha de renovación -----></string>
+    <string name="renovSuscip08">Nuevamente agradecemos su confianza en Mantprev. Para cualquier observación o sugerencia le agradeceremos nos escriba a support@mantprev.com, le responderemos a la mayor brevedad posible.</string>
+    <string name="renovSuscip09">Gracias por gestionar la suscripción de su empresa. Por favor complete el pago en nuestra versión Web</string>
+
+    <!-- NUEVA VERSION DISPONIBLE -->
+    <string name="msgExpicac">Nueva versión con importantes actualizaciones está disponible</string>
+    <string name="msgOpcion1">Descargar la nueva versión ahora</string>
+    <string name="msgOpcion2">Recordarme más tarde</string>
+    <string name="nombreApp">Mantenimiento Industrial - OTs</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

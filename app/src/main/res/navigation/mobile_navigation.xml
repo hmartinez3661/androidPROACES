@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.mantprev.mantprevproaces2.ui.home.FragmentHome"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_newOT"
+        android:name="com.mantprev.mantprevproaces2.ui.newOrdTrab.FragmentNewOrdTrab"
+        android:label="@string/nuevaOTfrag"
+        android:textSize="10dp"
+        tools:layout="@layout/fragment_new_ot" />
+
+    <fragment
+        android:id="@+id/nav_listadoOTs"
+        android:name="com.mantprev.mantprevproaces2.ui.listadoOTs.FragmentListadoOTs"
+        android:label="@string/listaOTs"
+        android:textSize="10dp"
+        tools:layout="@layout/fragment_listado_ots" />
+
+    <fragment
+        android:id="@+id/fragmentMisOTs"
+        android:name="com.mantprev.mantprevproaces2.ui.misOrdTrab.FragmentMisOTs"
+        android:label="@string/misOTsList"
+        android:textSize="10dp"
+        tools:layout="@layout/fragment_mis_ots" />
+
+    <fragment
+        android:id="@+id/fragmentVerOtTabs"
+        android:name="com.mantprev.mantprevproaces2.ui.listadoOTs.FragmentVerOtTabs"
+        android:label="@string/fragVerOrdTrab"
+        android:textSize="10dp"
+        tools:layout="@layout/fragment_ver_ot_tabs" />
+
+    <fragment
+        android:id="@+id/fragmentReportEjecTabs"
+        android:name="com.mantprev.mantprevproaces2.ui.ReportEjecOTs.FragmentReportEjecTabs"
+        android:label="@string/fragReportEjecOTs"
+        android:textSize="10dp"
+        tools:layout="@layout/fragment_report_ejec_tabs" />
+
+    <fragment
+        android:id="@+id/fragmentReportEjecList"
+        android:name="com.mantprev.mantprevproaces2.ui.ReportEjecOTs.FragmentReportEjecList"
+        android:label="@string/fragReportEjecOTs"
+        android:textSize="10dp"
+        tools:layout="@layout/fragment_report_ejec_list" />
+
+    <fragment
+        android:id="@+id/fragmentImgsOT"
+        android:name="com.mantprev.mantprevproaces2.ui.RevAutorizOTs.FragmentImgsOT"
+        android:label="@string/fragFotosDeOTs"
+        android:textSize="10dp"
+        tools:layout="@layout/fragment_imgs_ot" />
+
+    <fragment
+        android:id="@+id/fragmentCheckupOT"
+        android:name="com.mantprev.mantprevproaces2.ui.RevAutorizOTs.FragmentCheckupOT"
+        android:label="@string/revNvasOTsIndiv"
+        android:textSize="10dp"
+        tools:layout="@layout/fragment_checkup_ot" />
+
+    <fragment
+        android:id="@+id/fragmentAutorizOTList"
+        android:name="com.mantprev.mantprevproaces2.ui.RevAutorizOTs.FragmentCheckOTsList"
+        android:label="@string/revNvasOTsList"
+        android:textSize="10dp"
+        tools:layout="@layout/fragment_check_ots_list" />
+
+    <fragment
+        android:id="@+id/fragmentVerImgOT"
+        android:name="com.mantprev.mantprevproaces2.ui.RevAutorizOTs.fragmentVerImgOT"
+        android:label="@string/fragShowFoto"
+        android:textSize="10dp"
+        tools:layout="@layout/fragment_ver_img_ot"/>
+
+    <fragment
+        android:id="@+id/fragmtOTsAsignds"
+        android:name="com.mantprev.mantprevproaces2.ui.misOrdTrab.FragmtOTsAsignds"
+        android:label="Ord. Trab. asignada a mi"
+        tools:layout="@layout/fragmt_ots_asignds" />
+
+
+</navigation>

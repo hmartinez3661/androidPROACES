@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home"
+            android:title="@string/menu_home" />
+
+        <item
+            android:id="@+id/nav_newOT"
+            android:icon="@drawable/new_work_order2b"
+            android:title="@string/emailAsunto" />
+
+        <item
+            android:id="@+id/fragmentMisOTs"
+            android:icon="@drawable/mis_ord_trab"
+            android:title="@string/menu_verMisOTs" />
+
+        <item
+            android:id="@+id/nav_listadoOTs"
+            android:icon="@drawable/listado"
+            android:title="@string/menu_listadoOTs" />
+
+        <item
+            android:id="@+id/fragmentAutorizOTList"
+            android:icon="@drawable/revisar2"
+            android:title="@string/menu_revisarNvasOTs" />
+
+        <item
+            android:id="@+id/fragmentReportEjecList"
+            android:icon="@drawable/cerrar_ots"
+            android:title="@string/menu_reportEjecsOTs" />
+
+    </group>
+
+
+
+</menu>
