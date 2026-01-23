@@ -7,10 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import com.mantprev.mantprevproaces2.R;
 import com.mantprev.mantprevproaces2.retrofit.DataServices_Intf;
@@ -26,9 +24,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 
-public class fragmentVerImgOT extends Fragment {
+public class fragmentVerImages extends Fragment {
 
-    public fragmentVerImgOT() {
+    public fragmentVerImages() {
         // Required empty public constructor
     }
 

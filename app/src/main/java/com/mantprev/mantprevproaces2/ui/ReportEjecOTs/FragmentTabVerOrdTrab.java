@@ -54,19 +54,19 @@ public class FragmentTabVerOrdTrab extends Fragment {
         String idOT = MetodosStaticos.idOT;
         root = inflater.inflate(R.layout.fragment_tab_ver_ord_trab, container, false);
 
-        TextView tvIdOT = (TextView) root.findViewById(R.id.tvIdOT);
+        TextView tvIdOT = (TextView) root.findViewById(R.id.tvIdRepteEjec);
         tvIdOT.setText(idOT);  //Text view hidden
 
-        tvNumOT = (TextView) root.findViewById(R.id.tvNumOT);
+        tvNumOT = (TextView) root.findViewById(R.id.tvNumRut);
         etNombreEquip = (EditText) root.findViewById(R.id.etNombreEquip);
-        etDescripTrab = (EditText) root.findViewById(R.id.etTrabSolic);
-        spinnerEjecut = (Spinner) root.findViewById(R.id.spnEjecutores);
-        spinnerPriorid = (Spinner) root.findViewById(R.id.spnPriorids);
+        etDescripTrab = (EditText) root.findViewById(R.id.etTrabajoRut);
+        spinnerEjecut = (Spinner) root.findViewById(R.id.tvEjecutoRutDt);
+        spinnerPriorid = (Spinner) root.findViewById(R.id.tvFrecucRutDt);
         spnClasificOT = (Spinner) root.findViewById(R.id.spnClasificOT);
         spnStatusOT = (Spinner) root.findViewById(R.id.spnStatusOT);
         etNumPersEstim = (EditText) root.findViewById(R.id.etNumPersEstim);
         etNumHrsEstim = (EditText) root.findViewById(R.id.etNumHrsEstim);
-        etIndicPrev = (EditText) root.findViewById(R.id.etIndicPrev);
+        etIndicPrev = (EditText) root.findViewById(R.id.etMedidadSegur);
         tvIndicFotos = (TextView) root.findViewById(R.id.tvIndicFotos);
         tvPersReviso2 = (TextView) root.findViewById(R.id.tvPersReviso2);
         tvDateTime = (TextView) root.findViewById(R.id.tvDateTime);
@@ -77,7 +77,7 @@ public class FragmentTabVerOrdTrab extends Fragment {
             public void onClick(View v) {
                 if(cantFotosAnex > 0){
                     MetodosStaticos.fotosDeCierroOT = "No"; //Para que busque solo fotos anexadas en la generacion OT
-                    Navigation.findNavController(root).navigate(R.id.fragmentImgsOT);
+                    Navigation.findNavController(root).navigate(R.id.fragmentImages);
 
                 } else {
                     Toast.makeText(getContext(), getResources().getString(R.string.msgNoatachedFotos), Toast.LENGTH_SHORT).show();

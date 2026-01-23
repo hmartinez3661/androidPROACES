@@ -68,17 +68,17 @@ public class FragmentTabVerRepEje extends Fragment {
         numOT = "OT-" + idOT;
         root = inflater.inflate(R.layout.fragment_tab_ver_rep_eje, container, false);
 
-        TextView tvIdOT = (TextView) root.findViewById(R.id.tvIdOT);
+        TextView tvIdOT = (TextView) root.findViewById(R.id.tvIdRepteEjec);
         tvIdOT.setText(idOT);  //Text view hidden
 
-        tvNumOT = (TextView) root.findViewById(R.id.tvNumOT);
-        tvFechaFinaliz = (TextView) root.findViewById(R.id.etNombrApellido1);
+        tvNumOT = (TextView) root.findViewById(R.id.tvNumRut);
+        tvFechaFinaliz = (TextView) root.findViewById(R.id.etFechaEjecuc);
         etHrsParoProduc = (EditText) root.findViewById(R.id.etHrsProdStop);
         etHrsTrabajo = (EditText) root.findViewById(R.id.etHrsLabor);
         etCalidadTrab = (EditText) root.findViewById(R.id.etCalidadTrab);
         etReportEjec = (EditText) root.findViewById(R.id.etReportEjec);
         tvNombrFalla = (TextView) root.findViewById(R.id.tvNombrFalla);
-        tvNombrSupOT = (TextView) root.findViewById(R.id.tvNombrSupOT);
+        tvNombrSupOT = (TextView) root.findViewById(R.id.tvNombSupRut);
         etNombRecivTrab = (EditText) root.findViewById(R.id.etNombRecivTrab);
 
         tvIndicRepuest = (TextView) root.findViewById(R.id.tvIndicRepuest);
@@ -113,7 +113,7 @@ public class FragmentTabVerRepEje extends Fragment {
             public void onClick(View v) {
                 if(cantFotosCier > 0){
                     MetodosStaticos.fotosDeCierroOT = "Yes"; //Para que busque solo fotos de cierre
-                    Navigation.findNavController(root).navigate(R.id.fragmentImgsOT);
+                    Navigation.findNavController(root).navigate(R.id.fragmentImages);
                 } else {
                     Toast.makeText(getContext(), getResources().getString(R.string.msgNoatachedFotos), Toast.LENGTH_SHORT).show();
                 }

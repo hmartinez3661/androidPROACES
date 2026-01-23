@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#f2f2f2"
-    tools:context=".ui.listadoOTs.FragmentTabVerRepEje">
+    android:orientation="vertical"
+    tools:context=".ui.Rutinas.FragmtTabRpteEjecRut">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -34,25 +34,25 @@
                     android:id="@+id/tvNumRut"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/tvNumOT"
+                    android:text="@string/headNumRut"
                     android:textColor="@color/black"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="8dp"
                     android:textStyle="bold"
                     android:textSize="16sp" />
 
                 <View
                     android:layout_width="2dp"
                     android:layout_height="match_parent"
-                    android:background="#474649"/>
+                    android:background="#505051"/>
 
                 <TextView
                     android:id="@+id/tvIndicacionesX"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:text="@string/tvEncabRevRepEjec"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
+                    android:text="@string/tvIndicRteEjec"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_gravity="center"
                     android:textAlignment="center"
                     android:textSize="15sp" />
@@ -78,20 +78,27 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.4" />
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.48" />
+
             <TextView
                 android:id="@+id/tvFechaEjecuc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/tvfechaEjecuc"
-                android:textStyle="bold"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="15dp"
                 android:textSize="15sp"
                 android:gravity="end"
                 android:textAlignment="gravity"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/divider1"/>
 
             <TextView
@@ -106,7 +113,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/style_bordes_edittex2"
-                app:layout_constraintStart_toStartOf="@+id/guideline3"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/divider1"/>
 
             <TextView
@@ -114,15 +121,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/tvHrsParoProd"
-                android:textStyle="bold"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:textSize="15sp"
                 android:gravity="end"
                 android:textAlignment="gravity"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/tvFechaEjecuc"/>
 
             <EditText
@@ -135,12 +142,12 @@
                 android:background="@drawable/style_bordes_edittex3"
                 android:selectAllOnFocus="true"
                 android:inputType="numberDecimal"
+                android:digits="0123456789."
                 android:gravity="center"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="10dp"
                 android:text="@string/tvValor00"
-                android:enabled="false"
-                app:layout_constraintStart_toEndOf="@+id/guideline3"
+                app:layout_constraintStart_toEndOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/etFechaEjecuc"/>
 
             <TextView
@@ -148,15 +155,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/tvHrsTrabajo"
-                android:textStyle="bold"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:textSize="15sp"
                 android:gravity="end"
                 android:textAlignment="gravity"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/tvHrsParo"/>
 
             <EditText
@@ -169,28 +176,28 @@
                 android:background="@drawable/style_bordes_edittex3"
                 android:selectAllOnFocus="true"
                 android:inputType="numberDecimal"
+                android:digits="0123456789."
                 android:gravity="center"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="10dp"
                 android:text="@string/tvValor05"
-                android:enabled="false"
-                app:layout_constraintStart_toEndOf="@+id/guideline3"
-                app:layout_constraintTop_toBottomOf="@+id/etHrsProdStop"/>
+                app:layout_constraintStart_toEndOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/etHrsProdStop" />
 
             <TextView
                 android:id="@+id/tvCalidadTrab"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/tvCalidadTrab"
-                android:textStyle="bold"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:textSize="15sp"
                 android:gravity="end"
                 android:textAlignment="gravity"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/tvHrsLabor"/>
 
             <EditText
@@ -203,12 +210,12 @@
                 android:background="@drawable/style_bordes_edittex3"
                 android:selectAllOnFocus="true"
                 android:inputType="numberDecimal"
+                android:digits="0123456789."
                 android:gravity="center"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="10dp"
                 android:text="@string/tvValor60"
-                android:enabled="false"
-                app:layout_constraintStart_toEndOf="@+id/guideline3"
+                app:layout_constraintStart_toEndOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/etHrsLabor"/>
 
             <View
@@ -227,13 +234,13 @@
                 android:id="@+id/tvIndicRepEjec"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/tvIndRepteHist"
-                android:textStyle="bold"
+                android:text="@string/tvIndicRepEjec"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:textSize="15sp"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider2B"/>
@@ -250,7 +257,6 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:enabled="false"
                 android:background="@drawable/style_bordes_edittex1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -269,54 +275,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/etReportEjec"/>
 
             <TextView
-                android:id="@+id/tvNombFalla"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/tvNombFalla"
-                android:textStyle="bold"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:textSize="15sp"
-                android:gravity="end"
-                android:textAlignment="gravity"
-                android:textColor="@color/black"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline1"
-                app:layout_constraintTop_toBottomOf="@+id/divider1C"/>
-
-            <TextView
-                android:id="@+id/tvNombrFalla"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/style_bordes_edittex3"
-                android:hint="@string/tvNombrFalla"
-                android:padding="7dp"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:enabled="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/guideline1"
-                app:layout_constraintTop_toBottomOf="@id/divider1C" />
-
-            <TextView
                 android:id="@+id/tvSupervRut"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/tvSupervOT"
-                android:textStyle="bold"
+                android:text="@string/tvSupervRut"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:textSize="15sp"
                 android:gravity="end"
                 android:textAlignment="gravity"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline1"
-                app:layout_constraintTop_toBottomOf="@+id/tvNombFalla"/>
+                app:layout_constraintTop_toBottomOf="@+id/divider1C"/>
 
             <TextView
                 android:id="@+id/tvNombSupRut"
@@ -327,27 +299,26 @@
                 android:padding="7dp"
                 android:textSize="15sp"
                 android:textColor="@color/black"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:enabled="false"
                 android:background="@drawable/style_bordes_edittex3"
                 app:layout_constraintStart_toStartOf="@+id/guideline1"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvNombrFalla"/>
+                app:layout_constraintTop_toBottomOf="@id/divider1C"/>
 
             <TextView
                 android:id="@+id/tvPersRecivTrab"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/tvPersRecivTrab"
-                android:textStyle="bold"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="18dp"
                 android:textSize="15sp"
                 android:gravity="end"
                 android:textAlignment="gravity"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline1"
                 app:layout_constraintTop_toBottomOf="@+id/tvSupervRut"/>
@@ -364,7 +335,6 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:enabled="false"
                 android:background="@drawable/style_bordes_edittex3"
                 app:layout_constraintStart_toStartOf="@+id/guideline1"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -383,90 +353,181 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etNombRecivTrab"/>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.67" />
-
             <TextView
                 android:id="@+id/tvIndicPersonal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/tvIndPersEjec"
-                android:layout_marginTop="15dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="10dp"
-                android:textSize="14sp"
+                android:text="@string/tvIndicPersonal"
                 android:textAlignment="center"
-                android:textColor="@color/white"
                 android:background="@drawable/style_tbls_header1"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/white"
+                android:padding="3dp"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider2"/>
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline3"
-                android:layout_width="wrap_content"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvPersonal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-
-            <TableLayout
-                android:id="@+id/tblPersTecn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#f2f2f2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvIndicPersonal">
+                app:layout_constraintTop_toBottomOf="@+id/tvIndicPersonal" >
 
-                <TableRow
-                    android:id="@+id/tblHeadRow"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#576166" >
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                    <TextView
-                        android:layout_width="40dp"
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline3"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tvNum"
-                        android:textAlignment="center"
-                        android:background="@drawable/style_tbls_header1"
-                        android:textColor="@color/white"/>
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.70" />
 
                     <TextView
-                        android:layout_width="220dp"
+                        android:id="@+id/tvEncabesadoPers"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/tblHeadPersonal"
-                        android:background="@drawable/style_tbls_header1"
-                        android:textColor="@color/white"/>
+                        android:text="@string/tvEncabesadoPers"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <TextView
-                        android:layout_width="60dp"
+                        android:id="@+id/tvEncabesadoHrs"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/tvHrs"
+                        android:textSize="14sp"
+                        android:layout_marginStart="5dp"
                         android:textAlignment="center"
-                        android:background="@drawable/style_tbls_header1"
-                        android:textColor="@color/white"/>
-                </TableRow>
-            </TableLayout>
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/guideline3"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/tvNombrePers"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/style_bordes_edittex3"
+                        android:hint="@string/tvNombrePers"
+                        android:padding="7dp"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvEncabesadoPers" />
+
+                    <EditText
+                        android:id="@+id/etHrsTrabajo2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:background="@drawable/style_bordes_edittex3"
+                        android:inputType="numberDecimal"
+                        android:digits="0123456789."
+                        android:gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/tvValor05"
+                        android:selectAllOnFocus="true"
+                        app:layout_constraintStart_toEndOf="@+id/guideline3"
+                        app:layout_constraintTop_toBottomOf="@+id/tvEncabesadoHrs"/>
+
+                    <ImageButton
+                        android:id="@+id/ibAgregarTecn"
+                        android:layout_width="30dp"
+                        android:layout_height="34dp"
+                        android:src="@drawable/fecha"
+                        android:layout_marginTop="25dp"
+                        app:layout_constraintStart_toEndOf="@+id/etHrsTrabajo2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TableLayout
+                        android:id="@+id/tblPersTecn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvNombrePers">
+
+                        <TableRow
+                            android:id="@+id/tblHeadRow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#80D4FB" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/tvID"
+                                android:textAlignment="center"
+                                android:background="@drawable/style_tbls_header1"
+                                android:textColor="@color/white"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/tblHeadPersonal"
+                                android:background="@drawable/style_tbls_header1"
+                                android:textColor="@color/white"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/tvHrs"
+                                android:textAlignment="center"
+                                android:background="@drawable/style_tbls_header1"
+                                android:textColor="@color/white"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/quitarLinea"
+                                android:textAlignment="center"
+                                android:background="@drawable/style_tbls_header1"
+                                android:textColor="@color/white"/>
+
+                        </TableRow>
+                    </TableLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
 
             <View
                 android:id="@+id/divider3"
                 android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:background="#9E9CA2"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginBottom="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tblPersTecn"/>
+                app:layout_constraintTop_toBottomOf="@id/cvPersonal"/>
 
             <!-- ***************** Inicio Repuestos -->
 
@@ -474,9 +535,10 @@
                 android:id="@+id/tvIndicRepuest"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/tvIndVerRepuests"
+                android:text="@string/tvIndicRepuest"
+                android:textStyle="bold"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:textAlignment="center"
                 android:textSize="15sp"
@@ -491,7 +553,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:cardBackgroundColor="#ABF1AE"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -501,62 +562,124 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/style_tbls_header2"
                     android:paddingBottom="10dp">
-
-                    <TableLayout
-                        android:id="@+id/tblRepuestos"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="15dp"
-                        android:layout_marginEnd="10dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <TableRow
-                            android:id="@+id/tblHeadRowRep"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:background="#93B894">
-
-                            <TextView
-                                android:layout_width="40dp"
-                                android:layout_height="wrap_content"
-                                android:text="@string/tvNum"
-                                android:textAlignment="center"
-                                android:background="@drawable/style_tbls_header2"
-                                android:textStyle="bold"/>
-
-                            <TextView
-                                android:layout_width="210dp"
-                                android:layout_height="wrap_content"
-                                android:text="@string/nombreRepto"
-                                android:background="@drawable/style_tbls_header2"
-                                android:textStyle="bold"/>
-
-                            <TextView
-                                android:layout_width="70dp"
-                                android:layout_height="wrap_content"
-                                android:text="@string/tvEncabesCosto"
-                                android:textAlignment="center"
-                                android:background="@drawable/style_tbls_header2"
-                                android:textStyle="bold"/>
-
-                        </TableRow>
-                    </TableLayout>
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guideline4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.67" />
+                        app:layout_constraintGuide_percent="0.7" />
 
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/guideline3B"
+                    <TextView
+                        android:id="@+id/tvEncabesReptos"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tvEncabesReptos"
+                        android:textSize="14sp"
+                        android:layout_marginStart="5dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/tvEncabesCosto"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tvEncabesCosto"
+                        android:textSize="14sp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/guideline4"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <EditText
+                        android:id="@+id/etNombreRepsto"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/etNombreRepsto"
+                        android:padding="7dp"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/style_edittex_tbls"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                        app:layout_constraintTop_toBottomOf="@+id/tvEncabesReptos"/>
+
+                    <EditText
+                        android:id="@+id/etCostoRepsto"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginStart="5dp"
+                        android:background="@drawable/style_edittex_tbls"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:digits="0123456789."
+                        android:padding="7dp"
+                        android:textColor="@color/black"
+                        android:text="@string/tvValor60"
+                        android:selectAllOnFocus="true"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toEndOf="@+id/guideline4"
+                        app:layout_constraintTop_toBottomOf="@+id/tvEncabesCosto" />
+
+                    <ImageButton
+                        android:id="@+id/ibAgregReptoTbl"
+                        android:layout_width="30dp"
+                        android:layout_height="34dp"
+                        android:src="@drawable/fecha"
+                        android:layout_marginTop="25dp"
+                        app:layout_constraintStart_toEndOf="@+id/etCostoRepsto"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TableLayout
+                        android:id="@+id/tblRepuestos"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.5" />
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/etNombreRepsto">
+
+                        <TableRow
+                            android:id="@+id/tblHeadRowRep"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#93B894">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/nombreRepto"
+                                android:background="@drawable/style_tbls_header2"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/tvEncabesCosto"
+                                android:textAlignment="center"
+                                android:background="@drawable/style_tbls_header2"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/quitarLinea"
+                                android:textAlignment="center"
+                                android:background="@drawable/style_tbls_header2"
+                                android:textStyle="bold"/>
+
+                        </TableRow>
+                    </TableLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -569,7 +692,10 @@
                 android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:background="#9E9CA2"
-                android:layout_margin="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvRepuestos"/>
@@ -580,11 +706,12 @@
                 android:id="@+id/tvIndicServExt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/tvIndVerServExt"
+                android:text="@string/tvIndicServExt"
                 android:layout_marginBottom="5dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:textStyle="bold"
                 android:textAlignment="center"
                 android:textSize="15sp"
                 android:textColor="@color/black"
@@ -598,7 +725,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:cardBackgroundColor="#F7ED95"
+                android:background="@drawable/style_tbls_header3"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -608,62 +735,123 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/style_tbls_header3"
                     android:paddingBottom="10dp">
-
-                    <TableLayout
-                        android:id="@+id/tblServExt"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="15dp"
-                        android:layout_marginEnd="10dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <TableRow
-                            android:id="@+id/tblHeadRowSExt"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:background="#D0CB9B" >
-
-                            <TextView
-                                android:layout_width="40dp"
-                                android:layout_height="wrap_content"
-                                android:text="@string/tvNum"
-                                android:textAlignment="center"
-                                android:background="@drawable/style_tbls_header3"
-                                android:textStyle="bold"/>
-
-                            <TextView
-                                android:layout_width="195dp"
-                                android:layout_height="wrap_content"
-                                android:text="@string/tblHeadNombServ"
-                                android:background="@drawable/style_tbls_header3"
-                                android:textStyle="bold"/>
-
-                            <TextView
-                                android:layout_width="70dp"
-                                android:layout_height="wrap_content"
-                                android:text="@string/tvEncabesCosto"
-                                android:textAlignment="center"
-                                android:background="@drawable/style_tbls_header3"
-                                android:textStyle="bold"/>
-
-                        </TableRow>
-                    </TableLayout>
-
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/guideline2C"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.67" />
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guideline5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.5" />
+                        app:layout_constraintGuide_percent="0.7" />
+
+                    <TextView
+                        android:id="@+id/tvEncabesSevExt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tvEncabesSevExt"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/tvEncabesCostoServExt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tvEncabesCosto"
+                        android:textSize="14sp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/guideline5"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <EditText
+                        android:id="@+id/etNombreServExt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/etNombreServExt"
+                        android:padding="7dp"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/style_edittex_tbls"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                        app:layout_constraintTop_toBottomOf="@id/tvEncabesSevExt"/>
+
+                    <EditText
+                        android:id="@+id/etCostoServExt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/style_edittex_tbls"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:digits="0123456789."
+                        android:padding="7dp"
+                        android:layout_marginStart="5dp"
+                        android:textColor="@color/black"
+                        android:text="@string/tvValor60"
+                        android:selectAllOnFocus="true"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toEndOf="@+id/guideline5"
+                        app:layout_constraintTop_toBottomOf="@+id/tvEncabesCostoServExt" />
+
+                    <ImageButton
+                        android:id="@+id/ibAgregServExtTbl"
+                        android:layout_width="30dp"
+                        android:layout_height="34dp"
+                        android:src="@drawable/fecha"
+                        android:layout_marginTop="25dp"
+                        app:layout_constraintStart_toEndOf="@+id/etCostoServExt"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TableLayout
+                        android:id="@+id/tblServExt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/etNombreServExt">
+
+                        <TableRow
+                            android:id="@+id/tblHeadRowSExt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#D0CB9B" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/tblHeadNombServ"
+                                android:background="@drawable/style_tbls_header3"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/tvEncabesCosto"
+                                android:textAlignment="center"
+                                android:background="@drawable/style_tbls_header3"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/quitarLinea"
+                                android:textAlignment="center"
+                                android:background="@drawable/style_tbls_header3"
+                                android:textStyle="bold"/>
+
+                        </TableRow>
+                    </TableLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -676,24 +864,40 @@
                 android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:background="#9E9CA2"
-                android:layout_margin="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvServExt"/>
 
             <TextView
-                android:id="@+id/tvIndicFotosCierre"
+                android:id="@+id/tvAgregarFotosRepte"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:layout_margin="10dp"
                 android:textStyle="bold"
-                android:text="@string/tvIndVerFotosTrab"
+                android:text="@string/tvAgregarFotosCierre"
                 android:textColor="#1F6AA6"
                 android:textAlignment="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider5"/>
+
+            <Button
+                android:id="@+id/btnGuardaRepEjec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/btnGuardaRepEjec"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvAgregarFotosRepte"/>
 
             <View
                 android:id="@+id/divider6"
@@ -706,7 +910,7 @@
                 android:layout_marginBottom="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvIndicFotosCierre"/>
+                app:layout_constraintTop_toBottomOf="@id/btnGuardaRepEjec"/>
 
 
             <!-- ********************************* -->
@@ -734,4 +938,5 @@
 
     </ScrollView>
 
-</LinearLayout>
+
+</FrameLayout>

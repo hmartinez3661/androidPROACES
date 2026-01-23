@@ -69,19 +69,19 @@ public class FragmentCheckupOT extends Fragment {
         idOT = MetodosStaticos.idOT;
         root = inflater.inflate(R.layout.fragment_checkup_ot, container, false);  // Inflate the layout for this fragment
 
-        TextView tvIdOT = (TextView) root.findViewById(R.id.tvIdOT);
+        TextView tvIdOT = (TextView) root.findViewById(R.id.tvIdRepteEjec);
         tvIdOT.setText(idOT);  //Text view hidden
 
-        tvNumOT = (TextView) root.findViewById(R.id.tvNumOT);
+        tvNumOT = (TextView) root.findViewById(R.id.tvNumRut);
         etNombreEquip = (EditText) root.findViewById(R.id.etNombreEquip);
-        etDescripTrab = (EditText) root.findViewById(R.id.etTrabSolic);
-        spinnerEjecut = (Spinner) root.findViewById(R.id.spnEjecutores);
-        spinnerPriorid = (Spinner) root.findViewById(R.id.spnPriorids);
+        etDescripTrab = (EditText) root.findViewById(R.id.etTrabajoRut);
+        spinnerEjecut = (Spinner) root.findViewById(R.id.tvEjecutoRutDt);
+        spinnerPriorid = (Spinner) root.findViewById(R.id.tvFrecucRutDt);
         spnClasificOT = (Spinner) root.findViewById(R.id.spnClasificOT);
         spnStatusOT = (Spinner) root.findViewById(R.id.spnStatusOT);
         etNumPersEstim = (EditText) root.findViewById(R.id.etNumPersEstim);
         etNumHrsEstim = (EditText) root.findViewById(R.id.etNumHrsEstim);
-        etIndicPrev = (EditText) root.findViewById(R.id.etIndicPrev);
+        etIndicPrev = (EditText) root.findViewById(R.id.etMedidadSegur);
         etExplicRechazo = (EditText) root.findViewById(R.id.etExplicRechazo);
         tvIndicFotos = (TextView) root.findViewById(R.id.tvIndicFotos);
         btnSaveRevisOT = (Button) root.findViewById(R.id.btnSaveRevisOT);
@@ -92,7 +92,7 @@ public class FragmentCheckupOT extends Fragment {
             @Override
             public void onClick(View v) {
                 if(cantFotosAnex > 0){
-                    Navigation.findNavController(root).navigate(R.id.fragmentImgsOT);
+                    Navigation.findNavController(root).navigate(R.id.fragmentImages);
                 } else {
                     Toast.makeText(getContext(), "No attached photos to show", Toast.LENGTH_SHORT).show();
                 }

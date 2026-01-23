@@ -7,10 +7,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.mantprev.mantprevproaces2.ui.ReportEjecOTs.FragmentTabVerOrdTrab;
 import com.mantprev.mantprevproaces2.ui.listadoOTs.FragmentTabVerRepEje;
 
-public class VerOrdTrabTabsAdapter extends FragmentStateAdapter {
+public class OrdTrabTabsAdapter extends FragmentStateAdapter {
 
 
-    public VerOrdTrabTabsAdapter(@NonNull Fragment fragment) {
+    public OrdTrabTabsAdapter(@NonNull Fragment fragment) {
         super(fragment);
     }
 
@@ -19,7 +19,7 @@ public class VerOrdTrabTabsAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
 
         if (position == 0){
-            return new FragmentTabVerOrdTrab(); //Se usa el mismo tab que se utiliza para Reportar Ejec OT
+            return new FragmentTabVerOrdTrab(); //
 
         } else { //Position es == 1
             return new FragmentTabVerRepEje();

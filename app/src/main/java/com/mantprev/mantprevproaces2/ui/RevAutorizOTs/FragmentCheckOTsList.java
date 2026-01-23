@@ -64,7 +64,7 @@ public class FragmentCheckOTsList extends Fragment {
         root = inflater.inflate(R.layout.fragment_check_ots_list, container, false);
 
         tvIndicaciones = (TextView) root.findViewById(R.id.tvTituloConfig);
-        spinnerEjecut = (Spinner) root.findViewById(R.id.spnEjecutores);
+        spinnerEjecut = (Spinner) root.findViewById(R.id.tvEjecutoRutDt);
         progressBar = (ProgressBar) root.findViewById(R.id.progresBar);
 
         recyclerView = (RecyclerView) root.findViewById(R.id.reciclerView);

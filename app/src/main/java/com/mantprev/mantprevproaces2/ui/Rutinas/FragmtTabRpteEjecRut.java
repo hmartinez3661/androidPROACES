@@ -1,4 +1,4 @@
-package com.mantprev.mantprevproaces2.ui.ReportEjecOTs;
+package com.mantprev.mantprevproaces2.ui.Rutinas;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
@@ -12,6 +12,18 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -25,6 +37,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
@@ -32,31 +45,16 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AlertDialog;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
-//import com.mantprev.mantprevproaces2.BuildConfig;
-import com.mantprev.mantprevproaces2.ModelosDTO1.Fallas;
 import com.mantprev.mantprevproaces2.ModelosDTO1.PersonalTecn;
-import com.mantprev.mantprevproaces2.ModelosDTO1.RtesEjecOTs;
-import com.mantprev.mantprevproaces2.ModelosDTO1.RtesPersEjecOTs;
-import com.mantprev.mantprevproaces2.ModelosDTO1.RtesReptosEjecOTs;
-import com.mantprev.mantprevproaces2.ModelosDTO1.RtesServExtEjecOTs;
+import com.mantprev.mantprevproaces2.ModelosDTO1.RtesEjecRuts;
+import com.mantprev.mantprevproaces2.ModelosDTO1.RtesPersEjecRuts;
+import com.mantprev.mantprevproaces2.ModelosDTO1.RtesServExtEjecRuts;
 import com.mantprev.mantprevproaces2.ModelosDTO2.ReptesReptos_DTO;
 import com.mantprev.mantprevproaces2.ModelosDTO2.Usuarios_DTO;
 import com.mantprev.mantprevproaces2.R;
 import com.mantprev.mantprevproaces2.adapters.ExpandListFallasAdapter;
 import com.mantprev.mantprevproaces2.retrofit.DataServices_Intf;
 import com.mantprev.mantprevproaces2.retrofit.Retrofit_Instance;
-//import com.mantprev.mantprevproaces2.ui.otrasUI.ActivityCerarSesion;
 import com.mantprev.mantprevproaces2.utilities.MetodosStaticos;
 
 import java.io.ByteArrayOutputStream;
@@ -76,85 +74,90 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
+public class FragmtTabRpteEjecRut extends Fragment {
 
-public class FragmentTabRepEjecOT extends Fragment {
+    public FragmtTabRpteEjecRut() {
+        // Required empty public constructor
+    }
 
-    private java.lang.String idOT, numOT;
-    private TextView tvFechaFinaliz, tvNombrFalla, tvNombrSupOT, tvNombrePers;
-    private EditText etHrsParoProduc, etHrsTrabajo, etCalidadTrab, etReportEjec, etNombRecivTrab, etHrsTrabajo2;
-    private EditText etCostoRepsto, etNombreRepsto, etNombreServExt, etCostoServExt;
-    private TableLayout tblPersTecn;
-    private TableLayout tblRepuestos, tblServExt;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState); }
+
+    private int idRpteEjec;
+    private String numRutina;
+    private TextView tvFechaFinaliz, tvNombrSupRut, tvNombrePers, tvIndicPersonal, tvEncabesadoPers, tvEncabesadoHrs,
+            tvIndicRepuest, tvEncabesReptos, tvEncabesCosto, tvIndicServExt, tvEncabesSevExt, tvEncabesCostoServExt;
+    private EditText etHrsParoProduc, etHrsTrabajo, etCalidadTrab, etReportEjec, etNombRecivTrab;
+    private EditText etHrsTrabajo2, etCostoRepsto, etNombreRepsto, etNombreServExt, etCostoServExt;
+    private ImageButton ibAgregPerTecTbl, ibAgregReptoTbl, ibAgregServExtTbl;
+    private TableLayout tblPersTecn, tblRepuestos, tblServExt;;
     private ProgressBar progressBar;
-    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
     private AlertDialog.Builder dialogBuilder;
-
     private AlertDialog alertDialog;
     private AlertDialog alertDialog2;
-
-    private TextView tvAgregarFotosCierre;
+    private TextView tvAgregarFotosRepte;
     private CardView cvRepuestos, cvServExt;
     private Button btnGuardaRepEjec;
     private View root;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        idOT  = MetodosStaticos.idOT;
-        numOT = MetodosStaticos.numOT;
-        root = inflater.inflate(R.layout.fragment_tab_rep_ejec_ot, container, false);
+        root = inflater.inflate(R.layout.fragmt_tab_rpte_ejec_rut, container, false);
 
-        TextView tvIdOT = (TextView) root.findViewById(R.id.tvIdRepteEjec);
-        tvIdOT.setText(idOT);  //Text view hidden
-
-        TextView tvNumOT = (TextView) root.findViewById(R.id.tvNumRut);
+        idRpteEjec = MetodosStaticos.idRepteEjecRut;
+        numRutina = MetodosStaticos.numRutina;
+        
         tvFechaFinaliz = (TextView) root.findViewById(R.id.etFechaEjecuc);
         etHrsParoProduc = (EditText) root.findViewById(R.id.etHrsProdStop);
         etHrsTrabajo = (EditText) root.findViewById(R.id.etHrsLabor);
         etCalidadTrab = (EditText) root.findViewById(R.id.etCalidadTrab);
         etReportEjec = (EditText) root.findViewById(R.id.etReportEjec);
-        tvNombrFalla = (TextView) root.findViewById(R.id.tvNombrFalla);
-        tvNombrSupOT = (TextView) root.findViewById(R.id.tvNombSupRut);
+        tvNombrSupRut = (TextView) root.findViewById(R.id.tvNombSupRut);
         etNombRecivTrab = (EditText) root.findViewById(R.id.etNombRecivTrab);
         tvNombrePers = (TextView) root.findViewById(R.id.tvNombrePers);
         etHrsTrabajo2 = (EditText) root.findViewById(R.id.etHrsTrabajo2);
-        TextView tvAgregPerTecTbl = (TextView) root.findViewById(R.id.ibAgregarTecn);
         tblPersTecn = (TableLayout) root.findViewById(R.id.tblPersTecn);
+        tvIndicPersonal = (TextView) root.findViewById(R.id.tvIndicPersonal);
+        tvEncabesadoPers = (TextView) root.findViewById(R.id.tvEncabesadoPers);
+        tvEncabesadoHrs = (TextView) root.findViewById(R.id.tvEncabesadoHrs);
+        tvIndicRepuest = (TextView) root.findViewById(R.id.tvIndicRepuest); //,
+        tvEncabesReptos = (TextView) root.findViewById(R.id.tvEncabesReptos);
+        tvEncabesCosto = (TextView) root.findViewById(R.id.tvEncabesCosto);
+        tvIndicServExt = (TextView) root.findViewById(R.id.tvIndicServExt);
+        tvEncabesSevExt = (TextView) root.findViewById(R.id.tvEncabesSevExt);
+        tvEncabesCostoServExt = (TextView) root.findViewById(R.id.tvEncabesCostoServExt);
 
         etNombreRepsto = (EditText) root.findViewById(R.id.etNombreRepsto);
-        TextView tvAgregReptoTbl = (TextView) root.findViewById(R.id.ibAgregReptoTbl);
         etCostoRepsto = (EditText) root.findViewById(R.id.etCostoRepsto);
         tblRepuestos = (TableLayout) root.findViewById(R.id.tblRepuestos);
 
         etNombreServExt = (EditText) root.findViewById(R.id.etNombreServExt);
         etCostoServExt = (EditText) root.findViewById(R.id.etCostoServExt);
-        TextView tvAgregServExtTbl = (TextView) root.findViewById(R.id.ibAgregServExtTbl);
         tblServExt = (TableLayout) root.findViewById(R.id.tblServExt);
-        TextView tvIndicRepuest = (TextView) root.findViewById(R.id.tvIndicRepuest);
-        TextView tvIndicServExt = (TextView) root.findViewById(R.id.tvIndicServExt);
         cvRepuestos = (CardView) root.findViewById(R.id.cvRepuestos);
         cvServExt = (CardView) root.findViewById(R.id.cvServExt);
-        tvAgregarFotosCierre = (TextView) root.findViewById(R.id.tvAgregarFotosRepte);
+        tvAgregarFotosRepte = (TextView) root.findViewById(R.id.tvAgregarFotosRepte);
         btnGuardaRepEjec = (Button) root.findViewById(R.id.btnGuardaRepEjec);
         progressBar = (ProgressBar) root.findViewById(R.id.progresBar);
 
-        tvNumOT.setText(numOT);
+        ibAgregPerTecTbl = (ImageButton) root.findViewById(R.id.ibAgregarTecn);
+        ibAgregReptoTbl = (ImageButton) root.findViewById(R.id.ibAgregReptoTbl);
+        ibAgregServExtTbl = (ImageButton) root.findViewById(R.id.ibAgregServExtTbl);
+        TextView tvIndicRepuest = (TextView) root.findViewById(R.id.tvIndicRepuest);
+        TextView tvIndicServExt = (TextView) root.findViewById(R.id.tvIndicServExt);
+        TextView tvRepteEjec = (TextView) root.findViewById(R.id.tvIdRepteEjec);
+        TextView tvNumRut = (TextView) root.findViewById(R.id.tvNumRut);
 
-        tvNombrFalla.setOnClickListener(new View.OnClickListener() {   //SELECCIONAR FALLA
-            @Override
-            public void onClick(View view) {
-                getArbolDeFallas(view);
-            }
-        });
+        String idRteEjecSt = Integer.toString(idRpteEjec);
+        tvRepteEjec.setText(idRteEjecSt);  //tv hidden
+        tvNumRut.setText(numRutina);
 
         tvFechaFinaliz.setOnClickListener(new View.OnClickListener() {  //SELECCIONAR FECHA
             @Override
@@ -163,7 +166,7 @@ public class FragmentTabRepEjecOT extends Fragment {
             }
         });
 
-        tvNombrSupOT.setOnClickListener(new View.OnClickListener() {   //SELECCIONAR NOMBRE SUPERVISOR
+        tvNombrSupRut.setOnClickListener(new View.OnClickListener() {   //SELECCIONAR NOMBRE SUPERVISOR
             @Override
             public void onClick(View v) {
                 getListaDeSupervisores();
@@ -177,21 +180,21 @@ public class FragmentTabRepEjecOT extends Fragment {
             }
         });
 
-        tvAgregPerTecTbl.setOnClickListener(new View.OnClickListener() {  //AGREGAR PERSONAL TECN. A TABLA
+        ibAgregPerTecTbl.setOnClickListener(new View.OnClickListener() {  //AGREGAR PERSONAL TECN. A TABLA
             @Override
             public void onClick(View v) {
                 agregarPersTecnTabla();
             }
         });
 
-        tvAgregReptoTbl.setOnClickListener(new View.OnClickListener() {  //AGREGA REPUESTO A LA TABLA
+        ibAgregReptoTbl.setOnClickListener(new View.OnClickListener() {  //AGREGA REPUESTO A LA TABLA
             @Override
             public void onClick(View v) {
                 agregarRepuestosTabla();
             }
         });
 
-        tvAgregServExtTbl.setOnClickListener(new View.OnClickListener() {  //AGREGA SERV EXT. A LA TABLA
+        ibAgregServExtTbl.setOnClickListener(new View.OnClickListener() {  //AGREGA SERV EXT. A LA TABLA
             @Override
             public void onClick(View v) {
                 agregarServExtTabla();
@@ -224,50 +227,316 @@ public class FragmentTabRepEjecOT extends Fragment {
             }
         });
 
-        tvAgregarFotosCierre.setOnClickListener(new View.OnClickListener() {
+        tvAgregarFotosRepte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mostrarOpcionesFotos();
+                if (idRpteEjec == 0){
+                    mostrarOpcionesFotos();
+
+                } else if(idRpteEjec > 0){
+                    MetodosStaticos.idRepteEjecRut = idRpteEjec;
+                    MetodosStaticos.fotosDeCierroOT = "Rut_repteEjec"; //Busca las fotos anexadas en el Repte Ejec Rut
+                    Navigation.findNavController(root).navigate(R.id.fragmentImages);
+                }
             }
         });
 
         btnGuardaRepEjec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                guardarReporteEjecucionOT();
+                guardarReporteEjecucionRut();
             }
         });
 
         progressBar.setVisibility(View.GONE);
         cvRepuestos.setVisibility(View.GONE);
         cvServExt.setVisibility(View.GONE);
-        java.lang.String tvTexto = getResources().getString(R.string.tvAgregarFotosCierre) + " (0)";
-        tvAgregarFotosCierre.setText(tvTexto);
-        //etHrsParoProduc.requestFocus();
+        String tvTexto = getResources().getString(R.string.tvAgregarFotosCierre) + " (0)";
+        tvAgregarFotosRepte.setText(tvTexto);
 
         setFechaDeHoy();
         activityResult();
-        return root;
+        cargarRepteEjecucPrevio(idRpteEjec);
 
-        //etHrsTrabajo.addTextChangedListener(TextWatcher);
-        //etHrsTrabajo.setKeyListener(DigitsKeyListener.getInstance("123456789,."));
+        return root;
     }
 
+    private void cargarRepteEjecucPrevio(int idRpteEjec){
+    /*************************************/
+        if (idRpteEjec > 0){
+            btnGuardaRepEjec.setEnabled(false); //Para evitar edicion de repte de ejecucuón
+            progressBar.setVisibility(View.VISIBLE);
+
+            DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
+            Call<RtesEjecRuts> call = service.getRepteEjecRutina(idRpteEjec);
+
+            call.enqueue(new Callback<RtesEjecRuts>() {
+                @Override
+                public void onResponse(Call<RtesEjecRuts> call, Response<RtesEjecRuts> response) {
+                    if(response.isSuccessful() && response.body() != null){
+                        RtesEjecRuts rteEjecRut = response.body();
+
+                        String fechaEjec = rteEjecRut.getFechaTrabajo();
+                        String hrsParoPr = rteEjecRut.getTpoParoProduc() + "";
+                        String hrsTrabaj = rteEjecRut.getTmpoRealTrab() + "";
+                        String caliddTra = rteEjecRut.getCalidadTrab() + "";
+                        String reportHis = rteEjecRut.getReporteHistor();
+                        String nombreSpv = rteEjecRut.getNombSuperv();
+                        String recibTrab = rteEjecRut.getPersRecivTrab();
+                        int cantRptosUtz = rteEjecRut.getCantRptosUtiliz();
+                        int cantServExtr = rteEjecRut.getCantServExter();
+                        int cantFtsRepte = rteEjecRut.getCantFotosCierre();
+
+                        etNombRecivTrab.setText(fechaEjec);
+                        etHrsParoProduc.setText(hrsParoPr);
+                        etHrsTrabajo.setText(hrsTrabaj);
+                        etCalidadTrab.setText(caliddTra);
+                        etReportEjec.setText(reportHis);
+                        tvNombrSupRut.setText(nombreSpv);
+                        etNombRecivTrab.setText(recibTrab);
+
+                        String tvTexto = "Ver fotos del reporte de ejecución (" + cantFtsRepte + ")" ;
+                        tvAgregarFotosRepte.setText(tvTexto);
+
+                        mostrarPersEjectorRutina(idRpteEjec);
+                        mostrarRepuestoutilizados(idRpteEjec, cantRptosUtz);
+                        mostrarServExtUtilizados(idRpteEjec, cantServExtr);
+
+                        progressBar.setVisibility(View.GONE);
+
+                    } else {
+                        Toast.makeText(getContext(), "No se pudo cargar Reporte ejecucion previo...", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<RtesEjecRuts> call, Throwable throwable) {
+                    Toast.makeText(getContext(), "No se pudo cargar Reporte ejec. previo.", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
+        }
+    }
+
+    private void mostrarPersEjectorRutina(int idRpteEjec){
+    /***************************************************/
+        progressBar.setVisibility(View.VISIBLE);
+        DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
+        Call<List<RtesPersEjecRuts>> call = service.getListPersEjecRutina(idRpteEjec);
+        call.enqueue(new Callback<List<RtesPersEjecRuts>>() {
+            @Override
+            public void onResponse(Call<List<RtesPersEjecRuts>> call, Response<List<RtesPersEjecRuts>> response) {
+                if(response.isSuccessful() && response.body() != null){
+
+                    String indicasiones = "Personal que realizo el trabajo";
+                    tvIndicPersonal.setText(indicasiones);
+                    tvEncabesadoPers.setVisibility(View.GONE);
+                    tvEncabesadoHrs.setVisibility(View.GONE);
+                    tvNombrePers.setVisibility(View.GONE);
+                    etHrsTrabajo2.setVisibility(View.GONE);
+                    ibAgregPerTecTbl.setVisibility(View.GONE);
+
+                    List<RtesPersEjecRuts> listReptsPer = response.body();
+
+                    for(int i=0; i<listReptsPer.size(); i++){
+                        RtesPersEjecRuts reptePers = listReptsPer.get(i);
+                        String nombrPers = reptePers.getComdNombrEmpl();
+                        String hrsTrabaj = reptePers.getCantHrsNorm() + "";
+
+                        TableRow filaTabla = new TableRow(getContext());
+
+                        TextView tvColum0 = new TextView(getContext());
+                        tvColum0.setBackgroundResource(R.drawable.style_edittex_tbls);
+                        tvColum0.setGravity(1);
+                        tvColum0.setText("--");
+
+                        TextView tvColum1 = new TextView(getContext());
+                        tvColum1.setBackgroundResource(R.drawable.style_edittex_tbls);
+                        tvColum1.setText(nombrPers);
+                        tvColum1.setTextColor(Color.BLACK);
+
+                        TextView tvColum2 = new TextView(getContext());
+                        tvColum2.setBackgroundResource(R.drawable.style_edittex_tbls);
+                        tvColum2.setGravity(1);
+                        tvColum2.setText(hrsTrabaj);
+                        tvColum2.setTextColor(Color.BLACK);
+
+                        TextView tvColum3 = new TextView(getContext());
+                        tvColum3.setBackgroundResource(R.drawable.style_edittex_tbls);
+                        tvColum3.setGravity(1);
+                        tvColum3.setText("---");
+
+                        filaTabla.addView(tvColum0);
+                        filaTabla.addView(tvColum1);
+                        filaTabla.addView(tvColum2);
+                        filaTabla.addView(tvColum3);
+                        tblPersTecn.addView(filaTabla);
+                    }
+                    progressBar.setVisibility(View.GONE);
+
+                } else {
+                    Toast.makeText(getContext(), "No se pudo cargar ejecutores Rut ...", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<RtesPersEjecRuts>> call, Throwable throwable) {
+                Toast.makeText(getContext(), "No se pudo cargar ejecutores RUT", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void mostrarRepuestoutilizados(int idRpteEjec, int canRptos){
+    /******************************************************************/
+        String indicasiones = "Toque para ver Repuestos Utilizados" +" ("+ canRptos +")";
+        tvIndicRepuest.setText(indicasiones);
+        etNombreRepsto.setVisibility(View.GONE);
+        etCostoRepsto.setVisibility(View.GONE);
+        ibAgregReptoTbl.setVisibility(View.GONE);
+        tvEncabesReptos.setVisibility(View.GONE);
+        tvEncabesCosto.setVisibility(View.GONE);
+
+        if(canRptos > 0){
+            progressBar.setVisibility(View.VISIBLE);
+            DataServices_Intf service2 = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
+            Call<List<ReptesReptos_DTO>> call2 = service2.getListReptosEjecRutina(idRpteEjec);
+            call2.enqueue(new Callback<List<ReptesReptos_DTO>>() {
+                @Override
+                public void onResponse(Call<List<ReptesReptos_DTO>> call, Response<List<ReptesReptos_DTO>> response) {
+                    if(response.isSuccessful() && response.body() != null){
+
+                        List<ReptesReptos_DTO> listaReptos = response.body();
+
+                        for(int i=0; i<listaReptos.size(); i++){
+                            ReptesReptos_DTO repteRepto = listaReptos.get(i);
+                            String nombreRpto = repteRepto.getNombreRep();
+                            String costoRpsto = repteRepto.getCostTotal();
+
+                            TableRow filaTabla = new TableRow(getContext());
+
+                            TextView tvColum0 = new TextView(getContext());
+                            tvColum0.setBackgroundResource(R.drawable.style_edittex_tbls);
+                            tvColum0.setText(nombreRpto);
+                            tvColum0.setTextColor(Color.BLACK);
+
+                            TextView tvColum1 = new TextView(getContext());
+                            tvColum1.setBackgroundResource(R.drawable.style_edittex_tbls);
+                            tvColum1.setGravity(1);
+                            tvColum1.setText(costoRpsto);
+                            tvColum1.setTextColor(Color.BLACK);
+
+                            TextView tvColum2 = new TextView(getContext());
+                            tvColum2.setBackgroundResource(R.drawable.style_edittex_tbls);
+                            tvColum2.setGravity(1);
+                            tvColum2.setText("---");
+                            tvColum2.setTextColor(Color.BLACK);
+
+                            filaTabla.addView(tvColum0);
+                            filaTabla.addView(tvColum1);
+                            filaTabla.addView(tvColum2);
+
+                            tblRepuestos.addView(filaTabla);
+                        }
+                        progressBar.setVisibility(View.GONE);
+
+                    } else {
+                        Toast.makeText(getContext(), "No se pudo cargar repuestos Rut ...", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<ReptesReptos_DTO>> call, Throwable throwable) {
+                    Toast.makeText(getContext(), "No se pudo cargar Repuestos RUT", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
+        }
+    }
+
+    private void mostrarServExtUtilizados(int idRpteEjec, int canServExt){
+    /******************************************************************/
+        String indicasiones = "Toque para ver servicios externes" +" ("+ canServExt +")";
+        tvIndicServExt.setText(indicasiones);
+        tvEncabesSevExt.setVisibility(View.GONE);
+        tvEncabesCostoServExt.setVisibility(View.GONE);
+        etNombreServExt.setVisibility(View.GONE);
+        etCostoServExt.setVisibility(View.GONE);
+        ibAgregServExtTbl.setVisibility(View.GONE);
+
+        if(canServExt > 0){
+            progressBar.setVisibility(View.VISIBLE);
+            DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
+            Call<List<RtesServExtEjecRuts>> call = service.getListServExtEjecRutina(idRpteEjec);
+            call.enqueue(new Callback<List<RtesServExtEjecRuts>>() {
+                @Override
+                public void onResponse(Call<List<RtesServExtEjecRuts>> call, Response<List<RtesServExtEjecRuts>> response) {
+                    if(response.isSuccessful() && response.body() != null){
+
+                        List<RtesServExtEjecRuts> listaServExt = response.body();
+
+                        for(int i=0; i<listaServExt.size(); i++){
+                            RtesServExtEjecRuts servExt = listaServExt.get(i);
+                            String nombreServExt = servExt.getNombreServic();
+                            String costoServExtr = servExt.getCostoServic() + "";
+
+                            TableRow filaTabla = new TableRow(getContext());
+
+                            TextView tvColum0 = new TextView(getContext());
+                            tvColum0.setBackgroundResource(R.drawable.style_edittex_tbls);
+                            tvColum0.setText(nombreServExt);
+                            tvColum0.setTextColor(Color.BLACK);
+
+                            TextView tvColum1 = new TextView(getContext());
+                            tvColum1.setBackgroundResource(R.drawable.style_edittex_tbls);
+                            tvColum1.setGravity(1);
+                            tvColum1.setText(costoServExtr);
+                            tvColum1.setTextColor(Color.BLACK);
+
+                            TextView tvColum2 = new TextView(getContext());
+                            tvColum2.setBackgroundResource(R.drawable.style_edittex_tbls);
+                            tvColum2.setGravity(1);
+                            tvColum2.setText("---");
+                            tvColum2.setTextColor(Color.BLACK);
+
+                            filaTabla.addView(tvColum0);
+                            filaTabla.addView(tvColum1);
+                            filaTabla.addView(tvColum2);
+
+                            tblServExt.addView(filaTabla);
+                        }
+                        progressBar.setVisibility(View.GONE);
+
+                    } else {
+                        Toast.makeText(getContext(), "No se pudo cargar Serv.Ext Rut ...", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<RtesServExtEjecRuts>> call, Throwable throwable) {
+                    Toast.makeText(getContext(), "No se pudo cargar Serv.Ext RUT", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
+        }
+    }
 
     private static final int PERMISO_FOTOS_CODE = 99;
-    private final java.lang.String manifestPermiso = Manifest.permission.READ_MEDIA_IMAGES;
-
-
+    private final String manifestPermiso = Manifest.permission.READ_MEDIA_IMAGES;
     private void mostrarOpcionesFotos() {
     /**********************************/
         //TRAE LOS TITULOS DE LA VENTANA DESDE String.xml
-        java.lang.String titleOpc = getResources().getString(R.string.titleOpc);
-        java.lang.String opcTakePict = getResources().getString(R.string.opcTakePict);
-        java.lang.String opcChoseGall = getResources().getString(R.string.opcChoseGall);
-        java.lang.String opcCancel = getResources().getString(R.string.opcCancel);
+        String titleOpc = getResources().getString(R.string.titleOpc);
+        String opcTakePict = getResources().getString(R.string.opcTakePict);
+        String opcChoseGall = getResources().getString(R.string.opcChoseGall);
+        String opcCancel = getResources().getString(R.string.opcCancel);
 
         final CharSequence[] opciones = {opcTakePict, opcChoseGall, opcCancel};
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
         dialogBuilder.setTitle(titleOpc);
 
         dialogBuilder.setItems(opciones, new DialogInterface.OnClickListener() {
@@ -280,7 +549,7 @@ public class FragmentTabRepEjecOT extends Fragment {
                 if(opciones[which].equals(opcChoseGall)){
 
                     if(Build.VERSION.SDK_INT >= 33){
-                        ActivityCompat.requestPermissions(requireActivity(), new java.lang.String[]{manifestPermiso}, PERMISO_FOTOS_CODE);
+                        ActivityCompat.requestPermissions(requireActivity(), new String[]{manifestPermiso}, PERMISO_FOTOS_CODE);
                         openGallery();
                     } else {
                         openGallery();
@@ -297,7 +566,7 @@ public class FragmentTabRepEjecOT extends Fragment {
 
 
     //Verifica permisos para activar la camara o abrir galeria de fotos
-    ActivityResultLauncher<java.lang.String> camaraPermiso = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
+    ActivityResultLauncher<String> camaraPermiso = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
         @Override
         public void onActivityResult(Boolean result) {
             if(result){
@@ -313,7 +582,7 @@ public class FragmentTabRepEjecOT extends Fragment {
     private Uri imageUri = null;
     Bitmap imageBitmap;
     ArrayList<Uri> listaImgsUri = new ArrayList<>();
-    java.lang.String currentPhotoPath;
+    String currentPhotoPath;
 
 
     //ACTIVA LA CAMARA PARA TOMAR FOTO
@@ -330,7 +599,7 @@ public class FragmentTabRepEjecOT extends Fragment {
             } catch (IOException ex){ex.getMessage();}
 
             if (photoFile != null){
-                java.lang.String authority = "com.mantprev.mantprevproaces2" + ".provider";    //BuildConfig.APPLICATION_ID
+                String authority = "com.mantprev.mantprevproaces2" + ".provider";    //BuildConfig.APPLICATION_ID
                 Uri photoUri = FileProvider.getUriForFile(requireContext(), authority, photoFile);
 
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
@@ -342,45 +611,43 @@ public class FragmentTabRepEjecOT extends Fragment {
 
     //MANEJA LA FOTO Y AGREGA A LA LISTA DE FOTOS
     private final ActivityResultLauncher<Intent> camaraLauncher =
-        registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
 
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
+                        @Override
+                        public void onActivityResult(ActivityResult result) {
 
-                        File file = new File(currentPhotoPath);
-                        Uri uri = Uri.fromFile(file);
-                        Bitmap bitmap = null;
+                            File file = new File(currentPhotoPath);
+                            Uri uri = Uri.fromFile(file);
+                            Bitmap bitmap = null;
 
-                        try {
-                            bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
+                            try {
+                                bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+
+                            imageUri = getImageUri(getContext(), bitmap);
+                            listaImgsUri.add(imageUri);
+
+                            int cantFotos = listaImgsUri.size();
+                            String tvTexto = getResources().getString(R.string.tvAgregarFotosCierre) + " (" + cantFotos + ")";
+                            tvAgregarFotosRepte.setText(tvTexto);
                         }
-
-                        imageUri = getImageUri(getContext(), bitmap);
-                        listaImgsUri.add(imageUri);
-
-                        int cantFotos = listaImgsUri.size();
-                        java.lang.String tvTexto = getResources().getString(R.string.tvAgregarFotosCierre);
-                        tvAgregarFotosCierre.setText(tvTexto + " (" + cantFotos + ")");
-                    }
-                });
-
-
+                    });
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
-    /*********************************************************/
+        /*********************************************************/
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        java.lang.String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, getNombreDeFoto(), null);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, getNombreDeFoto(), null);
         return Uri.parse(path);
     }
 
 
     private File createImageFile() throws IOException {
-    /************************************************/
-        java.lang.String imgFileName = getNombreDeFoto();
+        /************************************************/
+        String imgFileName = getNombreDeFoto();
         File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imgFileName, ".jpg", storageDir);
         currentPhotoPath = image.getAbsolutePath();
@@ -388,9 +655,8 @@ public class FragmentTabRepEjecOT extends Fragment {
         return image;
     }
 
-
     private Bitmap getResisedBitmap(Bitmap bitmap, int maxSize) {
-    /***********************************************************/
+        /***********************************************************/
         int width  = bitmap.getWidth();
         int height = bitmap.getHeight();
 
@@ -416,7 +682,7 @@ public class FragmentTabRepEjecOT extends Fragment {
 
     private ActivityResultLauncher<Intent> intentLauncher;
     private void openGallery(){
-    /**************************/
+        /**************************/
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -427,7 +693,7 @@ public class FragmentTabRepEjecOT extends Fragment {
 
 
     private void activityResult(){  //MANEJA LAS FOTOS QUE SE ANEXARON DE LA GALERIA
-    /****************************/
+        /****************************/
         intentLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
 
             if (result.getData() != null){
@@ -440,33 +706,32 @@ public class FragmentTabRepEjecOT extends Fragment {
                     }
 
                     int cantFotos = listaImgsUri.size();
-                    java.lang.String tvTexto = getResources().getString(R.string.tvAgregarFotosCierre);
-                    tvAgregarFotosCierre.setText(tvTexto + " (" + cantFotos + ")");
+                    String tvTexto = getResources().getString(R.string.tvAgregarFotosCierre) + " (" + cantFotos + ")";
+                    tvAgregarFotosRepte.setText(tvTexto);
                 }
             }
         });
     }
 
-    java.lang.String calidTrab, fechaEjec;
-
-    public void guardarReporteEjecucionOT() {
+    String calidTrab, fechaEjec;
+    public void guardarReporteEjecucionRut() {
     /**************************************/
         btnGuardaRepEjec.setEnabled(true);
 
         //CAPTURA LOS DATOS DE EJECUCION
         fechaEjec = datePickerFecha;   //Se utiliza el String en fromato de fecha sql
         calidTrab = etCalidadTrab.getText().toString();
-        java.lang.String idOrdTrab = idOT;
-        java.lang.String hrsParoProd = etHrsParoProduc.getText().toString();
-        java.lang.String hrsTrabajo  = etHrsTrabajo.getText().toString();
-
-        java.lang.String reportHist = etReportEjec.getText().toString();
-        java.lang.String nombrFalla = tvNombrFalla.getText().toString();
-        java.lang.String supervOT  = tvNombrSupOT.getText().toString();
-        java.lang.String recibTrab = etNombRecivTrab.getText().toString();
-        java.lang.String cantFotos = Integer.toString(listaImgsUri.size());
-        java.lang.String cantRptos = Integer.toString(tblRepuestos.getChildCount() - 1); //1 solo tiene el table head
-        java.lang.String cantSrvEx = Integer.toString(tblServExt.getChildCount() - 1);   //1 solo tiene el table head
+        int idRutEquip = MetodosStaticos.idRutEquip;
+        int idEquipo = MetodosStaticos.idEquipo;
+        String hrsParoProd = etHrsParoProduc.getText().toString();
+        String hrsTrabajo  = etHrsTrabajo.getText().toString();
+        String reportHist = etReportEjec.getText().toString();
+        String supervOT  = tvNombrSupRut.getText().toString();
+        String recibTrab = etNombRecivTrab.getText().toString();
+        String semanaRut = MetodosStaticos.semanaRuts;
+        String cantFotos = Integer.toString(listaImgsUri.size());
+        String cantRptos = Integer.toString(tblRepuestos.getChildCount() - 1); //1 solo tiene el table head
+        String cantSrvEx = Integer.toString(tblServExt.getChildCount() - 1);   //1 solo tiene el table head
 
         if (recibTrab.isEmpty()) {
             recibTrab = "--";
@@ -475,9 +740,9 @@ public class FragmentTabRepEjecOT extends Fragment {
         //Verifica que se hayan ingresado todos los datos
         boolean datosCorrectos = true;
 
-        java.lang.String nombPers = tvNombrePers.getText().toString();
-        java.lang.String nombRpto = etNombreRepsto.getText().toString();
-        java.lang.String nombServ = etNombreServExt.getText().toString();
+        String nombPers = tvNombrePers.getText().toString();
+        String nombRpto = etNombreRepsto.getText().toString();
+        String nombServ = etNombreServExt.getText().toString();
 
         if(!nombPers.isEmpty() || !nombRpto.isEmpty() || !nombServ.isEmpty()){
             Toast.makeText(getContext(), getResources().getString(R.string.msjInformTabl), Toast.LENGTH_LONG).show();
@@ -485,9 +750,6 @@ public class FragmentTabRepEjecOT extends Fragment {
         }
 
         if (reportHist.equals("")) {
-            datosCorrectos = false;
-        }
-        if (nombrFalla.equals("")) {
             datosCorrectos = false;
         }
         if (supervOT.equals("---")) {
@@ -506,60 +768,48 @@ public class FragmentTabRepEjecOT extends Fragment {
         if (datosCorrectos) {
             progressBar.setVisibility(View.VISIBLE);
 
-            RtesEjecOTs repteEjecOT = new RtesEjecOTs();
-            //Date fechaEjecucion = MetodosStaticos.getDateFromString(fechaEjec);
-            java.lang.String fechaTrabajo = fechaEjec;
+            RtesEjecRuts repteEjecRut = new RtesEjecRuts();
+            String fechaTrabajo = fechaEjec;
 
-            repteEjecOT.setIdOT(Integer.parseInt(idOrdTrab));
-            //repteEjecOT.setFechaInicio(fechaEjecucion);
-            repteEjecOT.setFechaTrabajo(fechaTrabajo);
-            repteEjecOT.setCalidadTrab(Double.parseDouble(calidTrab));
-            repteEjecOT.setTpoParoProduc(Double.parseDouble(hrsParoProd));
-            repteEjecOT.setTpoRealReparac(Double.parseDouble(hrsTrabajo));
-            repteEjecOT.setNombreSuperv(supervOT);
-            repteEjecOT.setNombreFalla(nombrFalla);
-            repteEjecOT.setnPersRecivTrab(recibTrab);
-            repteEjecOT.setReporteHistor(reportHist);
-            repteEjecOT.setCantFotosCierre(Integer.parseInt(cantFotos));
-            repteEjecOT.setCantRptosUtiliz(Integer.parseInt(cantRptos));
-            repteEjecOT.setCantServExter(Integer.parseInt(cantSrvEx));
+            repteEjecRut.setIdRutEquipo(idRutEquip);
+            repteEjecRut.setIdEquipo(idEquipo);
+            repteEjecRut.setFechaTrabajo(fechaTrabajo);
+            repteEjecRut.setCalidadTrab(Double.parseDouble(calidTrab));
+            repteEjecRut.setTpoParoProduc(Double.parseDouble(hrsParoProd));
+            repteEjecRut.setTmpoRealTrab(Double.parseDouble(hrsTrabajo));
+            repteEjecRut.setNombSuperv(supervOT);
+            repteEjecRut.setPersRecivTrab(recibTrab);
+            repteEjecRut.setReporteHistor(reportHist);
+            repteEjecRut.setSemanaRut(semanaRut);
+            repteEjecRut.setCantFotosCierre(Integer.parseInt(cantFotos));
+            repteEjecRut.setCantRptosUtiliz(Integer.parseInt(cantRptos));
+            repteEjecRut.setCantServExter(Integer.parseInt(cantSrvEx));
 
-            /* RETROFIT */
+            //* RETROFIT
             DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-            Call<java.lang.String> call = service.guardarReporteEjecOT2(repteEjecOT);   //"reptes/saveRepteEjec/"
+            Call<String> call = service.guardarReporteEjecRut(repteEjecRut);   //"reptes/saveRepteEjec/"
 
-            call.enqueue(new Callback<java.lang.String>() {
+            call.enqueue(new Callback<String>() {
                 @Override
-                public void onResponse(Call<java.lang.String> call, retrofit2.Response<java.lang.String> response) {
-                    /*
-                    if (response.code() == 401){  // El token ha expirado
-                        ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                        activCerrarSess.cleanSesionDeUsuario(getContext());
-                        Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
-                        Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                    }  */
+                public void onResponse(Call<String> call, retrofit2.Response<String> response) {
 
                     if(response.isSuccessful() && response.body() != null){
-                        if(response.body().equals("EXITO")){
-                            Toast.makeText(getContext(), getResources().getString(R.string.btnGuardaRepEjecOK), Toast.LENGTH_SHORT).show();
-                            guardarReportPersTecn();  //GUARDA LOS REPORTES DEL PERSONAL TECNICO
-
-                        } else {
-                            Toast.makeText(getContext(), getResources().getString(R.string.btnGuardaRepEjecNot), Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
-                        }
+                        Toast.makeText(getContext(), getResources().getString(R.string.btnGuardaRepEjecOK), Toast.LENGTH_SHORT).show();
+                        int idRpteEjecRut = Integer.parseInt(response.body()); // Trae el id del repte de ejecuc Rut
+                        guardarReportPersTecn(idRpteEjecRut);  //GUARDA LOS REPORTES DEL PERSONAL TECNICO
 
                     } else {
-                        Toast.makeText(getContext(), "No se pudo guardar el reporte de Ejecución OT ...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "No se pudo guardar el reporte de Ejecución Rut ...", Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
                     }
                 }
 
                 @Override
-                public void onFailure(Call<java.lang.String> call, Throwable throwable) {
+                public void onFailure(Call<String> call, Throwable throwable) {
+                    progressBar.setVisibility(View.GONE);
                     throwable.printStackTrace();
                     Log.d("ErrorResponse: ", throwable.toString());
-                    Toast.makeText(getContext(), getResources().getString(R.string.btnGuardaRepEjecNot), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "No se pudo guardar el reporte de Ejecución RUT", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -568,13 +818,12 @@ public class FragmentTabRepEjecOT extends Fragment {
         }
     }
 
-
-    public void guardarReportPersTecn() {
-    /***********************************/
-        ArrayList<RtesPersEjecOTs> arrayReptesPersn = new ArrayList<>();
+    public void guardarReportPersTecn(int idRpteEjecRut) {
+    /**************************************************/
+        ArrayList<RtesPersEjecRuts> arrayReptesPersn = new ArrayList<>();
 
         //SE CAPTURA EL LISTADO DE EJECUTORES DE LA OT PARA GUARDARLOS
-        RtesPersEjecOTs reptePersn;
+        RtesPersEjecRuts reptePersn;
         int listaTblPersTecnSze = tblPersTecn.getChildCount();
 
         for (int i=1; i < listaTblPersTecnSze; i++){
@@ -585,16 +834,16 @@ public class FragmentTabRepEjecOT extends Fragment {
             TextView textView1 = (TextView) filaTbl.getChildAt(1);
             TextView textView2 = (TextView) filaTbl.getChildAt(2);
 
-            java.lang.String idPersTecn = textView0.getText().toString();
-            java.lang.String nombPerTec = textView1.getText().toString();  //No se guarda en la Base de Datos
-            java.lang.String hrsPersTec = textView2.getText().toString();
+            String idPersTecn = textView0.getText().toString();
+            String nombPerTec = textView1.getText().toString();  //No se guarda en la Base de Datos
+            String cantHrsTra = textView2.getText().toString();
 
-            reptePersn = new RtesPersEjecOTs();
-            reptePersn.setCantHrs(Double.parseDouble(hrsPersTec));
-            reptePersn.setCalidadTrab(Double.parseDouble(calidTrab));
-            reptePersn.setFechaEjec(fechaEjec);
-            reptePersn.setIdOT(Integer.parseInt(idOT));
+            reptePersn = new RtesPersEjecRuts();
+            reptePersn.setIdRepteEjecRut(idRpteEjecRut);
             reptePersn.setIdEmpleado(Integer.parseInt(idPersTecn));
+            reptePersn.setCantHrsNorm(Double.parseDouble(cantHrsTra));
+            reptePersn.setCalidTrabaj(Double.parseDouble(calidTrab));
+            reptePersn.setFechaEjec(fechaEjec);
 
             arrayReptesPersn.add(reptePersn);
         }
@@ -602,27 +851,14 @@ public class FragmentTabRepEjecOT extends Fragment {
         int arrayReptesPersSize = arrayReptesPersn.size();
         for (int i = 0; i < arrayReptesPersSize; i++) {
 
-            java.lang.String cantHrs = Double.toString(arrayReptesPersn.get(i).getCantHrs());
-            java.lang.String cddTrab = Double.toString(arrayReptesPersn.get(i).getCalidadTrab());  //Calidad de Trabajo
-            java.lang.String fchaEje = arrayReptesPersn.get(i).getFechaEjec();
-            java.lang.String idOrdTr = Integer.toString(arrayReptesPersn.get(i).getIdOT());
-            java.lang.String idEmple = Integer.toString(arrayReptesPersn.get(i).getIdEmpleado());
+            RtesPersEjecRuts reptePers = arrayReptesPersn.get(i);
 
-            RtesPersEjecOTs reptePers = new RtesPersEjecOTs();
-            reptePers.setCantHrs(Double.parseDouble(cantHrs));
-            reptePers.setCalidadTrab(Double.parseDouble(cddTrab));
-            reptePers.setFechaEjec(fchaEje);
-            reptePers.setIdOT(Integer.parseInt(idOrdTr));
-            reptePers.setIdEmpleado(Integer.parseInt(idEmple));
-
-            /* RETROFIT */
             DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-            Call<java.lang.String> call = service.guardarReptePersEjecOT(reptePers);       //"reptes/saveReptePers/"
-
-            call.enqueue(new Callback<java.lang.String>() {
+            Call<String> call = service.guardarReptePersEjecRut(reptePers);       //"reptes/saveReptePers/"
+            call.enqueue(new Callback<String>() {
 
                 @Override
-                public void onResponse(Call<java.lang.String> call, retrofit2.Response<java.lang.String> response) {
+                public void onResponse(Call<String> call, retrofit2.Response<String> response) {
                     /*
                     if (response.code() == 401){  // El token ha expirado
                         ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
@@ -633,13 +869,17 @@ public class FragmentTabRepEjecOT extends Fragment {
 
                     if(response.isSuccessful() && response.body() != null){
                         if(!response.body().equals("OK")){
-                            Toast.makeText(getContext(), "No se pudo guardar Personal Tecnico .....", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), "No se pudo guardar Personal Técnico .....", Toast.LENGTH_LONG).show();
                         }
+
+                    } else {
+                        Toast.makeText(getContext(), "No se pudo guardar Personal Técnico", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
 
                 @Override
-                public void onFailure(Call<java.lang.String> call, Throwable throwable) {
+                public void onFailure(Call<String> call, Throwable throwable) {
                     throwable.printStackTrace();
                     Log.d("ErrorResponse: ", throwable.toString());
                     Toast.makeText(getContext(), "No pudo guardar Personal Técnico", Toast.LENGTH_LONG).show();
@@ -647,18 +887,17 @@ public class FragmentTabRepEjecOT extends Fragment {
             });
         }
 
-        guardarReportesReptos();  //Procede a guardar reporte de repuestos
+        guardarReportesReptos(idRpteEjecRut);  //Procede a guardar reporte de repuestos
     }
 
-
-    public void guardarReportesReptos(){
-    /***********************************/
-        ArrayList<RtesReptosEjecOTs> arrayReptesReptos = new ArrayList<>();
+    public void guardarReportesReptos(int idRpteEjecRut){
+    /***************************************************/
+        ArrayList<ReptesReptos_DTO> arrayReptesReptos = new ArrayList<>();
 
         //SE CAPTURA EL LISTADO DE REPUESTOS SI SE INGRESO PARA GUARDARLOS
         if (tblRepuestos.getChildCount() > 1){
 
-            RtesReptosEjecOTs repteRepuesto;
+            ReptesReptos_DTO repteRepuesto;
             int tablaRepuestosSize = tblRepuestos.getChildCount();
 
             for (int i=1; i< tablaRepuestosSize; i++){
@@ -668,93 +907,86 @@ public class FragmentTabRepEjecOT extends Fragment {
                 TextView textView0 = (TextView) filaTbl.getChildAt(0);
                 TextView textView1 = (TextView) filaTbl.getChildAt(1);
 
-                java.lang.String nombrRepto = textView0.getText().toString();
-                java.lang.String costoTotal = textView1.getText().toString();
+                String nombrRepto = textView0.getText().toString();
+                String costoTotal = textView1.getText().toString();
 
-                repteRepuesto = new RtesReptosEjecOTs();
+                repteRepuesto = new ReptesReptos_DTO();
                 repteRepuesto.setNombreRep(nombrRepto);
-                repteRepuesto.setCostoTotal(Double.parseDouble(costoTotal));
-                repteRepuesto.setFechaConsumo(fechaEjec);
-                repteRepuesto.setIdOT(Integer.parseInt(idOT));
+                repteRepuesto.setCostTotal(costoTotal);
+                repteRepuesto.setDateConsu(fechaEjec);
+                repteRepuesto.setIdOrdTrab(Integer.toString(idRpteEjecRut)); //Se envia aqui para no generar nuevo DTO
 
                 arrayReptesReptos.add(repteRepuesto);
             }
-        }
 
-        int arrayReptesReptosSize = arrayReptesReptos.size();
-        for(int i=0; i< arrayReptesReptosSize; i++) {
-            java.lang.String nombRepto = arrayReptesReptos.get(i).getNombreRep();
-            java.lang.String costTotal = Double.toString(arrayReptesReptos.get(i).getCostoTotal());
-            java.lang.String fechConsu = arrayReptesReptos.get(i).getFechaConsumo();
-            java.lang.String idOrdTrab = Integer.toString(arrayReptesReptos.get(i).getIdOT());
+            int arrayReptesReptosSize = arrayReptesReptos.size();
+            for(int i=0; i< arrayReptesReptosSize; i++) {
 
-            ReptesReptos_DTO repteRepto = new ReptesReptos_DTO();
-            repteRepto.setIdOrdTrab(idOrdTrab);
-            repteRepto.setNombreRep(nombRepto);
-            repteRepto.setCostTotal(costTotal);
-            repteRepto.setDateConsu(fechConsu);
+                ReptesReptos_DTO repteRepto = arrayReptesReptos.get(i);
 
-            /* RETROFIT */
-            DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-            Call<java.lang.String> call = service.guardarRepteReptosEjecOT(repteRepto);   //"reptes/saveRepteRepto/"
+                /* RETROFIT */
+                DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
+                Call<String> call = service.guardarRepteReptosEjecRut(repteRepto);   //"reptes/saveRepteRepto/"
 
-            call.enqueue(new Callback<java.lang.String>() {
+                call.enqueue(new Callback<String>() {
 
-                @Override
-                public void onResponse(Call<java.lang.String> call, retrofit2.Response<java.lang.String> response) {
-                    /*
-                    if (response.code() == 401){  // El token ha expirado
-                        ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                        activCerrarSess.cleanSesionDeUsuario(getContext());
-                        Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
-                        Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                    }   */
+                    @Override
+                    public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                        /*
+                        if (response.code() == 401){  // El token ha expirado
+                            ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
+                            activCerrarSess.cleanSesionDeUsuario(getContext());
+                            Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                            Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                        }   */
 
-                    if(response.isSuccessful() && response.body() != null){
-                        if(!response.body().equals("OK")){
-                            Toast.makeText(getContext(), "No se pudo guardar Repuestos ..... ", Toast.LENGTH_LONG).show();
+                        if(response.isSuccessful() && response.body() != null){
+                            if(!response.body().equals("OK")){
+                                Toast.makeText(getContext(), "No se pudo guardar Repuestos ..... ", Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Toast.makeText(getContext(), "No se pudo guardar reporte Repuesto", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<java.lang.String> call, Throwable throwable) {
-                    throwable.printStackTrace();
-                    Log.d("ErrorResponse: ", throwable.toString());
-                    Toast.makeText(getContext(), "No puedo guardar Repuestos", Toast.LENGTH_LONG).show();
-                }
-            });
+                    @Override
+                    public void onFailure(Call<String> call, Throwable throwable) {
+                        throwable.printStackTrace();
+                        Log.d("ErrorResponse: ", throwable.toString());
+                        Toast.makeText(getContext(), "No puedo guardar Repuestos", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
         }
 
-        guardarReptesSevExter();   //Procede a guardar reporte de repuestos
+        guardarReptesSevExter(idRpteEjecRut);   //Procede a guardar reporte de repuestos
     }
 
 
-    public void guardarReptesSevExter(){
-    /**********************************/
-        ArrayList<RtesServExtEjecOTs> arrayReptesServExt = new ArrayList<>();
+    public void guardarReptesSevExter(int idRpteEjecRut){
+    /***********************************************/
+        ArrayList<RtesServExtEjecRuts> arrayReptesServExt = new ArrayList<>();
 
         //CAPTURA EL LISTADO DE SERV. EXTERNOS SI SE INGRESO PARA GUARDARLOS
         if (tblServExt.getChildCount() > 1){
 
-            RtesServExtEjecOTs repteServExt;
+            RtesServExtEjecRuts repteServExt;
             int tablaServExtSize = tblServExt.getChildCount();
 
             for (int i=1; i< tablaServExtSize; i++){
-
                 TableRow filaTbl = (TableRow) tblServExt.getChildAt(i);
-
                 TextView textView0 = (TextView) filaTbl.getChildAt(0);
                 TextView textView1 = (TextView) filaTbl.getChildAt(1);
+                String nombreServ = textView0.getText().toString();
+                String costoTotal = textView1.getText().toString();
 
-                java.lang.String nombreServ = textView0.getText().toString();
-                java.lang.String costoTotal = textView1.getText().toString();
-
-                repteServExt = new RtesServExtEjecOTs();
+                repteServExt = new RtesServExtEjecRuts();
                 repteServExt.setNombreServic(nombreServ);
                 repteServExt.setCostoServic(Double.parseDouble(costoTotal));
-                repteServExt.setFechaServic(fechaEjec);
-                repteServExt.setIdOT(Integer.parseInt(idOT));
+                repteServExt.setIdRepteEjecRut(idRpteEjecRut);
+                repteServExt.setFechaServ(fechaEjec);
+                repteServExt.setIdProveedor(1);
 
                 arrayReptesServExt.add(repteServExt);
             }
@@ -762,24 +994,16 @@ public class FragmentTabRepEjecOT extends Fragment {
 
         int arrayReptesServExtSize = arrayReptesServExt.size();
         for(int i=0; i< arrayReptesServExtSize; i++) {
-            java.lang.String nombrServ = arrayReptesServExt.get(i).getNombreServic();
-            java.lang.String costoServ  = Double.toString(arrayReptesServExt.get(i).getCostoServic());
-            java.lang.String fechaServ  = arrayReptesServExt.get(i).getFechaServic();
-            java.lang.String idOrdTrab = Integer.toString(arrayReptesServExt.get(i).getIdOT());
 
-            RtesServExtEjecOTs repteServExt = new RtesServExtEjecOTs();
-            repteServExt.setIdOT(Integer.parseInt(idOrdTrab));
-            repteServExt.setNombreServic(nombrServ);
-            repteServExt.setCostoServic(Double.parseDouble(costoServ));
-            repteServExt.setFechaServic(fechaServ);
+            RtesServExtEjecRuts repteServExt = arrayReptesServExt.get(i);
 
             /* RETROFIT */
             DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-            Call<java.lang.String> call = service.guardarRepteServExtEjecOT(repteServExt);   // "reptes/saveRepteSevExt/"
+            Call<String> call = service.guardarRepteServExtEjecRut(repteServExt);   // "reptes/saveRepteSevExt/"
 
-            call.enqueue(new Callback<java.lang.String>() {
+            call.enqueue(new Callback<String>() {
                 @Override
-                public void onResponse(Call<java.lang.String> call, retrofit2.Response<java.lang.String> response) {
+                public void onResponse(Call<String> call, retrofit2.Response<String> response) {
                     /*
                     if (response.code() == 401){  // El token ha expirado
                         ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
@@ -792,29 +1016,31 @@ public class FragmentTabRepEjecOT extends Fragment {
                         if(!response.body().equals("OK")){
                             Toast.makeText(getContext(), "No se pudo guardar Serv. Ext......", Toast.LENGTH_LONG).show();
                         }
+                    } else {
+                        Toast.makeText(getContext(), "No se pudo guardar Servicio Ext", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
 
                 @Override
-                public void onFailure(Call<java.lang.String> call, Throwable throwable) {
+                public void onFailure(Call<String> call, Throwable throwable) {
                     throwable.printStackTrace();
                     Log.d("ErrorResponse: ", throwable.toString());
-                    Toast.makeText(getContext(), "No se pudo guardar Serv. Ext.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "No se guardo Serv. Ext.", Toast.LENGTH_LONG).show();
                 }
             });
         }
 
-        //Vuelve a la lista de OTs para Cerar
+        //Vuelve a la lista de Ruts para Reportar Ejec
         progressBar.setVisibility(View.GONE);
         if (!listaImgsUri.isEmpty()){
-            int idOrdTrab = Integer.parseInt(idOT);
-            uploadImagensToServer(idOrdTrab);
+            uploadImagensToServer(idRpteEjecRut);
         }
 
-        Navigation.findNavController(root).navigate(R.id.fragmentReportEjecList);
+        Navigation.findNavController(root).navigate(R.id.fragmentListaRuts);
     }
 
-    public void uploadImagensToServer(int idOTrab){  //Fotos de Cierre de OT
+    public void uploadImagensToServer(int idRpteEjecRut){  //Fotos repte eject Rut
     /*********************************************/
         progressBar.setVisibility(View.VISIBLE);
         int listaImgsUriSize = listaImgsUri.size();
@@ -834,11 +1060,11 @@ public class FragmentTabRepEjecOT extends Fragment {
 
                 //* RETROFIT
                 DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-                Call<java.lang.String> call = service.uploadImgCierreOT(fotoFilePart, idOTrab);
+                Call<String> call = service.uploadImgRpteEjecRut(fotoFilePart, idRpteEjecRut);
 
-                call.enqueue(new Callback<java.lang.String>() {
+                call.enqueue(new Callback<String>() {
                     @Override
-                    public void onResponse(Call<java.lang.String> call, retrofit2.Response<java.lang.String> response) {
+                    public void onResponse(Call<String> call, retrofit2.Response<String> response) {
                         if(response.isSuccessful()){
                             //Toast.makeText(getContext(), response.body(), Toast.LENGTH_SHORT).show();
                         } else {
@@ -847,7 +1073,7 @@ public class FragmentTabRepEjecOT extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<java.lang.String> call, Throwable throwable) {
+                    public void onFailure(Call<String> call, Throwable throwable) {
                         throwable.printStackTrace();
                         Log.d("ErrorResponse: ", throwable.toString());
                         Toast.makeText(getContext(), "FALLO EN GUARDAR FOTO", Toast.LENGTH_LONG).show();
@@ -862,21 +1088,21 @@ public class FragmentTabRepEjecOT extends Fragment {
 
 
     //Metodo para generar una cadena aleatoria de longitud N
-    public java.lang.String getNombreDeFoto() {
-    /*******************************/
+    public String getNombreDeFoto() {
+        /*******************************/
         int count = 10;
 
-        java.lang.String CARACTERES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+        String CARACTERES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
         StringBuilder builder = new StringBuilder();
         while (count-- != 0) {
             int character = (int) (Math.random() * CARACTERES.length());
             builder.append(CARACTERES.charAt(character));
         }
 
-        java.lang.String nombreImagen = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
-        java.lang.String imageFileName = nombreImagen + ".jpg";
+        String nombreImagen = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
+        String imageFileName = nombreImagen + ".jpg";
 
-        java.lang.String nombreFoto = imageFileName;
+        String nombreFoto = imageFileName;
         nombreFoto = builder + "_" + nombreFoto;
 
         return nombreFoto;
@@ -887,9 +1113,9 @@ public class FragmentTabRepEjecOT extends Fragment {
 
 
     public void agregarServExtTabla(){
-    /*********************************/
-        java.lang.String nombreServExt = etNombreServExt.getText().toString();
-        java.lang.String costoServExt  = etCostoServExt.getText().toString();
+        /*********************************/
+        String nombreServExt = etNombreServExt.getText().toString();
+        String costoServExt  = etCostoServExt.getText().toString();
 
         if (!costoServExt.isEmpty() && !costoServExt.contains(".")){
             costoServExt = costoServExt + ".00";
@@ -940,23 +1166,23 @@ public class FragmentTabRepEjecOT extends Fragment {
 
 
     public void removerServExtDeTabla(TableRow filaTabla){
-    /**************************************************/
+        /**************************************************/
         tblServExt.removeView(filaTabla);
     }
 
 
     public void agregarRepuestosTabla(){
-    /*********************************/
-        java.lang.String nombreDeRepto = etNombreRepsto.getText().toString();
-        java.lang.String costoDeRepto  = etCostoRepsto.getText().toString();
+        /*********************************/
+        String nombreDeRepto = etNombreRepsto.getText().toString();
+        String costoDeRepto  = etCostoRepsto.getText().toString();
 
-        if (costoDeRepto.length() > 0 && !costoDeRepto.contains(".")){
+        if (!costoDeRepto.isEmpty() && !costoDeRepto.contains(".")){
             costoDeRepto = costoDeRepto + ".00";
         }
 
         TableRow filaTabla = new TableRow(getContext());
 
-        if (nombreDeRepto.length() > 0 && costoDeRepto.length() > 0){ //
+        if (!nombreDeRepto.isEmpty() && !costoDeRepto.isEmpty()){ //
 
             TextView tvColum0 = new TextView(getContext());
             tvColum0.setBackgroundResource(R.drawable.style_edittex_tbls);
@@ -999,13 +1225,13 @@ public class FragmentTabRepEjecOT extends Fragment {
 
 
     public void removerRptoaDeTabla(TableRow filaTabla){
-    /**************************************************/
+        /**************************************************/
         tblRepuestos.removeView(filaTabla);
     }
 
 
     public void getArbolPersTecnico(){
-    /*******************************/
+        /*******************************/
         progressBar.setVisibility(View.VISIBLE);
 
         /* RETROFIT */
@@ -1015,9 +1241,9 @@ public class FragmentTabRepEjecOT extends Fragment {
         call.enqueue(new Callback<List<PersonalTecn>>() {
 
             final ArrayList<PersonalTecn> listPersTecn = new ArrayList<>();
-            Map<java.lang.String, List<java.lang.String>> mapaPersTecn;
-            ArrayList<java.lang.String> listaTiposDeEjecut;    //Lista de Padres de Ejecutores (Electricos, mecánicos, ete)
-            ArrayList<java.lang.String> grupoDeEjecutores;     //Hijos de ejecutores  (Ejecutores agrupados)
+            Map<String, List<String>> mapaPersTecn;
+            ArrayList<String> listaTiposDeEjecut;    //Lista de Padres de Ejecutores (Electricos, mecánicos, ete)
+            ArrayList<String> grupoDeEjecutores;     //Hijos de ejecutores  (Ejecutores agrupados)
 
             @Override
             public void onResponse(Call<List<PersonalTecn>> call, retrofit2.Response<List<PersonalTecn>> response) {
@@ -1034,13 +1260,13 @@ public class FragmentTabRepEjecOT extends Fragment {
                     listPersTecn.addAll(response.body());
 
                     //SE CREA LA LISTA DE TIPOS DE EJECUTORES (lista de Padres)
-                    mapaPersTecn = new HashMap<java.lang.String, List<java.lang.String>>();
+                    mapaPersTecn = new HashMap<String, List<String>>();
                     listaTiposDeEjecut = new ArrayList<>();  //Lista de Padres (electrico, mecánico, ete)
 
                     int listaPersTecnSize = listPersTecn.size();
                     for (int i=0; i< listaPersTecnSize; i++){
 
-                        java.lang.String tipoEjecutor  = listPersTecn.get(i).getTipoEjecutor();
+                        String tipoEjecutor  = listPersTecn.get(i).getTipoEjecutor();
 
                         if (!listaTiposDeEjecut.contains(tipoEjecutor)){
                             listaTiposDeEjecut.add(tipoEjecutor);
@@ -1051,14 +1277,14 @@ public class FragmentTabRepEjecOT extends Fragment {
                     int listaTiposEjectSize = listaTiposDeEjecut.size();
                     for (int i=0; i< listaTiposEjectSize; i++){
 
-                        java.lang.String tipoDeEject = listaTiposDeEjecut.get(i);
+                        String tipoDeEject = listaTiposDeEjecut.get(i);
                         grupoDeEjecutores = new ArrayList<>();
 
                         for (int j=0; j< listaPersTecnSize; j++){
 
                             int idEmpleado = listPersTecn.get(j).getIdEmpleado();
-                            java.lang.String tipoEjecut = listPersTecn.get(j).getTipoEjecutor();
-                            java.lang.String nombrePers = listPersTecn.get(j).getNombre() + " (" +idEmpleado+ ")";
+                            String tipoEjecut = listPersTecn.get(j).getTipoEjecutor();
+                            String nombrePers = listPersTecn.get(j).getNombre() + " (" +idEmpleado+ ")";
 
                             if (tipoEjecut.equals(tipoDeEject)){
                                 grupoDeEjecutores.add(nombrePers);
@@ -1086,8 +1312,8 @@ public class FragmentTabRepEjecOT extends Fragment {
     }
 
 
-    public void mostrarVentanaPersTecn(ArrayList<java.lang.String> parentsList, Map<java.lang.String, List<java.lang.String>> persTecnMap){
-    /******************************************************************************************************/
+    public void mostrarVentanaPersTecn(ArrayList<String> parentsList, Map<String, List<String>> persTecnMap){
+        /******************************************************************************************************/
         final View windowArbolPersTecn = getLayoutInflater().inflate(R.layout.window_lista_perstecn, null);
 
         expandableListView = windowArbolPersTecn.findViewById(R.id.expandListViewPersTecn);
@@ -1111,14 +1337,14 @@ public class FragmentTabRepEjecOT extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
 
-                java.lang.String nombrePersTecn = expandableListAdapter.getChild(i, i1).toString();
+                String nombrePersTecn = expandableListAdapter.getChild(i, i1).toString();
                 tvNombrePers.setText(nombrePersTecn);
                 alertDialog.dismiss();
                 return true;
             }
         });
 
-        dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder = new AlertDialog.Builder(requireContext());
         dialogBuilder.setView(windowArbolPersTecn);
         alertDialog = dialogBuilder.create();
         alertDialog.show();
@@ -1127,9 +1353,9 @@ public class FragmentTabRepEjecOT extends Fragment {
 
     int idFila = 0; //Para agregarle un id a la fila
     public void agregarPersTecnTabla(){
-    /*********************************/
-        java.lang.String nombreDeTecn = tvNombrePers.getText().toString();
-        java.lang.String hrsDeTrabajo = etHrsTrabajo2.getText().toString();
+        /*********************************/
+        String nombreDeTecn = tvNombrePers.getText().toString();
+        String hrsDeTrabajo = etHrsTrabajo2.getText().toString();
 
         //int numFila = tblPersTecn.getChildCount() + 1;
         TableRow filaTabla = new TableRow(getContext());
@@ -1138,7 +1364,7 @@ public class FragmentTabRepEjecOT extends Fragment {
 
         if (nombreDeTecn != ""){
             int indOfCorchete = nombreDeTecn.indexOf("(");
-            java.lang.String idPersTecn = nombreDeTecn.substring(indOfCorchete);
+            String idPersTecn = nombreDeTecn.substring(indOfCorchete);
             idPersTecn = idPersTecn.replace("(", "").replace(")", "");
             nombreDeTecn = nombreDeTecn.substring(0, indOfCorchete-1);
 
@@ -1191,13 +1417,13 @@ public class FragmentTabRepEjecOT extends Fragment {
 
 
     public void removerLineaDeTabla(TableRow filaTabla){ //Del personal técnico
-    /**************************************************/
+        /**************************************************/
         tblPersTecn.removeView(filaTabla);
     }
 
 
     public void getListaDeSupervisores(){
-    /***********************************/
+        /***********************************/
         progressBar.setVisibility(View.VISIBLE);
 
         /* RETROFIT */
@@ -1207,7 +1433,7 @@ public class FragmentTabRepEjecOT extends Fragment {
         call.enqueue(new Callback<List<Usuarios_DTO>>() {
 
             final ArrayList<Usuarios_DTO> listaUsuarios = new ArrayList<>();
-            final ArrayList<java.lang.String> listaDeSupervis = new ArrayList<>();
+            final ArrayList<String> listaDeSupervis = new ArrayList<>();
 
             @Override
             public void onResponse(Call<List<Usuarios_DTO>> call, retrofit2.Response<List<Usuarios_DTO>> response) {
@@ -1225,7 +1451,7 @@ public class FragmentTabRepEjecOT extends Fragment {
 
                     for (int i = 0; i < listaUsuariosSize; i++) {
                         Usuarios_DTO usuario = listaUsuarios.get(i);
-                        java.lang.String nombreUsuario = usuario.getNombreUsuario();
+                        String nombreUsuario = usuario.getNombreUsuario();
                         listaDeSupervis.add(nombreUsuario);
                     }
 
@@ -1247,24 +1473,24 @@ public class FragmentTabRepEjecOT extends Fragment {
         });
     }
 
-    public void mostrarVentanaListaSupev(ArrayList<java.lang.String> listaDeSupervis){
-    /***********************************************************************/
+    public void mostrarVentanaListaSupev(ArrayList<String> listaDeSupervis){
+        /***********************************************************************/
         final View windowListaSuperv = getLayoutInflater().inflate(R.layout.window_lista_superv, null);
         ListView listViewSuperv = windowListaSuperv.findViewById(R.id.listViewSuperv);
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, listaDeSupervis);  //
+        ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, listaDeSupervis);  //
         listViewSuperv.setAdapter(arrayAdapter);
 
         listViewSuperv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                java.lang.String nombreSuperv = listaDeSupervis.get(position);
-                tvNombrSupOT.setText(nombreSuperv);
+                String nombreSuperv = listaDeSupervis.get(position);
+                tvNombrSupRut.setText(nombreSuperv);
                 alertDialog2.dismiss();
             }
         });
 
-        final AlertDialog.Builder dialogBuilder2 = new AlertDialog.Builder(getContext());
+        final AlertDialog.Builder dialogBuilder2 = new AlertDialog.Builder(requireContext());
         dialogBuilder2.setView(windowListaSuperv);
 
         alertDialog2 = dialogBuilder2.create();
@@ -1272,137 +1498,17 @@ public class FragmentTabRepEjecOT extends Fragment {
     }
 
 
-    private void getArbolDeFallas(View view) {
-    /*****************************************/
-        progressBar.setVisibility(View.VISIBLE);
-
-        /* RETROFIT */
-        DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-        Call<List<Fallas>> call = service.getListaDeFallas();   // "fallas/getAll";
-
-        call.enqueue(new Callback<List<Fallas>>() {
-            final ArrayList<Fallas> listaDeFallas = new ArrayList<>();
-            Map<java.lang.String, List<java.lang.String>> mapaDeFallas;
-
-            ArrayList<java.lang.String> listaTiposDeFallas;
-            ArrayList<java.lang.String> grupoDeFallasArray;  //Grupo de fallas segun el tipo (mecanicas, electricas, etc)
-
-            @Override
-            public void onResponse(Call<List<Fallas>> call, retrofit2.Response<List<Fallas>> response) {
-
-                /*
-                if (response.code() == 401){  // El token ha expirado
-                    ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                    activCerrarSess.cleanSesionDeUsuario(getContext());
-                    Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
-                    Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                }  */
-
-                if(response.isSuccessful() && response.body() != null){
-                    listaDeFallas.addAll(response.body());
-
-                    //SE CREA LA LISTA DE TIPOS DE FALLAS
-                    mapaDeFallas = new HashMap<java.lang.String, List<java.lang.String>>();
-                    listaTiposDeFallas = new ArrayList<>();
-                    int listaFallasSize = listaDeFallas.size();
-
-                    for (int i=0; i< listaFallasSize; i++){
-
-                        java.lang.String nombreFalla = listaDeFallas.get(i).getNombreFalla();
-                        java.lang.String tipoDeFalla = listaDeFallas.get(i).getTipoFalla();
-
-                        if (!listaTiposDeFallas.contains(tipoDeFalla)){
-                            listaTiposDeFallas.add(tipoDeFalla);
-                        }
-                    }
-
-                    //SE CREAN LA LISTA DE GRUPOS DE FALLAS SEGUN EL TIPO (MECACNICAS, ELECTRICAS, ETC.)
-                    int listaTiposFallasSize = listaTiposDeFallas.size();
-                    for (int i=0; i< listaTiposFallasSize; i++){
-
-                        java.lang.String tipoDeFalla = listaTiposDeFallas.get(i);
-                        grupoDeFallasArray = new ArrayList<>();
-
-                        for (int j=0; j<listaDeFallas.size(); j++){
-
-                            java.lang.String tipoFalla  = listaDeFallas.get(j).getTipoFalla();
-                            java.lang.String nombrFalla = listaDeFallas.get(j).getNombreFalla();
-
-                            if (tipoFalla.equals(tipoDeFalla)){
-                                grupoDeFallasArray.add(nombrFalla);
-                            }
-                        }
-                        mapaDeFallas.put(tipoDeFalla, grupoDeFallasArray);
-                    }
-
-                    progressBar.setVisibility(View.GONE);
-                    mostrarVentanaArbolFallas(listaTiposDeFallas, mapaDeFallas);
-
-                } else {
-                    Toast.makeText(getContext(), "Fallo al cargar el arbol de fallas", Toast.LENGTH_LONG).show();
-                    progressBar.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Fallas>> call, Throwable throwable) {
-                throwable.printStackTrace();
-                Log.d("ErrorResponse: ", throwable.toString());
-
-            }
-        });
-    }
-
-
-    public void mostrarVentanaArbolFallas(ArrayList<java.lang.String> parentsList, Map<java.lang.String, List<java.lang.String>> fallasMap){
-    /*********************************************************************************************************/
-        final View windowArbolFallas = getLayoutInflater().inflate(R.layout.window_arbol_fallas, null);
-
-        expandableListView = windowArbolFallas.findViewById(R.id.expListArbFallas);
-        expandableListAdapter = new ExpandListFallasAdapter(getContext(), parentsList, fallasMap); //
-        expandableListView.setAdapter(expandableListAdapter);
-
-        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            int lastExpandedPosition = -1;
-
-            @Override
-            public void onGroupExpand(int i) {
-                if (lastExpandedPosition != -1 && i != lastExpandedPosition){
-                    expandableListView.collapseGroup(lastExpandedPosition);  //expandableListView.collapseGroup(lastExpandedPosition);
-                }
-
-                lastExpandedPosition = i;
-            }
-        });
-
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                java.lang.String fallaSelected = expandableListAdapter.getChild(i, i1).toString();
-
-                tvNombrFalla.setText(fallaSelected);
-                alertDialog.dismiss();
-                return true;
-            }
-        });
-
-        dialogBuilder = new AlertDialog.Builder(getContext());
-        dialogBuilder.setView(windowArbolFallas);
-        alertDialog = dialogBuilder.create();
-        alertDialog.show();
-    }
-
 
     //******************************************* VARIABLES DEL DATE PICKER
     int dayInt, monthInt, yearInt;
-    java.lang.String datePickerFecha;
+    String datePickerFecha;
 
     private void setFechaDeHoy(){  //Se asume que la fecha de finalización es la fecha de hoy
-    /***************************/
+        /***************************/
         Date fechaHoy = new Date();
-        java.lang.String strDate = dateFormat.format(fechaHoy);
+        String strDate = dateFormat.format(fechaHoy);
 
-        java.lang.String[] dateSplited = strDate.split("/");
+        String[] dateSplited = strDate.split("/");
         dayInt = Integer.parseInt(dateSplited[0]);
         monthInt = Integer.parseInt(dateSplited[1]);
         yearInt = Integer.parseInt(dateSplited[2]);
@@ -1411,7 +1517,7 @@ public class FragmentTabRepEjecOT extends Fragment {
         datePickerFecha = yearInt +"-"+ monthInt +"-"+ dayInt;
 
         DateFormat dateFormat2 = DateFormat.getDateInstance(DateFormat.DEFAULT);
-        java.lang.String strDateFormated = dateFormat2.format(fechaHoy);
+        String strDateFormated = dateFormat2.format(fechaHoy);
         tvFechaFinaliz.setText(strDateFormated);
 
         monthInt = monthInt -1;
@@ -1419,7 +1525,7 @@ public class FragmentTabRepEjecOT extends Fragment {
 
 
     private void openDatePicker(){
-    //****************************
+        //****************************
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -1431,13 +1537,24 @@ public class FragmentTabRepEjecOT extends Fragment {
                 //Guardamos la fecha en formato consultas BD
                 datePickerFecha = year +"-"+ mesSelect +"-"+ dayOfMonth;
 
-                java.lang.String strDateFormated = MetodosStaticos.getFechaStrFormated(datePickerFecha);
+                String strDateFormated = MetodosStaticos.getFechaStrFormated(datePickerFecha);
                 tvFechaFinaliz.setText(strDateFormated);
             }
         }, yearInt, monthInt, dayInt);
 
         datePickerDialog.show();
     }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

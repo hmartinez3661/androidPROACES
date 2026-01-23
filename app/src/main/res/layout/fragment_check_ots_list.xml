@@ -66,10 +66,10 @@
         app:layout_constraintTop_toBottomOf="@+id/divider1"
         app:layout_constraintBottom_toTopOf="@+id/divider2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/spnEjecutores" />
+        app:layout_constraintEnd_toStartOf="@id/tvEjecutoRutDt" />
 
     <Spinner
-        android:id="@+id/spnEjecutores"
+        android:id="@+id/tvEjecutoRutDt"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -89,7 +89,7 @@
         android:layout_marginEnd="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spnEjecutores" />
+        app:layout_constraintTop_toBottomOf="@id/tvEjecutoRutDt" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"

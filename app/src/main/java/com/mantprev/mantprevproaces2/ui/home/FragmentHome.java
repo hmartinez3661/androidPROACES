@@ -249,7 +249,7 @@ public class FragmentHome extends Fragment {
     }
 
     private void getFechaFinal(){
-        /***************************/
+    /***************************/
         Date fechaFinalDt = MetodosStaticos.getFechaDeMananaDt(); //Un dia mas de hoy
         fechaFinal = dateFormat.format(fechaFinalDt);
     }

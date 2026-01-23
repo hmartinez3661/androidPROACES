@@ -1,7 +1,8 @@
 package com.mantprev.mantprevproaces2.ModelosDTO1;
 
-public class OrdenesTrabajo {
+import java.util.Date;
 
+public class OrdenesTrabajo {
     private int idOT;
     private int idEquipo;
     private String numeroOT;
@@ -21,13 +22,12 @@ public class OrdenesTrabajo {
     private int   idReporteEjecuc;
 
 
+
     //Constructor vacio
     public OrdenesTrabajo(){
 
     }
 
-
-    //GETTERS AND SETTERS
     public int getIdOT() {
         return idOT;
     }
@@ -36,20 +36,20 @@ public class OrdenesTrabajo {
         this.idOT = idOT;
     }
 
-    public String getNumeroOT() {
-        return numeroOT;
-    }
-
-    public void setNumeroOT(String numeroOT) {
-        this.numeroOT = numeroOT;
-    }
-
     public int getIdEquipo() {
         return idEquipo;
     }
 
     public void setIdEquipo(int idEquipo) {
         this.idEquipo = idEquipo;
+    }
+
+    public String getNumeroOT() {
+        return numeroOT;
+    }
+
+    public void setNumeroOT(String numeroOT) {
+        this.numeroOT = numeroOT;
     }
 
     public String getNombEquipo() {
@@ -163,6 +163,13 @@ public class OrdenesTrabajo {
     public void setIdReporteEjecuc(int idReporteEjecuc) {
         this.idReporteEjecuc = idReporteEjecuc;
     }
+
+
+
+
+
+
+
 
 
 

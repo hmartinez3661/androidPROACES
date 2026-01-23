@@ -6,14 +6,12 @@ import com.mantprev.mantprevproaces2.ModelosDTO1.Fallas;
 import com.mantprev.mantprevproaces2.ModelosDTO1.OrdenesTrabajo;
 import com.mantprev.mantprevproaces2.ModelosDTO1.PersonalTecn;
 import com.mantprev.mantprevproaces2.ModelosDTO1.RtesEjecOTs;
+import com.mantprev.mantprevproaces2.ModelosDTO1.RtesEjecRuts;
 import com.mantprev.mantprevproaces2.ModelosDTO1.RtesPersEjecOTs;
+import com.mantprev.mantprevproaces2.ModelosDTO1.RtesPersEjecRuts;
 import com.mantprev.mantprevproaces2.ModelosDTO1.RtesServExtEjecOTs;
-import com.mantprev.mantprevproaces2.ModelosDTO1.UserCredentials;
-import com.mantprev.mantprevproaces2.ModelosDTO1.UserRegister;
-import com.mantprev.mantprevproaces2.ModelosDTO1.UserToken;
-import com.mantprev.mantprevproaces2.ModelosDTO1.Usuarios;
-import com.mantprev.mantprevproaces2.ModelosDTO2.Empresas_DTO;
-import com.mantprev.mantprevproaces2.ModelosDTO2.Equipos_DTO;
+import com.mantprev.mantprevproaces2.ModelosDTO1.RtesServExtEjecRuts;
+import com.mantprev.mantprevproaces2.ModelosDTO1.RustEquiposDTO;
 import com.mantprev.mantprevproaces2.ModelosDTO2.Fotos_DTO;
 import com.mantprev.mantprevproaces2.ModelosDTO2.InformacionEmails;
 import com.mantprev.mantprevproaces2.ModelosDTO2.OrdenTrabRevis;
@@ -21,22 +19,16 @@ import com.mantprev.mantprevproaces2.ModelosDTO2.OrdenesTrabDTO_2;
 import com.mantprev.mantprevproaces2.ModelosDTO2.OrdenesTrab_DTO1;
 import com.mantprev.mantprevproaces2.ModelosDTO2.OrdenesTrab_DTO2;
 import com.mantprev.mantprevproaces2.ModelosDTO2.Repte2Datos;
-import com.mantprev.mantprevproaces2.ModelosDTO2.RepteHistMantto_DTO;
-import com.mantprev.mantprevproaces2.ModelosDTO2.ReptesAverias_DTO;
-import com.mantprev.mantprevproaces2.ModelosDTO2.ReptesParoEquips_DTO;
-import com.mantprev.mantprevproaces2.ModelosDTO2.ReptesPersTecn_DTO;
-import com.mantprev.mantprevproaces2.ModelosDTO2.ReptesRecurFallas_DTO;
 import com.mantprev.mantprevproaces2.ModelosDTO2.ReptesReptos_DTO;
 import com.mantprev.mantprevproaces2.ModelosDTO2.Usuarios_DTO;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -248,6 +240,13 @@ Call<String> sendEmailNuevaOrdenTrab (@Body InformacionEmails informEmail);
     @GET("auth/getConf")
     Call<List<ConfigSpinners>> getConfiguracSpinner();  //está aqui para crear el primer usuario Admin
 /*************************/
+
+    @GET("api/configSpn/getConf")
+    Call<List<ConfigSpinners>> getLstaDeEjecutores();
+
+
+
+
 /*
     @POST("api/v1/configSpn/setConfigSpins")
     Call<String> setConfigInicDeSpinns(@Body List<ConfigSpinners> listConfigInicSpinns);
@@ -338,13 +337,52 @@ Call<String> sendEmailNuevaOrdenTrab (@Body InformacionEmails informEmail);
     @GET("api/fotosOTs/fotosCierre/{idOT}")
     Call<List<Fotos_DTO>> getListaFotosCierreOT(@Path("idOT") int idOT);
 
-
-
- /*
     @Multipart
-    @POST("api/v1/fotosOTs/uploadImgEquip/{nombrFoto}")  //Viene de FragmentFichasTecn
-    Call<String> uploadImgEquipoToServer(@Part MultipartBody.Part multiPart, @Path("idOT") String nombrFoto);
- */
+    @POST("api/fotosOTs/uploadImgRpteEjecRut/{idRpteEjecRut}")
+    Call<String> uploadImgRpteEjecRut(@Part MultipartBody.Part multiPart, @Path("idRpteEjecRut") int idRpteEjecRut);
+
+    @GET("api/fotosOTs/fotosRepteEjecRut/{idRepteEjecRut}")
+    Call<List<Fotos_DTO>> getListaFotosRepteEjecRut(@Path("idRepteEjecRut") int idRepteEjecRut);
+
+
+
+    // RUTINAS ***************************************************
+
+    @GET("api/rutinas/getRutinas/{semanaRuts}")
+    Call<List<RustEquiposDTO>> getRutinasSemSelecc(@Path("semanaRuts") String semanaRuts);   //07-2025
+
+    @GET("api/rutinas/renewListRuts/{semanaRuts}/{correlat}/{ejecutor}")
+    Call<List<RustEquiposDTO>> renovarListaRutinas(@Path("semanaRuts") String semanaRuts,
+                                                   @Path("correlat") String correlat, @Path("ejecutor") String ejecutor);
+
+    @GET("api/rutinas/getRutEquip/{idRutEquip}")
+    Call<RustEquiposDTO> getRutinaSelected(@Path("idRutEquip") int idRutEquip);
+
+    @POST("api/rutinas/saveRpteEjecRut")
+    Call<String> guardarReporteEjecRut(@Body RtesEjecRuts repteEjecRut);
+
+    @POST("api/rutinas/saveRptePersEjecRut")
+    Call<String> guardarReptePersEjecRut(@Body RtesPersEjecRuts reptePersEjecRut);
+
+    @POST("api/rutinas/saveRepteReptoRut")
+    Call<String> guardarRepteReptosEjecRut(@Body ReptesReptos_DTO repteRepto);
+
+    @POST("api/rutinas/saveRepteSevExtRut")
+    Call<String> guardarRepteServExtEjecRut(@Body RtesServExtEjecRuts servExtDts);
+
+    @GET("api/rutinas/getRepteEjecRut/{idRteEjecRut}")
+    Call<RtesEjecRuts> getRepteEjecRutina(@Path("idRteEjecRut") int idRteEjecRut);
+
+    @GET("api/rutinas/getListPerEjecRut/{idRteEjecRut}")
+    Call<List<RtesPersEjecRuts>> getListPersEjecRutina(@Path("idRteEjecRut") int idRteEjecRut);
+
+    @GET("api/rutinas/getListReptosEjecRut/{idRteEjecRut}")
+    Call<List<ReptesReptos_DTO>> getListReptosEjecRutina(@Path("idRteEjecRut") int idRteEjecRut);
+
+    @GET("api/rutinas/getListSevExtEjecRut/{idRteEjecRut}")
+    Call<List<RtesServExtEjecRuts>> getListServExtEjecRutina(@Path("idRteEjecRut") int idRteEjecRut);
+
+
 
 
 

@@ -35,6 +35,12 @@
             android:icon="@drawable/cerrar_ots"
             android:title="@string/menu_reportEjecsOTs" />
 
+        <item
+            android:id="@+id/fragmentListaRuts"
+            android:icon="@drawable/cerrar_ots"
+            android:title="@string/menu_listaRuts" />
+
+
     </group>
 
 

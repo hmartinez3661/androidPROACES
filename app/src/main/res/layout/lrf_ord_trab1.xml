@@ -39,7 +39,7 @@
                     android:background="#9E9CA2"/>
 
                 <TextView
-                    android:id="@+id/tvNumOT"
+                    android:id="@+id/tvNumRut"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tblHeadNumOT"
@@ -114,7 +114,7 @@
             android:layout_below="@+id/linearLayout1"/>
 
         <TextView
-            android:id="@+id/tvTrabSolic"
+            android:id="@+id/tvTrabRut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvTrabSolicLabel"
@@ -127,7 +127,7 @@
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_below="@+id/tvTrabSolic">
+            android:layout_below="@+id/tvTrabRut">
 
             <TextView
                 android:layout_width="match_parent"
@@ -168,7 +168,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_below="@+id/tvTrabSolic"
+            android:layout_below="@+id/tvTrabRut"
             android:layout_toEndOf="@+id/linearLayout2">
 
             <TextView

@@ -77,10 +77,10 @@ public class OrdTrabAdapter extends RecyclerView.Adapter <OrdTrabAdapter.ViewHol
         public ViewHolderOTs(@NonNull View itemView) {
             super(itemView);
 
-            tvNumOT = (TextView) itemView.findViewById(R.id.tvNumOT);
+            tvNumOT = (TextView) itemView.findViewById(R.id.tvNumRut);
             tvNombSolic = (TextView) itemView.findViewById(R.id.tvNombSolic);
             tvFechaOT = (TextView) itemView.findViewById(R.id.tvFechaOT);
-            tvTrabSolicDetalle = (TextView) itemView.findViewById(R.id.tvTrabSolic);
+            tvTrabSolicDetalle = (TextView) itemView.findViewById(R.id.tvTrabRut);
             tvNombreEquipo = (TextView) itemView.findViewById(R.id.tvNombreEquipo);
             tvEjecutor = (TextView) itemView.findViewById(R.id.tvEjecutor);
             tvPrioridad = (TextView) itemView.findViewById(R.id.tvPrioridad);

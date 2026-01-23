@@ -20,7 +20,7 @@
         android:layout_marginEnd="10dp">
 
         <TextView
-            android:id="@+id/tvNumOT"
+            android:id="@+id/tvNumRut"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:text="@string/tvNumOT"
@@ -100,7 +100,7 @@
             </LinearLayout>
 
             <EditText
-                android:id="@+id/etTrabSolic"
+                android:id="@+id/etTrabajoRut"
                 android:layout_width="0dp"
                 android:layout_height="75dp"
                 android:gravity="top"
@@ -134,12 +134,12 @@
                 android:textAlignment="textEnd"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline1"
-                app:layout_constraintTop_toBottomOf="@+id/etTrabSolic"
+                app:layout_constraintTop_toBottomOf="@+id/etTrabajoRut"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0.02"/>
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/tvFrecuenc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -155,26 +155,26 @@
                 app:layout_constraintVertical_bias="0.035"/>
 
             <Spinner
-                android:id="@+id/spnEjecutores"
+                android:id="@+id/tvEjecutoRutDt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/style_spinners"
-                app:layout_constraintTop_toBottomOf="@+id/etTrabSolic"
+                app:layout_constraintTop_toBottomOf="@+id/etTrabajoRut"
                 app:layout_constraintStart_toStartOf="@id/guideline1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0.015"/>
 
             <Spinner
-                android:id="@+id/spnPriorids"
+                android:id="@+id/tvFrecucRutDt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/style_spinners"
-                app:layout_constraintTop_toBottomOf="@+id/spnEjecutores"
+                app:layout_constraintTop_toBottomOf="@+id/tvEjecutoRutDt"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guideline1"
@@ -190,7 +190,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spnPriorids"
+                app:layout_constraintTop_toBottomOf="@id/tvFrecucRutDt"
                 app:layout_constraintVertical_bias="0.02"/>
 
             <TextView
@@ -379,7 +379,7 @@
                 app:layout_constraintVertical_bias="0.03"/>
 
             <TextView
-                android:id="@+id/tvIndicPrev"
+                android:id="@+id/tvMedidasSegur"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/tvIndicPrev"
@@ -395,7 +395,7 @@
                 app:layout_constraintVertical_bias="0.02"/>
 
             <EditText
-                android:id="@+id/etIndicPrev"
+                android:id="@+id/etMedidadSegur"
                 android:layout_width="0dp"
                 android:layout_height="75dp"
                 android:gravity="top"
@@ -407,7 +407,7 @@
                 android:background="@drawable/style_bordes_edittex1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvIndicPrev"
+                app:layout_constraintTop_toBottomOf="@id/tvMedidasSegur"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0.02"/>
 
@@ -423,7 +423,7 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etIndicPrev"
+                app:layout_constraintTop_toBottomOf="@+id/etMedidadSegur"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0.03"/>
 
@@ -472,7 +472,7 @@
                 app:layout_constraintBottom_toBottomOf="parent" />
 
             <TextView
-                android:id="@+id/tvIdOT"
+                android:id="@+id/tvIdRepteEjec"
                 android:layout_width="60dp"
                 android:layout_height="30dp"
                 android:visibility="invisible"

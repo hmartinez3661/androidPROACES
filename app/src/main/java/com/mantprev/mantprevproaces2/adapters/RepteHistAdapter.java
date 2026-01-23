@@ -62,8 +62,8 @@ public class RepteHistAdapter extends RecyclerView.Adapter<RepteHistAdapter.View
         public ViewHolderRH(@NonNull View itemView) {
             super(itemView);
 
-            tvNumOT = (TextView) itemView.findViewById(R.id.tvNumOT);
-            tvTrabSolicit = (TextView) itemView.findViewById(R.id.tvTrabSolic);
+            tvNumOT = (TextView) itemView.findViewById(R.id.tvNumRut);
+            tvTrabSolicit = (TextView) itemView.findViewById(R.id.tvTrabRut);
             tvNombrEquip  = (TextView) itemView.findViewById(R.id.tvNombreEquipo);
             tvFechaIngrOT = (TextView) itemView.findViewById(R.id.tvFechaOT);
             tvPersSolicit = (TextView) itemView.findViewById(R.id.tvPersSolicito);

@@ -66,7 +66,7 @@ public class FragmentReportEjecList extends Fragment {
         root = inflater.inflate(R.layout.fragment_report_ejec_list, container, false);
 
         tvIndicaciones2 = (TextView) root.findViewById(R.id.tvIndicaciones2);
-        spinnerEjecut = (Spinner) root.findViewById(R.id.spnEjecutores);
+        spinnerEjecut = (Spinner) root.findViewById(R.id.tvEjecutoRutDt);
         progressBar = (ProgressBar) root.findViewById(R.id.progresBar);
 
         recyclerView = (RecyclerView) root.findViewById(R.id.reciclerView);

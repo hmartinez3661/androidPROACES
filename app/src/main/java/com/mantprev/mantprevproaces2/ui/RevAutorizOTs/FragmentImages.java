@@ -28,16 +28,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 
-public class FragmentImgsOT extends Fragment implements VerFotosListener{
+public class FragmentImages extends Fragment implements VerFotosListener{
 
     String idOT = MetodosStaticos.idOT;
     String numOT = MetodosStaticos.numOT;
     TextView tvEncabesado;
     RecyclerView recyclerViewFotosOT;
     //ProgressBar progressBar;
-    View vista;
+    View root;
 
-    public FragmentImgsOT() {
+    public FragmentImages() {
         // Required empty public constructor
     }
 
@@ -51,24 +51,22 @@ public class FragmentImgsOT extends Fragment implements VerFotosListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        vista = inflater.inflate(R.layout.fragment_imgs_ot, container, false);
+        root = inflater.inflate(R.layout.fragment_images, container, false);
 
-        tvEncabesado = (TextView) vista.findViewById(R.id.tvEncabesado);
-        recyclerViewFotosOT = (RecyclerView) vista.findViewById(R.id.rvFotosOT);
+        tvEncabesado = (TextView) root.findViewById(R.id.tvEncabesado);
+        recyclerViewFotosOT = (RecyclerView) root.findViewById(R.id.rvFotosOT);
         recyclerViewFotosOT.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
 
-        String tituloVent = "Pictures of WO#: " + numOT;
-        tvEncabesado.setText(tituloVent);
+
         getListaNombresFotos();
 
-        return vista;
+        return root;
     }
 
     private final ArrayList<String> listaNamesFotosOT = new ArrayList<>();
     private void getListaNombresFotos(){
     /***********************************/
-        String idOT = MetodosStaticos.idOT;
-        int idOrdTrab = Integer.parseInt(idOT);
+
         VerFotosListener verFotosListener = this;
 
         /* RETROFIT */
@@ -77,11 +75,26 @@ public class FragmentImgsOT extends Fragment implements VerFotosListener{
 
         if (MetodosStaticos.fotosDeCierroOT.equals("Yes")){
             //Muestra las fotos del ciere de OT
+            String tituloVent = "Pictures of WO#: " + numOT;
+            tvEncabesado.setText(tituloVent);
+            String idOT = MetodosStaticos.idOT;
+            int idOrdTrab = Integer.parseInt(idOT);
             call = service.getListaFotosCierreOT(idOrdTrab);    //"fotosOTs/fotosCierre/" + idOT;
 
-        } else {
+        } else if (MetodosStaticos.fotosDeCierroOT.equals("No")){
             //Muestra las Fotos que se anexaron en al generar la OT
+            String tituloVent = "Pictures of WO#: " + numOT;
+            tvEncabesado.setText(tituloVent);
+            String idOT = MetodosStaticos.idOT;
+            int idOrdTrab = Integer.parseInt(idOT);
             call = service.getListaFotosIngresoOT(idOrdTrab);   //"fotosOTs/fotosIngreso/" + idOT;
+
+        } else if (MetodosStaticos.fotosDeCierroOT.equals("Rut_repteEjec")) {
+            //Muestra las Fotos que se anexaron en el repte ejecución de Rut
+            String tituloVent = "Fotos ejecucuón Rutina";
+            tvEncabesado.setText(tituloVent);
+            int idRepteEjecRut = MetodosStaticos.idRepteEjecRut;
+            call = service.getListaFotosRepteEjecRut(idRepteEjecRut);   //"fotosOTs/fotosIngreso/" + idOT;
         }
 
         call.enqueue(new Callback<List<Fotos_DTO>>() {
@@ -122,7 +135,7 @@ public class FragmentImgsOT extends Fragment implements VerFotosListener{
     /************************************/
         String nombreFoto = listaNamesFotosOT.get(fotoPos);
         MetodosStaticos.nombreFotoMostrar = nombreFoto;
-        Navigation.findNavController(vista).navigate(R.id.fragmentVerImgOT);
+        Navigation.findNavController(root).navigate(R.id.fragmentVerImages);
     }
 
 

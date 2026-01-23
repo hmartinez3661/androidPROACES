@@ -1,22 +1,10 @@
 package com.mantprev.mantprevproaces2.utilities;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.OpenableColumns;
-import android.util.Log;
+import com.mantprev.mantprevproaces2.ModelosDTO1.RustEquiposDTO;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,10 +18,60 @@ public class MetodosStaticos {
     public static String fotosDeCierroOT = "No";
     public static String idOT  = "";
     public static String numOT = "";
+    public static String numRutina = "";
+    public static String semanaRuts = "";
+    public static int idRutEquip = 0;
+    public static int idEquipo = 0;
     public static int idRepteEjecOT = 0;
+    public static int idRepteEjecRut = 0;
     public static String nombreFotoMostrar = "";
 
 
+    public static String getDiaInicioSemSelecc(String semSelecc){
+    /***********************************************************/
+        String[] dtsWeekSelecc = semSelecc.split("-");
+        int intAnoSelecc = Integer.parseInt(dtsWeekSelecc[0]);
+        int intWeekSelec = Integer.parseInt(dtsWeekSelecc[1]);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+
+        // Configurar el año y la semana del año
+        calendar.set(Calendar.YEAR, intAnoSelecc);
+        calendar.set(Calendar.WEEK_OF_YEAR, intWeekSelec);
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+        Date fechaPrimerDiaSem = calendar.getTime();
+        String fechaString = dateFormat2.format(fechaPrimerDiaSem);  //yyyy-MM-yy
+        String formatDateSt = getStrDateFormated(fechaString);       //14 Jun. 2025
+
+        return formatDateSt.substring(0, 6);   //14 Jun.
+    }
+
+    public static String getDiaFinalSemSelecc(String semSelecc){
+    /***********************************************************/
+        String[] dtsWeekSelecc = semSelecc.split("-");
+        int intAnoSelecc = Integer.parseInt(dtsWeekSelecc[0]);
+        int intWeekSelec = Integer.parseInt(dtsWeekSelecc[1]);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+
+        // Configurar el año y la semana del año
+        calendar.set(Calendar.YEAR, intAnoSelecc);
+        calendar.set(Calendar.WEEK_OF_YEAR, intWeekSelec);
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+        calendar.add(Calendar.DATE,6);
+        Date fechaUltimoDiaSem = calendar.getTime();
+
+        String fechaString = dateFormat2.format(fechaUltimoDiaSem);  //yyyy-MM-yy
+        String formatDateSt = getStrDateFormated(fechaString);       //14 Jun. 2025
+
+        return formatDateSt.substring(0, 6);   //14 Jun.
+    }
 
     public static List<String> getFechaInicioAndFinalMesSelecc(String mesSelecc){
     /***********************************************************************/
@@ -45,26 +83,19 @@ public class MetodosStaticos {
         calendario.set(Calendar.YEAR, intAnoSelecc);
         calendario.set(Calendar.MONTH, intMesSelecc - 1);
 
-        int primerDiaMes = 1;
         int ultimoDiaMes = calendario.getActualMaximum(Calendar.DATE);  //"yyyy-MM-dd"
 
-        String dateStr1  = "01/" + intMesSelecc +"/"+ intAnoSelecc;
-        String dateStr1A = intAnoSelecc +"-"+ intMesSelecc +"-01";
-
-        String dateStr2  = ultimoDiaMes + "/" + intMesSelecc +"/"+ intAnoSelecc;
-        String dateStr2A = intAnoSelecc +"-"+ intMesSelecc +"-"+ ultimoDiaMes;
+        String dateStr1 = intAnoSelecc +"-"+ intMesSelecc +"-01";
+        String dateStr2 = intAnoSelecc +"-"+ intMesSelecc +"-"+ ultimoDiaMes;
 
         if(intMesSelecc < 10) {
-            dateStr1  = "01/0" + intMesSelecc +"/"+ intAnoSelecc;
-            dateStr1A = intAnoSelecc +"-0"+ intMesSelecc +"-01";
-
-            dateStr2  = ultimoDiaMes + "/0" + intMesSelecc +"/"+ intAnoSelecc;
-            dateStr2A = intAnoSelecc  + "-0" + intMesSelecc +"-"+ ultimoDiaMes;
+            dateStr1 = intAnoSelecc +"-0"+ intMesSelecc +"-01";
+            dateStr2 = intAnoSelecc  + "-0" + intMesSelecc +"-"+ ultimoDiaMes;
         }
 
         List<String> fechasMesSelecc = new ArrayList<String>();
-        fechasMesSelecc.add(dateStr1A);
-        fechasMesSelecc.add(dateStr2A);
+        fechasMesSelecc.add(dateStr1);
+        fechasMesSelecc.add(dateStr2);
 
         return fechasMesSelecc;
     }
@@ -159,9 +190,8 @@ public class MetodosStaticos {
         return numeroMes;
     }
 
-
     public static Date getFechaDeMananaDt(){
-        /*************************************/
+    /*************************************/
         Calendar fechaInicial = Calendar.getInstance();
         fechaInicial.add(Calendar.DAY_OF_MONTH, 1); //Le suma un dia a la fecha de hoy
         return fechaInicial.getTime(); //Retorna la fecha de hoy mas un dia adicional
@@ -170,7 +200,8 @@ public class MetodosStaticos {
     public static String getFechaDeMananaStr(){
     /*************************************/
         Calendar fechaInicial = Calendar.getInstance();
-        fechaInicial.add(Calendar.DAY_OF_MONTH, 1); //Le suma un dia a la fecha de hoy
+        fechaInicial.clear();
+        //fechaInicial.add(Calendar.DAY_OF_MONTH, 1); //Le suma un dia a la fecha de hoy
         Date fechaManana = fechaInicial.getTime();
 
         return dateFormat2.format(fechaManana);  // Devuelve yyyy-MM-yy
@@ -195,15 +226,13 @@ public class MetodosStaticos {
             e.printStackTrace();
         }
 
-        return formatFecha.format(fechaEjec);
+        return formatFecha.format(fechaEjec);   //14 Jun. 2025
     }
-
 
     public static String getStringFromDate (Date fechaDate) {
     /******************************************************/
         return dateFormat2.format(fechaDate);  //yyyy-MM-yy
     }
-
 
     public static Date getFechaUltimos30Dias() {
     /********************************************/
@@ -234,33 +263,6 @@ public class MetodosStaticos {
         return fechaDate;
     }
 
-
-    public static String getStrDateProxs45dias() {
-    /***************************************/
-        Calendar fechaInicial = Calendar.getInstance();
-        fechaInicial.add(Calendar.DAY_OF_MONTH, 45); //Proximos 45 days from today
-        Date fecha1 = fechaInicial.getTime();
-
-        return dateFormat2.format(fecha1);
-    }
-
-    public static Date getFechaUltimos365Dias() {
-    /********************************************/
-        Calendar fechaInicial = Calendar.getInstance();
-        fechaInicial.add(Calendar.DAY_OF_MONTH, -365); // Last 365 days from today
-        Date fecha1 = fechaInicial.getTime();
-        Date fechaSinHora = null;
-
-        try {
-            fechaSinHora = dateFormat.parse(dateFormat.format(fecha1));
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return fechaSinHora; // Para que la busqueda empiece desde las 0:0 horas del dia seleccionado
-    }
-
-
     public static String getFechaStrFormated(String fechaStr) {
     /**********************************************************/
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -279,83 +281,19 @@ public class MetodosStaticos {
         return strDateFormated;
     }
 
+    public static int getCantidadRutsConRepteEjec(List<RustEquiposDTO> listaRutsEquips){
+    /**********************************************************************************/
+        int cantRutinas = listaRutsEquips.size();
+        int cantRutsReptds = 0;
 
-    public static String getUltimoDiaMes(String mesDelRepte) {  //Ejemplo: 05-2022
-    /*********************************************************/
-        String mesRepte = "01/" + mesDelRepte.replace("-", "/");
-
-        Calendar fecha = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-        try {
-            fecha.setTime(sdf.parse(mesRepte));
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        fecha.add(Calendar.MONTH, 1);
-        fecha.set(Calendar.DATE, 1);
-        fecha.add(Calendar.DATE, -1);
-
-        int lastDayOfMonth = fecha.get(Calendar.DAY_OF_MONTH);
-
-        String ultDiaMes = "";
-        if (lastDayOfMonth < 10) {
-            ultDiaMes = "0" + lastDayOfMonth;
-        } else {
-            ultDiaMes = Integer.toString(lastDayOfMonth);
-        }
-
-        return  ultDiaMes + "/" + mesDelRepte.replace("-", "/");
-    }
-
-    //*****************************************************
-
-
-    public static File getFile(Context context, Uri uri) throws IOException {
-    /***********************************************************************/
-        File destinationFile = new File(context.getFilesDir().getPath() + File.separatorChar + queryName(context, uri));
-
-        try (InputStream inputStream = context.getContentResolver().openInputStream(uri)) {
-            createFileFromStream(inputStream, destinationFile);
-
-        } catch (Exception ex) {
-            Log.e("Save File", ex.getMessage());
-            ex.printStackTrace();
-        }
-        return destinationFile;
-    }
-
-    public static void createFileFromStream(InputStream inputStream, File destinationFile) {
-    /***************************************************************************/
-        try (OutputStream outputStream = new FileOutputStream(destinationFile)) {
-            byte[] buffer = new byte[4096];
-            int length;
-
-            while ((length = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
+        for (int i=0; i<cantRutinas; i++){
+            int idRepEjc = listaRutsEquips.get(i).getIdRepteEjec();
+            if (idRepEjc > 0){
+                cantRutsReptds ++;
             }
-            outputStream.flush();
-
-        } catch (Exception ex) {
-            Log.e("Save File", ex.getMessage());
-            ex.printStackTrace();
         }
+        return cantRutsReptds;
     }
-
-
-    private static String queryName(Context context, Uri uri) {
-    /*********************************************************/
-        Cursor returnCursor =  context.getContentResolver().query(uri, null, null, null, null);
-        assert returnCursor != null;
-        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-        returnCursor.moveToFirst();
-        String name = returnCursor.getString(nameIndex);
-        returnCursor.close();
-        return name;
-    }
-
 
 
 

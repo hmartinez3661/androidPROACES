@@ -11,7 +11,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.mantprev.mantprevproaces2.R;
-import com.mantprev.mantprevproaces2.adapters.VerOrdTrabTabsAdapter;
+import com.mantprev.mantprevproaces2.adapters.OrdTrabTabsAdapter;
 import com.mantprev.mantprevproaces2.utilities.MetodosStaticos;
 
 
@@ -43,7 +43,7 @@ public class FragmentVerOtTabs extends Fragment {
 
         tabLayout = (TabLayout) root.findViewById(R.id.tabLayoutId);
         viewPager = (ViewPager2) root.findViewById(R.id.viewPagerId);
-        VerOrdTrabTabsAdapter verOrdTrabTabsAdapter = new VerOrdTrabTabsAdapter(this);
+        OrdTrabTabsAdapter verOrdTrabTabsAdapter = new OrdTrabTabsAdapter(this);
 
         viewPager.setAdapter(verOrdTrabTabsAdapter);
 

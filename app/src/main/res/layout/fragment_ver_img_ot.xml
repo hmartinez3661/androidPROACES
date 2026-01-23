@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/tapices05"
-    tools:context=".ui.RevAutorizOTs.fragmentVerImgOT">
+    tools:context=".ui.RevAutorizOTs.fragmentVerImages">
 
     <com.ortiz.touchview.TouchImageView
         android:id="@+id/tivVerFoto"

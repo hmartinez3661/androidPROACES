@@ -20,7 +20,7 @@
     <string name="revNvasOTsList">Revisar las nuevas OTs</string>
     <string name="revNvasOTsIndiv">Revisar Nueva OT</string>
     <string name="fragReportEjecOTs">Reportar la ejecución de OTs</string>
-    <string name="fragFotosDeOTs">Fotos anexadas a OT</string>
+    <string name="fragFotosDeOTs">Visor de fotos</string>
     <string name="fragVerOrdTrab">Visualizar Ord. Trab.</string>
     <string name="fragRecurFallas">Recurrencia de Fallas</string>
     <string name="fragTendenAverias">Tendencia Averías en Equipos</string>
@@ -43,7 +43,7 @@
     <string name="fragPersTecnico">Personal Técnico</string>
     <string name="fragNombresFallas">Nombres de Fallas</string>
     <string name="fragRecupPassw">Recuperación Password</string>
-    <string name="fragShowFoto">Viendo fotos OT</string>
+    <string name="fragShowFoto">Viendo fotos</string>
 
 
     <!--  MENU HOME -->
@@ -71,6 +71,7 @@
     <string name="menu_verMisOTs">Ver mis Ord. de Trabajo</string>
     <string name="menu_revisarNvasOTs">Autorizar nuevas OTs</string>
     <string name="menu_reportEjecsOTs">Cerrar Ordenes Trab.</string>
+    <string name="menu_listaRuts">Rutinas mantto. preventivo</string>
     <string name="msg_IndicesMantto">Indices de Mantenimiento</string>
     <string name="menu_recurFallas">Recurrencia de Fallas</string>
     <string name="menu_tendecAverias">Tendencia de Averías</string>
@@ -133,7 +134,7 @@
     <string name="tvSpnSelecPriorid">Selecc. Prioridad:</string>
     <string name="tvAnexFotos">Anexar fotos a la OT</string>
     <string name="btnEnviarOT">Enviar OT</string>
-    <string name="windowEquips">SELECCIONE EL EQUIPO DE LA OT</string>
+    <string name="windowEquips">SELECCIONE UN EQUIPO</string>
     <string name="exitoOT">La Orden de Trabajo fue enviada con éxito!</string>
     <string name="failSentOT">Fallo al enviar la Orden de Trabajo!</string>
 
@@ -160,6 +161,33 @@
     <string name="tvFechaFinal">Fecha Final:</string>
     <string name="btnRecargar">Recargar</string>
     <string name="tvSpnEjecutor">Filtrar p/Ejecutores</string>
+
+
+    <!-- FRAGMENTS LISTAS y Reporte Ejecut. DE Rutinas  -->
+    <string name="tocarToSelec">Toque para seleccionar</string>
+    <string name="tvRutinasLista">Lista Rutinas semana seleccionada</string>
+    <string name="tvRutsIndicac">Seleccione la semana del año, equipo y ejecutor</string>
+    <string name="tvSemanaRuts">Semana Ruts:</string>
+    <string name="tvEjecutRuts">Ejecutor:</string>
+    <string name="windowEjecut">SELECCIONE EJECUTOR</string>
+    <string name="headNumRut"># RUT:</string>
+    <string name="headSemana">Semana:</string>
+    <string name="headTrabajo">TRABAJO REQUERIDO:</string>
+    <string name="frecuRut">Frecuencia:</string>
+    <string name="headFrecRut">FRECUENCIA:</string>
+    <string name="tabRutina">Rutina Info.</string>
+    <string name="tabRteEjecRut">Reporte ejecución Rutina</string>
+    <string name="informRut">INFORMACION DE RUTINA</string>
+    <string name="ejectRutina">Ejecutor Rutina:</string>
+    <string name="persEstimado">Pers. estimado:</string>
+    <string name="tmpoEsitmado">Tiempo estimado:</string>
+    <string name="tvEstadoEquip">Estado Equipo:</string>
+    <string name="tvMedidasSegur">Medidad de Seguridad:</string>
+    <string name="tvCoodinPrev">Coodinaciones previas:</string>
+    <string name="tvPrepPrev">Preparaciones previas:</string>
+    <string name="tvIndicRteEjec">Ingrese la información del reporte de ejecucuón de la Rutina:</string>
+    <string name="tvSupervRut">Supervisor de Rut:</string>
+
 
     <!-- MENSAJES REVISION/AUTORIZACION DE OTs  -->
     <string name="tituloVent01">Revise, acepte o modifique la información proporcionada</string>
@@ -231,7 +259,7 @@
     <string name="tblHeadNombServ">Nombre Servicio</string>
     <string name="tvAgregarFotosCierre">Agregar fotos del tabajo hecho</string>
     <string name="btnGuardaRepEjec">Guardar reporte ejecución</string>
-    <string name="btnGuardaRepEjecOK">Ëxito !!!, Se guardo el Reporte de Ejecución OT</string>
+    <string name="btnGuardaRepEjecOK">Ëxito !!!, Se guardo el Reporte de Ejecución</string>
     <string name="btnGuardaRepEjecNot">NO SE GUARDO REPORTE EJECUCION OT</string>
     <string name="mensajeCalidad">La calidad del trabajo no puede ser mayor que 10.0</string>
     <string name="ventanaFallas">SELECCIONE NOMBRE FALLA</string>

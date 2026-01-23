@@ -1,7 +1,6 @@
 package com.mantprev.mantprevproaces2.ui.listadoOTs;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,15 +50,15 @@ public class FragmentListadoOTs extends Fragment {
 
     private FragmentListadoOtsBinding binding;
 
-    TextView tvIndicaciones, tvEquipArea, tvCorrelat, tvMesListado;
-    String esListaGenOTs = "Si";
-    ExpandableListView expandableListView;
-    ExpandableListAdapter expandableListAdapter;
-    AlertDialog.Builder dialogBuilder;
-    AlertDialog alertDialog;
-    RecyclerView recyclerView;
-    ProgressBar progressBar;
-    View root;
+    private TextView tvIndicaciones, tvEquipArea, tvCorrelat, tvMesListado;
+    private String esListaGenOTs = "Si";
+    private ExpandableListView expandableListView;
+    private ExpandableListAdapter expandableListAdapter;
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog alertDialog;
+    private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private View root;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -198,7 +197,6 @@ public class FragmentListadoOTs extends Fragment {
 
                 if(response.isSuccessful() && response.body() != null){
                     listaOrdenesTrab = new ArrayList<>();
-                    assert response.body() != null;
                     listaOrdenesTrab.addAll(response.body());
 
                     //Coloca el cantidad de OTs de la lista
