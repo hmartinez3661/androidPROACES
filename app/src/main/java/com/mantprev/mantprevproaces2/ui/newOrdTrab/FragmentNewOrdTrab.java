@@ -169,12 +169,10 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
                 } */
 
                 if(response.isSuccessful() && response.body() != null){
-                    listaConfSpns.addAll(response.body());
-                    if (listaConfSpns.size() > 1){
-                        //Se actualiza el status de Nueva OT en el idioa del usuario
-                        java.lang.String statusNvaOT = listaConfSpns.get(1).getEstatusOTs();
-                        StaticConfig.statusNvaOT = statusNvaOT;
 
+                    listaConfSpns.addAll(response.body());
+
+                    if (listaConfSpns.size() > 1){
                         int listaConfigSpnnSize = listaConfSpns.size();
                         for (int i = 0; i < listaConfigSpnnSize; i++) {
 

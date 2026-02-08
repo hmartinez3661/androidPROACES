@@ -470,7 +470,7 @@
 
                     <EditText
                         android:id="@+id/etHrsTrabajo2"
-                        android:layout_width="40dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:padding="7dp"
                         android:textSize="15sp"
@@ -486,19 +486,12 @@
                         app:layout_constraintStart_toEndOf="@+id/guideline3"
                         app:layout_constraintTop_toBottomOf="@+id/tvEncabesadoHrs"/>
 
-                    <TextView
+                    <ImageButton
                         android:id="@+id/ibAgregarTecn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:textSize="15sp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
+                        android:layout_width="30dp"
+                        android:layout_height="34dp"
+                        android:src="@drawable/fecha"
                         android:layout_marginTop="25dp"
-                        android:text="@string/tvTXTagregarAtabla"
-                        android:textStyle="bold"
-                        android:textColor="#1369AD"
-                        android:textAlignment="center"
                         app:layout_constraintStart_toEndOf="@+id/etHrsTrabajo2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
@@ -653,7 +646,7 @@
 
                     <EditText
                         android:id="@+id/etCostoRepsto"
-                        android:layout_width="40dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:layout_marginStart="5dp"
@@ -669,19 +662,12 @@
                         app:layout_constraintStart_toEndOf="@+id/guideline4"
                         app:layout_constraintTop_toBottomOf="@+id/tvEncabesCosto" />
 
-                    <TextView
+                    <ImageButton
                         android:id="@+id/ibAgregReptoTbl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:textSize="15sp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="5dp"
+                        android:layout_width="30dp"
+                        android:layout_height="34dp"
+                        android:src="@drawable/fecha"
                         android:layout_marginTop="25dp"
-                        android:text="@string/tvTXTagregarAtabla"
-                        android:textStyle="bold"
-                        android:textColor="#1369AD"
-                        android:textAlignment="center"
                         app:layout_constraintStart_toEndOf="@+id/etCostoRepsto"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
@@ -832,7 +818,7 @@
 
                     <EditText
                         android:id="@+id/etCostoServExt"
-                        android:layout_width="40dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/style_edittex_tbls"
@@ -848,19 +834,12 @@
                         app:layout_constraintStart_toEndOf="@+id/guideline5"
                         app:layout_constraintTop_toBottomOf="@+id/tvEncabesCostoServExt" />
 
-                    <TextView
+                    <ImageButton
                         android:id="@+id/ibAgregServExtTbl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="7dp"
-                        android:textSize="15sp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="5dp"
+                        android:layout_width="30dp"
+                        android:layout_height="34dp"
+                        android:src="@drawable/fecha"
                         android:layout_marginTop="25dp"
-                        android:text="@string/tvTXTagregarAtabla"
-                        android:textStyle="bold"
-                        android:textColor="#1369AD"
-                        android:textAlignment="textEnd"
                         app:layout_constraintStart_toEndOf="@+id/etCostoServExt"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>

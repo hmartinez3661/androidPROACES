@@ -103,6 +103,8 @@ public class RutinasAdapter extends RecyclerView.Adapter <RutinasAdapter.ViewHol
 
             if(idRepteEjec == 0){
                 tvEstatuaAct.setTextColor(Color.RED);
+            } else {
+                tvEstatuaAct.setTextColor(Color.BLACK);
             }
         }
     }

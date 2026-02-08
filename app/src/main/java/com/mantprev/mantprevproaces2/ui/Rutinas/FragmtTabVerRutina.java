@@ -101,6 +101,8 @@ public class FragmtTabVerRutina extends Fragment {
                     etCoodinPrev.setText(coordinacPr);
                     etPreparPrev.setText(preparacRpv);
 
+                    MetodosStaticos.nombreEquipo = nombreEquip;
+
                 } else {
                     Toast.makeText(getContext(), "No hay rutina que mostrar....", Toast.LENGTH_LONG).show();
                 }

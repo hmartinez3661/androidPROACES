@@ -25,6 +25,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
@@ -127,17 +128,17 @@ public class FragmentTabRepEjecOT extends Fragment {
         etNombRecivTrab = (EditText) root.findViewById(R.id.etNombRecivTrab);
         tvNombrePers = (TextView) root.findViewById(R.id.tvNombrePers);
         etHrsTrabajo2 = (EditText) root.findViewById(R.id.etHrsTrabajo2);
-        TextView tvAgregPerTecTbl = (TextView) root.findViewById(R.id.ibAgregarTecn);
+        ImageButton ibAgregPerTecTbl = (ImageButton) root.findViewById(R.id.ibAgregarTecn);
         tblPersTecn = (TableLayout) root.findViewById(R.id.tblPersTecn);
 
         etNombreRepsto = (EditText) root.findViewById(R.id.etNombreRepsto);
-        TextView tvAgregReptoTbl = (TextView) root.findViewById(R.id.ibAgregReptoTbl);
+        ImageButton ibAgregReptoTbl = (ImageButton) root.findViewById(R.id.ibAgregReptoTbl);
         etCostoRepsto = (EditText) root.findViewById(R.id.etCostoRepsto);
         tblRepuestos = (TableLayout) root.findViewById(R.id.tblRepuestos);
 
         etNombreServExt = (EditText) root.findViewById(R.id.etNombreServExt);
         etCostoServExt = (EditText) root.findViewById(R.id.etCostoServExt);
-        TextView tvAgregServExtTbl = (TextView) root.findViewById(R.id.ibAgregServExtTbl);
+        ImageButton ibAgregServExtTbl = (ImageButton) root.findViewById(R.id.ibAgregServExtTbl);
         tblServExt = (TableLayout) root.findViewById(R.id.tblServExt);
         TextView tvIndicRepuest = (TextView) root.findViewById(R.id.tvIndicRepuest);
         TextView tvIndicServExt = (TextView) root.findViewById(R.id.tvIndicServExt);
@@ -177,21 +178,21 @@ public class FragmentTabRepEjecOT extends Fragment {
             }
         });
 
-        tvAgregPerTecTbl.setOnClickListener(new View.OnClickListener() {  //AGREGAR PERSONAL TECN. A TABLA
+        ibAgregPerTecTbl.setOnClickListener(new View.OnClickListener() {  //AGREGAR PERSONAL TECN. A TABLA
             @Override
             public void onClick(View v) {
                 agregarPersTecnTabla();
             }
         });
 
-        tvAgregReptoTbl.setOnClickListener(new View.OnClickListener() {  //AGREGA REPUESTO A LA TABLA
+        ibAgregReptoTbl.setOnClickListener(new View.OnClickListener() {  //AGREGA REPUESTO A LA TABLA
             @Override
             public void onClick(View v) {
                 agregarRepuestosTabla();
             }
         });
 
-        tvAgregServExtTbl.setOnClickListener(new View.OnClickListener() {  //AGREGA SERV EXT. A LA TABLA
+        ibAgregServExtTbl.setOnClickListener(new View.OnClickListener() {  //AGREGA SERV EXT. A LA TABLA
             @Override
             public void onClick(View v) {
                 agregarServExtTabla();

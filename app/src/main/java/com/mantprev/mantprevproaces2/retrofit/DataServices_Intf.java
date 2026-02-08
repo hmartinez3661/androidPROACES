@@ -23,12 +23,13 @@ import com.mantprev.mantprevproaces2.ModelosDTO2.ReptesReptos_DTO;
 import com.mantprev.mantprevproaces2.ModelosDTO2.Usuarios_DTO;
 
 import java.util.List;
-import java.util.Objects;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -39,10 +40,13 @@ import retrofit2.http.Path;
 
 public interface DataServices_Intf {
 /********************************/
-    //USUARIOS
+    @FormUrlEncoded
+    @POST("login")
+    Call<Void> userLogin(@Field("username") String username, @Field("password") String password);
 
-@POST("auth/sendEmailNewOT")
-Call<String> sendEmailNuevaOrdenTrab (@Body InformacionEmails informEmail);
+    @GET("auth/getUserByEmail/{emailUser}")
+    Call<Usuarios_DTO> getUsuarioByEmail(@Path("emailUser") String emailUser);
+
 
 /*
     @POST("auth/login")
@@ -65,9 +69,6 @@ Call<String> sendEmailNuevaOrdenTrab (@Body InformacionEmails informEmail);
 
     @PUT("auth/update")
     Call<String> actualizarDatosNvoUser(@Body Usuarios_DTO Usuarios_DTO);
-
-    @GET("auth/getUserByEmail/{emailUser}")
-    Call<Usuarios_DTO> getUsuarioByEmail(@Path("emailUser") String emailUser);
 
     @GET("auth/getNewestAppVers")
     Call<Integer> getNewestAppVersion();
@@ -317,6 +318,9 @@ Call<String> sendEmailNuevaOrdenTrab (@Body InformacionEmails informEmail);
     @PUT("api/ordsTrab/saveRevOT")
     Call<String> gurdarRevisionOT(@Body OrdenTrabRevis dtsOrdTrab);
 
+    @POST("auth/sendEmailNewOT")
+    Call<String> sendEmailNuevaOrdenTrab (@Body InformacionEmails informEmail);
+
 
 
     // FOTOS **************************************************
@@ -352,8 +356,8 @@ Call<String> sendEmailNuevaOrdenTrab (@Body InformacionEmails informEmail);
     Call<List<RustEquiposDTO>> getRutinasSemSelecc(@Path("semanaRuts") String semanaRuts);   //07-2025
 
     @GET("api/rutinas/renewListRuts/{semanaRuts}/{correlat}/{ejecutor}")
-    Call<List<RustEquiposDTO>> renovarListaRutinas(@Path("semanaRuts") String semanaRuts,
-                                                   @Path("correlat") String correlat, @Path("ejecutor") String ejecutor);
+    Call<List<RustEquiposDTO>> getListadoRutinas(@Path("semanaRuts") String semanaRuts,
+                                                 @Path("correlat") String correlat, @Path("ejecutor") String ejecutor);
 
     @GET("api/rutinas/getRutEquip/{idRutEquip}")
     Call<RustEquiposDTO> getRutinaSelected(@Path("idRutEquip") int idRutEquip);
@@ -382,7 +386,8 @@ Call<String> sendEmailNuevaOrdenTrab (@Body InformacionEmails informEmail);
     @GET("api/rutinas/getListSevExtEjecRut/{idRteEjecRut}")
     Call<List<RtesServExtEjecRuts>> getListServExtEjecRutina(@Path("idRteEjecRut") int idRteEjecRut);
 
-
+    @GET("api/rutinas/uploadInfoDocRut/{dtsDocument}")
+    Call<String> uploadInfoDocumentRut(@Path("dtsDocument") String dtsDocument);
 
 
 

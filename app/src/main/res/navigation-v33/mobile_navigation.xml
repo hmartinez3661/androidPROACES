@@ -101,7 +101,7 @@
     <fragment
         android:id="@+id/fragmentLogin"
         android:name="com.mantprev.mantprevproaces2.ui.Security.FragmentLogin"
-        android:label="Usuario Login"
+        android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
 
 

@@ -20,6 +20,11 @@ public class MetodosStaticos {
     public static String numOT = "";
     public static String numRutina = "";
     public static String semanaRuts = "";
+    public static String correlatEqu = "";
+    public static String ejecutorRut = "";
+    public static String infoSemRuts = "";
+    public static String equipAreaRuts = "";
+    public static String nombreEquipo = "";
     public static int idRutEquip = 0;
     public static int idEquipo = 0;
     public static int idRepteEjecOT = 0;

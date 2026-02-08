@@ -7,7 +7,6 @@ public class Usuarios_DTO {
     private String nombreUsuario;
     private String userRol;
     private String emailUsuario;
-    private String password;
 
 
     public Usuarios_DTO(){
@@ -46,13 +45,6 @@ public class Usuarios_DTO {
         this.emailUsuario = emailUsuario;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
 
 

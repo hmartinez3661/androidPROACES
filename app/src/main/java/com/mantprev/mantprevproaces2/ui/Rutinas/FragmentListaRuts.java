@@ -72,7 +72,7 @@ public class FragmentListaRuts extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                renovarListadoDeRuts();
+                cargarListadoDeRuts();
             }
         });
 
@@ -85,7 +85,7 @@ public class FragmentListaRuts extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                renovarListadoDeRuts();
+                cargarListadoDeRuts();
             }
         });
 
@@ -98,7 +98,7 @@ public class FragmentListaRuts extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                renovarListadoDeRuts();
+                cargarListadoDeRuts();
             }
         });
     }
@@ -151,112 +151,64 @@ public class FragmentListaRuts extends Fragment {
         // METODOS DE ARRANQUE
         progressBar.setVisibility(GONE);
         setVariablesDeInicio();
-        getAndShowAllRutinasSemAct();
 
         return root;
     }
 
-    private String semanaRuts = "";   //07-2025
     private void setVariablesDeInicio() {   //Semana Actual
     /***********************************/
-        Calendar calendario = Calendar.getInstance();
-        int numWeek = calendario.get(Calendar.WEEK_OF_YEAR);
-        int numYear = calendario.get(Calendar.YEAR);
+        if(MetodosStaticos.semanaRuts.isEmpty()){
+            Calendar calendario = Calendar.getInstance();
+            int numWeek = calendario.get(Calendar.WEEK_OF_YEAR);
+            int numYear = calendario.get(Calendar.YEAR);
 
-        String semAnio = "";
-        String semApi  = "";
+            String semAnio = "";
+            String semApi  = "";
 
-        if (numWeek < 10){
-            semAnio = "0" + numWeek +"/"+ numYear;
-            semApi  = numYear +"-0"+ numWeek;
+            if (numWeek < 10){
+                semAnio = "0" + numWeek +"/"+ numYear;
+                semApi  = numYear +"-0"+ numWeek;
+            } else {
+                semAnio = numWeek +"/"+ numYear;
+                semApi  = numYear +"-"+ numWeek;    //  fecha01  fecha02
+            }
+
+            String diainicioWeek = MetodosStaticos.getDiaInicioSemSelecc(semApi);
+            String fiaFinalWeek  = MetodosStaticos.getDiaFinalSemSelecc(semApi);
+            String infSemanaRuts = semAnio +" ("+ diainicioWeek +" - " + fiaFinalWeek +")";
+
+            MetodosStaticos.semanaRuts  = semAnio.replace("/", "-");  //07-2025
+            MetodosStaticos.correlatEqu = "0";
+            MetodosStaticos.ejecutorRut = "Todos los ejecutores";
+            MetodosStaticos.infoSemRuts = infSemanaRuts;
+            MetodosStaticos.equipAreaRuts = "Planta General";
+
+            tvSemRuts.setText(MetodosStaticos.infoSemRuts);
+            tvEquipArea.setText(MetodosStaticos.equipAreaRuts);
+            tvEjecutor.setText(MetodosStaticos.ejecutorRut);
+
+            cargarListadoDeRuts();
+
         } else {
-            semAnio = numWeek +"/"+ numYear;
-            semApi  = numYear +"-"+ numWeek;    //  fecha01  fecha02
+            tvSemRuts.setText(MetodosStaticos.infoSemRuts);
+            tvEquipArea.setText(MetodosStaticos.equipAreaRuts);
+            tvEjecutor.setText(MetodosStaticos.ejecutorRut);
+
+            cargarListadoDeRuts();
         }
-        semanaRuts = semAnio.replace("/", "-");  //07-2025
-        correlatEqu = "0";
-        ejecutorRut = "Todos los ejecutores";
-
-        String diainicioWeek = MetodosStaticos.getDiaInicioSemSelecc(semApi);
-        String fiaFinalWeek  = MetodosStaticos.getDiaFinalSemSelecc(semApi);
-        String infSemanaRuts = semAnio +" ("+ diainicioWeek +" - " + fiaFinalWeek +")";
-
-        String equipoArea = "Planta General";
-        String ejecutor   = "Todos los ejecutores";
-
-        tvSemRuts.setText(infSemanaRuts);
-        tvEquipArea.setText(equipoArea);
-        tvEjecutor.setText(ejecutor);
     }
 
-    private void getAndShowAllRutinasSemAct() {
-    /****************************************/
-        recyclerView.removeAllViews();
-        progressBar.setVisibility(View.VISIBLE);
-
-        DataServices_Intf service2 = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-        Call<List<RustEquiposDTO>> call2 = service2.getRutinasSemSelecc(semanaRuts);   //07-2025
-
-        call2.enqueue(new Callback<List<RustEquiposDTO>>() {
-            @Override
-            public void onResponse(Call<List<RustEquiposDTO>> call, Response<List<RustEquiposDTO>> response) {
-
-                if(response.isSuccessful() && response.body() != null){
-                    List<RustEquiposDTO> listaRutsEquips = new ArrayList<>(response.body());
-                    int cantRorts= MetodosStaticos.getCantidadRutsConRepteEjec(listaRutsEquips);
-
-                    //Coloca el cantidad de OTs de la lista
-                    int cantOts = listaRutsEquips.size();
-                    String tvTexto = getResources().getString(R.string.tvRutinasLista);
-                    String textoInf = tvTexto +" ("+ cantRorts +"/"+ cantOts +")";
-                    tvTituloListaRuts.setText(textoInf);
-                    //tvEquipArea.setText(getResources().getString(R.string.tvNombreEquipo));  //tvNombreEquipo
-
-                    if (!listaRutsEquips.isEmpty()){
-                        //SE ENVIA LA INFORMACION AL ADAPTADOR
-                        RutinasAdapter ordTrabAdapter = new RutinasAdapter(listaRutsEquips, getContext());
-                        ordTrabAdapter.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                int idRutEquip = listaRutsEquips.get(recyclerView.getChildAdapterPosition(view)).getIdRutEquipo();
-                                int idRpteEjec = listaRutsEquips.get(recyclerView.getChildAdapterPosition(view)).getIdRepteEjec();
-                                int idEquipo = listaRutsEquips.get(recyclerView.getChildAdapterPosition(view)).getIdEquipo();
-                                String numRutina = listaRutsEquips.get(recyclerView.getChildAdapterPosition(view)).getNumeroRut();
-
-                                mostraRutinaSelected(idRutEquip, idRpteEjec, idEquipo, numRutina);
-                            }
-                        });
-                        recyclerView.setAdapter(ordTrabAdapter);
-
-                    } else {
-                        Toast.makeText(getContext(), "No datos para mostrar ...", Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    Toast.makeText(getContext(), getResources().getString(R.string.msgNoHayFallas), Toast.LENGTH_LONG).show();
-                }
-
-                progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call<List<RustEquiposDTO>> call, Throwable throwable) {
-                Toast.makeText(getContext(), "No data to show", Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.GONE);
-            }
-        });
-    }
-
-    private void renovarListadoDeRuts() {
+    private void cargarListadoDeRuts() {
     /*********************************/
         recyclerView.removeAllViews();
-        String semSelected = semanaRuts;
-        String correlatEquSel = correlatEqu;
-        String ejecutorSel = ejecutorRut;
+        String semSelected = MetodosStaticos.semanaRuts;
+        String correlatEquSel = MetodosStaticos.correlatEqu;
+        String ejecutorSel = MetodosStaticos.ejecutorRut;
 
         progressBar.setVisibility(View.VISIBLE);
 
         DataServices_Intf service2 = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-        Call<List<RustEquiposDTO>> call2 = service2.renovarListaRutinas(semSelected, correlatEquSel, ejecutorSel);
+        Call<List<RustEquiposDTO>> call2 = service2.getListadoRutinas(semSelected, correlatEquSel, ejecutorSel);
 
         call2.enqueue(new Callback<List<RustEquiposDTO>>() {
             @Override
@@ -273,25 +225,26 @@ public class FragmentListaRuts extends Fragment {
                     tvTituloListaRuts.setText(textoInf);
                     //tvEquipArea.setText(getResources().getString(R.string.tvNombreEquipo));  //tvNombreEquipo
 
-                    if (!listaRutsEquips.isEmpty()){
-                        //SE ENVIA LA INFORMACION AL ADAPTADOR
-                        RutinasAdapter ordTrabAdapter = new RutinasAdapter(listaRutsEquips, getContext());
-                        ordTrabAdapter.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                int idRutEquip = listaRutsEquips.get(recyclerView.getChildAdapterPosition(view)).getIdRutEquipo();
-                                int idRpteEjec = listaRutsEquips.get(recyclerView.getChildAdapterPosition(view)).getIdRepteEjec();
-                                int idEquipo = listaRutsEquips.get(recyclerView.getChildAdapterPosition(view)).getIdEquipo();
-                                String numRutina = listaRutsEquips.get(recyclerView.getChildAdapterPosition(view)).getNumeroRut();
+                    //SE ENVIA LA INFORMACION AL ADAPTADOR
+                    RutinasAdapter ordTrabAdapter = new RutinasAdapter(listaRutsEquips, getContext());
+                    ordTrabAdapter.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            int idRutEquip = listaRutsEquips.get(recyclerView.getChildAdapterPosition(view)).getIdRutEquipo();
+                            int idRpteEjec = listaRutsEquips.get(recyclerView.getChildAdapterPosition(view)).getIdRepteEjec();
+                            int idEquipo = listaRutsEquips.get(recyclerView.getChildAdapterPosition(view)).getIdEquipo();
+                            String numRutina = listaRutsEquips.get(recyclerView.getChildAdapterPosition(view)).getNumeroRut();
+                            //String nombreEquip = listaRutsEquips.get(recyclerView.getChildAdapterPosition(view)).getNombreEquip();
 
-                                mostraRutinaSelected(idRutEquip, idRpteEjec, idEquipo, numRutina);
-                            }
-                        });
-                        recyclerView.setAdapter(ordTrabAdapter);
+                            mostraRutinaSelected(idRutEquip, idRpteEjec, idEquipo, numRutina);
+                        }
+                    });
+                    recyclerView.setAdapter(ordTrabAdapter);
 
-                    } else {
+                    if (listaRutsEquips.isEmpty()){
                         Toast.makeText(getContext(), "No datos para mostrar ...", Toast.LENGTH_LONG).show();
                     }
+
                 } else {
                     Toast.makeText(getContext(), getResources().getString(R.string.msgNoHayFallas), Toast.LENGTH_LONG).show();
                 }
@@ -335,11 +288,14 @@ public class FragmentListaRuts extends Fragment {
                         semAnio = numWeek +"/"+ numYear;
                         semApi  = numYear +"-"+ numWeek;    //  fecha01  fecha02
                     }
-                    semanaRuts = semAnio.replace("/", "-");  //07-2025
+                    String semaRuts = semAnio.replace("/", "-");  //07-2025
 
                     String diaInicioWeek = MetodosStaticos.getDiaInicioSemSelecc(semApi);
                     String diaFinalWeek  = MetodosStaticos.getDiaFinalSemSelecc(semApi);
                     String infSemanaRuts = semAnio +" ("+ diaInicioWeek +" - " + diaFinalWeek +")";
+
+                    MetodosStaticos.semanaRuts = semaRuts;         //Se utiliza al recargar lista
+                    MetodosStaticos.infoSemRuts = infSemanaRuts;   //Se utiliza al recargar lista
 
                     tvSemRuts.setText(infSemanaRuts);
                 },
@@ -430,8 +386,7 @@ public class FragmentListaRuts extends Fragment {
         });
     }
 
-    private String correlatEqu = "";
-    public void mostrarVentanaEquipos(ArrayList<String> parentsList, Map<String, List<String>> equipsMap){
+     public void mostrarVentanaEquipos(ArrayList<String> parentsList, Map<String, List<String>> equipsMap){
         /****************************************************************************/
         final View windowEquipos = getLayoutInflater().inflate(R.layout.window_arbol_equipos, null);
 
@@ -461,7 +416,9 @@ public class FragmentListaRuts extends Fragment {
                 int posCorchete = equipSelected.lastIndexOf("(");
                 String correlat = equipSelected.substring(posCorchete + 1).replace(")", "");
                 equipSelected = equipSelected.substring(0, posCorchete);
-                correlatEqu = correlat;
+
+                MetodosStaticos.correlatEqu = correlat;          //Se utiliza al recargar lista Ruts
+                MetodosStaticos.equipAreaRuts = equipSelected;   //Se utiliza al recargar lista Ruts
 
                 tvEquipArea.setText(equipSelected);
                 tvCorrelat.setText(correlat);
@@ -537,7 +494,6 @@ public class FragmentListaRuts extends Fragment {
         });
     }
 
-    private String ejecutorRut = "";
     public void mostrarVentanaEjecutores(List<String> listaEjecuts){
     /*************************************************************/
         final View windowListaSuperv = getLayoutInflater().inflate(R.layout.window_lista_ejecut, null);
@@ -550,7 +506,7 @@ public class FragmentListaRuts extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String nombreEject = listaEjecuts.get(position);
-                ejecutorRut = nombreEject;
+                MetodosStaticos.ejecutorRut = nombreEject;
                 alertDialog.dismiss();
                 tvEjecutor.setText((CharSequence) nombreEject);
             }
@@ -569,7 +525,7 @@ public class FragmentListaRuts extends Fragment {
         MetodosStaticos.idRepteEjecRut = idRpteEjec;
         MetodosStaticos.numRutina = numRutina;
         MetodosStaticos.idEquipo = idEquipo;
-        MetodosStaticos.semanaRuts = semanaRuts;
+        // MetodosStaticos.semanaRuts = semanaRuts; --> Se definio previamente
 
         Navigation.findNavController(root).navigate(R.id.fragmentRutinasTabs);
     }

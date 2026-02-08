@@ -11,15 +11,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Retrofit_Instance {
 
     private static Retrofit retrofitInstance;
+    private static SessionCookieJar cookieJar;
     private static final String BASE_URL = StaticConfig.ipApiRestServic;
 
 
     public static Retrofit getRetrofitInstance(){
     /*******************************************/
-        Token_Interceptor interceptor = new Token_Interceptor();
+        if (cookieJar == null) {
+            cookieJar = new SessionCookieJar();
+        }
 
+        /*
         OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
+                .cookieJar(cookieJar)
                 .build();
 
         Gson gson = new GsonBuilder()
@@ -31,6 +35,20 @@ public class Retrofit_Instance {
                     .client(client)
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
+                    .build();
+        }
+        */
+
+        if (retrofitInstance == null) {
+
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .cookieJar(cookieJar)
+                    .build();
+
+            retrofitInstance = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(client)
                     .build();
         }
 

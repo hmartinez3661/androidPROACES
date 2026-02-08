@@ -53,6 +53,10 @@ dependencies {
     implementation libs.android.mail
     implementation libs.android.activation
 
+    //Peticiones Retrofit
+    implementation libs.retrofit
+
+
 
 
 

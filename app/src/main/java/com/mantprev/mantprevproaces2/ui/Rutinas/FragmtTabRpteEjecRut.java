@@ -287,7 +287,7 @@ public class FragmtTabRpteEjecRut extends Fragment {
                         int cantServExtr = rteEjecRut.getCantServExter();
                         int cantFtsRepte = rteEjecRut.getCantFotosCierre();
 
-                        etNombRecivTrab.setText(fechaEjec);
+                        tvFechaFinaliz.setText(fechaEjec);
                         etHrsParoProduc.setText(hrsParoPr);
                         etHrsTrabajo.setText(hrsTrabaj);
                         etCalidadTrab.setText(caliddTra);
@@ -844,6 +844,7 @@ public class FragmtTabRpteEjecRut extends Fragment {
             reptePersn.setCantHrsNorm(Double.parseDouble(cantHrsTra));
             reptePersn.setCalidTrabaj(Double.parseDouble(calidTrab));
             reptePersn.setFechaEjec(fechaEjec);
+            reptePersn.setCalidTrabaj(Double.parseDouble(calidTrab));
 
             arrayReptesPersn.add(reptePersn);
         }
@@ -1066,7 +1067,17 @@ public class FragmtTabRpteEjecRut extends Fragment {
                     @Override
                     public void onResponse(Call<String> call, retrofit2.Response<String> response) {
                         if(response.isSuccessful()){
-                            //Toast.makeText(getContext(), response.body(), Toast.LENGTH_SHORT).show();
+                            String nombreFoto = response.body();
+                            int idRutEquip = MetodosStaticos.idRutEquip;
+                            int idEquipo = MetodosStaticos.idEquipo;
+                            String semanaRut = MetodosStaticos.semanaRuts;
+                            String numeroRut = MetodosStaticos.numRutina;
+                            String nombrEqui = MetodosStaticos.nombreEquipo;
+                            String fechaEjec = datePickerFecha;
+                            String dtsDocumt = nombreFoto +","+ idRutEquip +","+ idEquipo +","+ semanaRut +","+ numeroRut +","+ fechaEjec +","+ nombrEqui;
+
+                            uploadInfoDocumentRut(dtsDocumt); //Sube información para que pueda ser vista en la version web
+
                         } else {
                             Toast.makeText(getContext(), "Failure to send photos !!!", Toast.LENGTH_SHORT).show();
                         }
@@ -1086,6 +1097,31 @@ public class FragmtTabRpteEjecRut extends Fragment {
         listaImgsUri.clear();  //Limpiar la lista de Uris
     }
 
+    public void uploadInfoDocumentRut(String dtsDocument){
+    /*****************************************************/
+        progressBar.setVisibility(View.VISIBLE);
+
+        DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
+        Call<String> call = service.uploadInfoDocumentRut(dtsDocument);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+
+                } else {
+                    Toast.makeText(getContext(), "Fallo en cargar Info Doc ... !!!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable throwable) {
+                throwable.printStackTrace();
+                Log.d("ErrorResponse: ", throwable.toString());
+                Toast.makeText(getContext(), "Fallo en cargar informacion Doc ", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
     //Metodo para generar una cadena aleatoria de longitud N
     public String getNombreDeFoto() {

@@ -91,7 +91,7 @@ public class FragmentImages extends Fragment implements VerFotosListener{
 
         } else if (MetodosStaticos.fotosDeCierroOT.equals("Rut_repteEjec")) {
             //Muestra las Fotos que se anexaron en el repte ejecución de Rut
-            String tituloVent = "Fotos ejecucuón Rutina";
+            String tituloVent = "Fotos ejecución Rutina";
             tvEncabesado.setText(tituloVent);
             int idRepteEjecRut = MetodosStaticos.idRepteEjecRut;
             call = service.getListaFotosRepteEjecRut(idRepteEjecRut);   //"fotosOTs/fotosIngreso/" + idOT;
