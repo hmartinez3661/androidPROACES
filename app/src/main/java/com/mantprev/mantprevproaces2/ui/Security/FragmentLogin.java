@@ -1,22 +1,14 @@
 package com.mantprev.mantprevproaces2.ui.Security;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -30,24 +22,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mantprev.mantprevproaces2.ModelosDTO1.UserCredentials;
-import com.mantprev.mantprevproaces2.ModelosDTO1.UserToken;
-import com.mantprev.mantprevproaces2.ModelosDTO1.Usuarios;
 import com.mantprev.mantprevproaces2.ModelosDTO2.Usuarios_DTO;
 import com.mantprev.mantprevproaces2.R;
 import com.mantprev.mantprevproaces2.retrofit.DataServices_Intf;
 import com.mantprev.mantprevproaces2.retrofit.Retrofit_Instance;
 import com.mantprev.mantprevproaces2.utilities.StaticConfig;
 
-import java.util.Date;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 
 public class FragmentLogin extends Fragment {
 
@@ -67,8 +53,8 @@ public class FragmentLogin extends Fragment {
     //***********************************************************
 
     private TextView tvLogin;
-    private LinearLayout linearLayout1;
-    private EditText etEmailUser, etPasswordUser;
+    private LinearLayout linearLayout1, linearLayout2;
+    private EditText etEmailUser, etPasswordUser, etNombreApellido, etEmail, etPassword1, etPassword2;
     private CheckBox chBoxOpenSession;
     private ProgressBar progresBar;
     private View root;
@@ -84,10 +70,18 @@ public class FragmentLogin extends Fragment {
         tvLogin = (TextView) root.findViewById(R.id.tvInformac2);
 
         linearLayout1 = (LinearLayout) root.findViewById(R.id.linearLayout1);
+        linearLayout2 = (LinearLayout) root.findViewById(R.id.linearLayout2);
         etEmailUser = (EditText) root.findViewById(R.id.etUserEmail);
         etPasswordUser = (EditText) root.findViewById(R.id.etPassword);
         chBoxOpenSession = (CheckBox) root.findViewById(R.id.chBoxOpenSession);
 
+        //Para registrar password final de usuario
+        etNombreApellido = (EditText) root.findViewById(R.id.etNombrApellido1);
+        etEmail = (EditText) root.findViewById(R.id.etCorreoElectr);
+        etPassword1 = (EditText) root.findViewById(R.id.etHrsLabor);
+        etPassword2 = (EditText) root.findViewById(R.id.etPassword2);
+
+        Button btnGuardar = (Button) root.findViewById(R.id.btnSavePasswFnl);
         Button btnLogin = (Button) root.findViewById(R.id.btnLogin);
         TextView tvRecupPassw = (TextView) root.findViewById(R.id.tvRecupPassw);
 
@@ -101,7 +95,14 @@ public class FragmentLogin extends Fragment {
         tvRecupPassw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //recuperarPassword();
+                recuperarPassword();
+            }
+        });
+
+        btnGuardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guardarPasswordFinaleUser();
             }
         });
 
@@ -137,18 +138,11 @@ public class FragmentLogin extends Fragment {
             StaticConfig.numbRealUser = nombreUsuario;
             StaticConfig.emailUsuario = emailUsuario;
             StaticConfig.rolDeUsuario = rolDeUsuario;
-            loginAutomatico(emailUsuario, passwUsuario);  //Realiza un loginAutomatico
-
-        }/* else { //Si no existe sesion abierta: Entra a la pantalla de Login
-            chBoxOpenSession.setChecked(true);  //Para mantener la sesion abierta
-
-            //Visible e Invisible de acuerdo al proceso
-            linearLayout1.setVisibility(View.VISIBLE);  //Segmento del login
-            progresBar.setVisibility(View.GONE);
-        }  */
+            hacerLoginAutomatico(emailUsuario, passwUsuario);  //Realiza un loginAutomatico
+        }
     }
 
-    private void loginAutomatico(String emailUser, String passwordUser) {  //Si existe sesion abierta
+    private void hacerLoginAutomatico(String emailUser, String passwordUser) {  //Si existe sesion abierta
     //*******************************************************************
         progresBar.setVisibility(View.VISIBLE);
 
@@ -160,7 +154,7 @@ public class FragmentLogin extends Fragment {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.code() == 200) {
                     progresBar.setVisibility(View.GONE);
-                    ingresarAlSisitema(emailUser, passwordUser);
+                    ingresarAlSistema(emailUser, passwordUser);
 
                 } else {
                     Toast.makeText(getContext(), "Email o password incorrectos ...", Toast.LENGTH_LONG).show();
@@ -196,7 +190,7 @@ public class FragmentLogin extends Fragment {
             Toast.makeText(getContext(), getResources().getString(R.string.msgUser03), Toast.LENGTH_LONG).show();
         }
         if (passUsuario.startsWith("mantprev")){
-            //crearPasswordFinal(emailUsario);
+            crearPasswordFinal(emailUsario);
         }
 
         if(isDatosOK && !passUsuario.startsWith("mantprev")){ //datos correcto y password no empieza con "mantprev"
@@ -210,7 +204,7 @@ public class FragmentLogin extends Fragment {
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.code() == 200) {
                         progresBar.setVisibility(View.GONE);
-                        ingresarAlSisitema(emailUsario, passUsuario);
+                        ingresarAlSistema(emailUsario, passUsuario);
 
                     } else {
                         Toast.makeText(getContext(), "Email o password incorrectos ...", Toast.LENGTH_LONG).show();
@@ -230,7 +224,7 @@ public class FragmentLogin extends Fragment {
         }
     }
 
-    private void ingresarAlSisitema(String emailUsario, String passUsuario){
+    private void ingresarAlSistema(String emailUsario, String passUsuario){
     //*********************************************************************
         DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
         Call<Usuarios_DTO> call = service.getUsuarioByEmail(emailUsario);
@@ -288,12 +282,6 @@ public class FragmentLogin extends Fragment {
                 throwable.printStackTrace();
                 Log.d("ErrorResponse: ", throwable.toString());
                 Toast.makeText(getContext(), "FAIL TO LOAD USER", Toast.LENGTH_LONG).show();
-
-                /*
-                Log.e("HTTP", "Code: " + response.code());
-                assert response.body() != null;
-                response.body().toString();
-                */
             }
         });
 
@@ -306,7 +294,6 @@ public class FragmentLogin extends Fragment {
         return pattern.matcher(email).matches();
     }
 
-/*
     private void crearPasswordFinal(String emailUser){
     //*******************************************  //el usuario tiene password provisional: mantprevXXXXXX).
         progresBar.setVisibility(View.VISIBLE);    //por tanto se le solcita ingresar su password final.
@@ -348,9 +335,7 @@ public class FragmentLogin extends Fragment {
             }
         });
     }
-*/
 
-    /*
     private String idUsuarioStr = "0";  //Se actualiza  cuando el usuario ingresa al sistema
     private void guardarPasswordFinaleUser() {  //Usuario que solo tenía paswword provisional (Mantprev)
     //************************************
@@ -393,7 +378,6 @@ public class FragmentLogin extends Fragment {
             userDTO.setNombreUsuario(nombreUser);
             userDTO.setEmailUsuario(emailUser);
             userDTO.setPassword(password1);
-            userDTO.setIdEmpresa(StaticConfig.idEmpresa);
 
             DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
             Call<String> call = service.actualizarDatosNvoUser(userDTO);  //actualizarNvoUsuario.php";
@@ -436,15 +420,12 @@ public class FragmentLogin extends Fragment {
             Toast.makeText(getContext(), mensajeDeErr, Toast.LENGTH_LONG).show();
         }
     }
-    */
 
-/*
     private void recuperarPassword() {
     //*********************************
         //Abre fragment recuperacion passw
         Navigation.findNavController(root).navigate(R.id.fragmentRecupPassw);
     }
-    */
 
 
     private boolean validacionDeEmail(String emailAdress){

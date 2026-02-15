@@ -1,12 +1,18 @@
 package com.mantprev.mantprevproaces2;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -70,5 +76,39 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int idItemSelected = item.getItemId();
+
+        if (idItemSelected == R.id.cerrarSesion){
+
+            SharedPreferences preferencesFile = getSharedPreferences("datosUsuario", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editorFile = preferencesFile.edit();
+
+            editorFile.remove("nombreUsuario").commit();
+            editorFile.remove("emailUsuario").commit();
+            editorFile.remove("passwUsuario").commit();
+            editorFile.remove("rolDeUsuario").commit();
+
+            editorFile.putString("nombreUsuario", "sesionCerrada");
+            editorFile.putString("emailUsuario",  "sesionCerrada");
+            editorFile.putString("passwUsuario",  "sesionCerrada");
+            editorFile.putString("rolDeUsuario",  "sesionCerrada");
+
+            editorFile.apply();
+
+            Toast.makeText(this, "Closing APP, thanks for using Mantprev", Toast.LENGTH_LONG).show();
+            finish();
+            finishAffinity();
+            System.exit(0);
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }

@@ -47,6 +47,15 @@ public interface DataServices_Intf {
     @GET("auth/getUserByEmail/{emailUser}")
     Call<Usuarios_DTO> getUsuarioByEmail(@Path("emailUser") String emailUser);
 
+    @PUT("auth/update")
+    Call<String> actualizarDatosNvoUser(@Body Usuarios_DTO Usuarios_DTO);
+
+    @GET("auth/userPasswProv/{emailUser}")
+    Call<String> getUserPasswProvis(@Path("emailUser") String emailUser);
+
+    @POST("auth/sendEmailRecupPassw")
+    Call<String> sendEmailRecuperacPassword (@Body InformacionEmails informEmail);
+
 
 /*
     @POST("auth/login")
@@ -64,12 +73,6 @@ public interface DataServices_Intf {
     @POST("auth/register")
     Call<String> registrarNvoUser(@Body UserRegister UserRegister);
 
-    @GET("auth/userPasswProv/{emailUser}")
-    Call<String> getUserPasswProvis(@Path("emailUser") String emailUser);
-
-    @PUT("auth/update")
-    Call<String> actualizarDatosNvoUser(@Body Usuarios_DTO Usuarios_DTO);
-
     @GET("auth/getNewestAppVers")
     Call<Integer> getNewestAppVersion();
 
@@ -78,9 +81,6 @@ public interface DataServices_Intf {
 
     @POST("auth/sendEmailNewUserAdmin")
     Call<String> sendEmailNewUserAdminPrincipal(@Body InformacionEmails informEmail);
-
-    @POST("auth/sendEmailRecupPassw")
-    Call<String> sendEmailRecuperacPassword (@Body InformacionEmails informEmail);
 
     @POST("auth/sendEmailNvoUser")
     Call<String> sendEmailNuevoUsuario (@Body InformacionEmails informEmail);

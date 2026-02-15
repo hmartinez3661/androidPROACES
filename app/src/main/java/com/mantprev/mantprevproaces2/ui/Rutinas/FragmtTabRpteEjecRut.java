@@ -115,7 +115,7 @@ public class FragmtTabRpteEjecRut extends Fragment {
         numRutina = MetodosStaticos.numRutina;
         
         tvFechaFinaliz = (TextView) root.findViewById(R.id.etFechaEjecuc);
-        etHrsParoProduc = (EditText) root.findViewById(R.id.etHrsProdStop);
+        etHrsParoProduc = (EditText) root.findViewById(R.id.etCorreoElectr);
         etHrsTrabajo = (EditText) root.findViewById(R.id.etHrsLabor);
         etCalidadTrab = (EditText) root.findViewById(R.id.etCalidadTrab);
         etReportEjec = (EditText) root.findViewById(R.id.etReportEjec);

@@ -126,7 +126,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvFechaEjecuc"/>
 
             <EditText
-                android:id="@+id/etHrsProdStop"
+                android:id="@+id/etCorreoElectr"
                 android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -175,7 +175,7 @@
                 android:text="@string/tvValor05"
                 android:enabled="false"
                 app:layout_constraintStart_toEndOf="@+id/guideline3"
-                app:layout_constraintTop_toBottomOf="@+id/etHrsProdStop"/>
+                app:layout_constraintTop_toBottomOf="@+id/etCorreoElectr"/>
 
             <TextView
                 android:id="@+id/tvCalidadTrab"

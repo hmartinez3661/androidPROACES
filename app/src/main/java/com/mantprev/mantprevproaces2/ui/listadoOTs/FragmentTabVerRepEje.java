@@ -73,7 +73,7 @@ public class FragmentTabVerRepEje extends Fragment {
 
         tvNumOT = (TextView) root.findViewById(R.id.tvNumRut);
         tvFechaFinaliz = (TextView) root.findViewById(R.id.etFechaEjecuc);
-        etHrsParoProduc = (EditText) root.findViewById(R.id.etHrsProdStop);
+        etHrsParoProduc = (EditText) root.findViewById(R.id.etCorreoElectr);
         etHrsTrabajo = (EditText) root.findViewById(R.id.etHrsLabor);
         etCalidadTrab = (EditText) root.findViewById(R.id.etCalidadTrab);
         etReportEjec = (EditText) root.findViewById(R.id.etReportEjec);
