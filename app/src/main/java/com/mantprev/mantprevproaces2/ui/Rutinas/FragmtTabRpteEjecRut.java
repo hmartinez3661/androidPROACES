@@ -50,6 +50,7 @@ import com.mantprev.mantprevproaces2.ModelosDTO1.RtesEjecRuts;
 import com.mantprev.mantprevproaces2.ModelosDTO1.RtesPersEjecRuts;
 import com.mantprev.mantprevproaces2.ModelosDTO1.RtesServExtEjecRuts;
 import com.mantprev.mantprevproaces2.ModelosDTO2.ReptesReptos_DTO;
+import com.mantprev.mantprevproaces2.ModelosDTO2.ResponseString;
 import com.mantprev.mantprevproaces2.ModelosDTO2.Usuarios_DTO;
 import com.mantprev.mantprevproaces2.R;
 import com.mantprev.mantprevproaces2.adapters.ExpandListFallasAdapter;
@@ -273,6 +274,12 @@ public class FragmtTabRpteEjecRut extends Fragment {
             call.enqueue(new Callback<RtesEjecRuts>() {
                 @Override
                 public void onResponse(Call<RtesEjecRuts> call, Response<RtesEjecRuts> response) {
+
+                    if (response.code() == 401){  // La sesion ha expirado
+                        //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                        Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                    }
+
                     if(response.isSuccessful() && response.body() != null){
                         RtesEjecRuts rteEjecRut = response.body();
 
@@ -303,10 +310,6 @@ public class FragmtTabRpteEjecRut extends Fragment {
                         mostrarServExtUtilizados(idRpteEjec, cantServExtr);
 
                         progressBar.setVisibility(View.GONE);
-
-                    } else {
-                        Toast.makeText(getContext(), "No se pudo cargar Reporte ejecucion previo...", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.GONE);
                     }
                 }
 
@@ -327,6 +330,12 @@ public class FragmtTabRpteEjecRut extends Fragment {
         call.enqueue(new Callback<List<RtesPersEjecRuts>>() {
             @Override
             public void onResponse(Call<List<RtesPersEjecRuts>> call, Response<List<RtesPersEjecRuts>> response) {
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                }
+
                 if(response.isSuccessful() && response.body() != null){
 
                     String indicasiones = "Personal que realizo el trabajo";
@@ -374,10 +383,6 @@ public class FragmtTabRpteEjecRut extends Fragment {
                         tblPersTecn.addView(filaTabla);
                     }
                     progressBar.setVisibility(View.GONE);
-
-                } else {
-                    Toast.makeText(getContext(), "No se pudo cargar ejecutores Rut ...", Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
                 }
             }
 
@@ -406,6 +411,12 @@ public class FragmtTabRpteEjecRut extends Fragment {
             call2.enqueue(new Callback<List<ReptesReptos_DTO>>() {
                 @Override
                 public void onResponse(Call<List<ReptesReptos_DTO>> call, Response<List<ReptesReptos_DTO>> response) {
+
+                    if (response.code() == 401){  // La sesion ha expirado
+                        //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                        Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                    }
+
                     if(response.isSuccessful() && response.body() != null){
 
                         List<ReptesReptos_DTO> listaReptos = response.body();
@@ -441,10 +452,6 @@ public class FragmtTabRpteEjecRut extends Fragment {
                             tblRepuestos.addView(filaTabla);
                         }
                         progressBar.setVisibility(View.GONE);
-
-                    } else {
-                        Toast.makeText(getContext(), "No se pudo cargar repuestos Rut ...", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.GONE);
                     }
                 }
 
@@ -474,6 +481,12 @@ public class FragmtTabRpteEjecRut extends Fragment {
             call.enqueue(new Callback<List<RtesServExtEjecRuts>>() {
                 @Override
                 public void onResponse(Call<List<RtesServExtEjecRuts>> call, Response<List<RtesServExtEjecRuts>> response) {
+
+                    if (response.code() == 401){  // La sesion ha expirado
+                        //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                        Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                    }
+
                     if(response.isSuccessful() && response.body() != null){
 
                         List<RtesServExtEjecRuts> listaServExt = response.body();
@@ -508,10 +521,6 @@ public class FragmtTabRpteEjecRut extends Fragment {
 
                             tblServExt.addView(filaTabla);
                         }
-                        progressBar.setVisibility(View.GONE);
-
-                    } else {
-                        Toast.makeText(getContext(), "No se pudo cargar Serv.Ext Rut ...", Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
                     }
                 }
@@ -787,27 +796,30 @@ public class FragmtTabRpteEjecRut extends Fragment {
 
             //* RETROFIT
             DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-            Call<String> call = service.guardarReporteEjecRut(repteEjecRut);   //"reptes/saveRepteEjec/"
+            Call<ResponseString> call = service.guardarReporteEjecRut(repteEjecRut);   //"reptes/saveRepteEjec/"
 
-            call.enqueue(new Callback<String>() {
+            call.enqueue(new Callback<ResponseString>() {
                 @Override
-                public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
+
+                    if (response.code() == 401){  // La sesion ha expirado
+                        //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                        Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                    }
 
                     if(response.isSuccessful() && response.body() != null){
                         Toast.makeText(getContext(), getResources().getString(R.string.btnGuardaRepEjecOK), Toast.LENGTH_SHORT).show();
-                        int idRpteEjecRut = Integer.parseInt(response.body()); // Trae el id del repte de ejecuc Rut
+
+                        ResponseString responseStr = response.body();
+                        int idRpteEjecRut = Integer.parseInt(responseStr.getDatoString()); // Trae el id del repte de ejecuc Rut
                         guardarReportPersTecn(idRpteEjecRut);  //GUARDA LOS REPORTES DEL PERSONAL TECNICO
 
-                    } else {
-                        Toast.makeText(getContext(), "No se pudo guardar el reporte de Ejecución Rut ...", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.GONE);
                     }
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable throwable) {
+                public void onFailure(Call<ResponseString> call, Throwable throwable) {
                     progressBar.setVisibility(View.GONE);
-                    throwable.printStackTrace();
                     Log.d("ErrorResponse: ", throwable.toString());
                     Toast.makeText(getContext(), "No se pudo guardar el reporte de Ejecución RUT", Toast.LENGTH_LONG).show();
                 }
@@ -855,35 +867,29 @@ public class FragmtTabRpteEjecRut extends Fragment {
             RtesPersEjecRuts reptePers = arrayReptesPersn.get(i);
 
             DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-            Call<String> call = service.guardarReptePersEjecRut(reptePers);       //"reptes/saveReptePers/"
-            call.enqueue(new Callback<String>() {
+            Call<ResponseString> call = service.guardarReptePersEjecRut(reptePers);       //"reptes/saveReptePers/"
 
+            call.enqueue(new Callback<ResponseString>() {
                 @Override
-                public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-                    /*
-                    if (response.code() == 401){  // El token ha expirado
-                        ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                        activCerrarSess.cleanSesionDeUsuario(getContext());
-                        Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
+
+                    if (response.code() == 401){  // La sesion ha expirado
+                        //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                         Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                    }   */
+                    }
 
                     if(response.isSuccessful() && response.body() != null){
-                        if(!response.body().equals("OK")){
+                        ResponseString responseStr = response.body();
+                        if(!responseStr.getDatoString().equals("OK")){
                             Toast.makeText(getContext(), "No se pudo guardar Personal Técnico .....", Toast.LENGTH_LONG).show();
                         }
-
-                    } else {
-                        Toast.makeText(getContext(), "No se pudo guardar Personal Técnico", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.GONE);
                     }
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable throwable) {
-                    throwable.printStackTrace();
-                    Log.d("ErrorResponse: ", throwable.toString());
-                    Toast.makeText(getContext(), "No pudo guardar Personal Técnico", Toast.LENGTH_LONG).show();
+                public void onFailure(Call<ResponseString> call, Throwable throwable) {
+                    Toast.makeText(getContext(), "No se pudo guardar Personal Técnico", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                 }
             });
         }
@@ -927,33 +933,27 @@ public class FragmtTabRpteEjecRut extends Fragment {
 
                 /* RETROFIT */
                 DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-                Call<String> call = service.guardarRepteReptosEjecRut(repteRepto);   //"reptes/saveRepteRepto/"
+                Call<ResponseString> call = service.guardarRepteReptosEjecRut(repteRepto);   //"reptes/saveRepteRepto/"
 
-                call.enqueue(new Callback<String>() {
-
+                call.enqueue(new Callback<ResponseString>() {
                     @Override
-                    public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-                        /*
-                        if (response.code() == 401){  // El token ha expirado
-                            ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                            activCerrarSess.cleanSesionDeUsuario(getContext());
-                            Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
+
+                        if (response.code() == 401){  // La sesion ha expirado
+                            //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                             Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                        }   */
+                        }
 
                         if(response.isSuccessful() && response.body() != null){
-                            if(!response.body().equals("OK")){
+                            ResponseString responseStr = response.body();
+                            if(!responseStr.getDatoString().equals("OK")){
                                 Toast.makeText(getContext(), "No se pudo guardar Repuestos ..... ", Toast.LENGTH_LONG).show();
                             }
-                        } else {
-                            Toast.makeText(getContext(), "No se pudo guardar reporte Repuesto", Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<String> call, Throwable throwable) {
-                        throwable.printStackTrace();
+                    public void onFailure(Call<ResponseString> call, Throwable throwable) {
                         Log.d("ErrorResponse: ", throwable.toString());
                         Toast.makeText(getContext(), "No puedo guardar Repuestos", Toast.LENGTH_LONG).show();
                     }
@@ -1000,32 +1000,27 @@ public class FragmtTabRpteEjecRut extends Fragment {
 
             /* RETROFIT */
             DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-            Call<String> call = service.guardarRepteServExtEjecRut(repteServExt);   // "reptes/saveRepteSevExt/"
+            Call<ResponseString> call = service.guardarRepteServExtEjecRut(repteServExt);   // "reptes/saveRepteSevExt/"
 
-            call.enqueue(new Callback<String>() {
+            call.enqueue(new Callback<ResponseString>() {
                 @Override
-                public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-                    /*
-                    if (response.code() == 401){  // El token ha expirado
-                        ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                        activCerrarSess.cleanSesionDeUsuario(getContext());
-                        Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
+
+                    if (response.code() == 401){  // La sesion ha expirado
+                        //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                         Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                    }  */
+                    }
 
                     if(response.isSuccessful() && response.body() != null){
-                        if(!response.body().equals("OK")){
+                        ResponseString responseStr = response.body();
+                        if(!responseStr.getDatoString().equals("OK")){
                             Toast.makeText(getContext(), "No se pudo guardar Serv. Ext......", Toast.LENGTH_LONG).show();
                         }
-                    } else {
-                        Toast.makeText(getContext(), "No se pudo guardar Servicio Ext", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.GONE);
                     }
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable throwable) {
-                    throwable.printStackTrace();
+                public void onFailure(Call<ResponseString> call, Throwable throwable) {
                     Log.d("ErrorResponse: ", throwable.toString());
                     Toast.makeText(getContext(), "No se guardo Serv. Ext.", Toast.LENGTH_LONG).show();
                 }
@@ -1061,13 +1056,21 @@ public class FragmtTabRpteEjecRut extends Fragment {
 
                 //* RETROFIT
                 DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-                Call<String> call = service.uploadImgRpteEjecRut(fotoFilePart, idRpteEjecRut);
+                Call<ResponseString> call = service.uploadImgRpteEjecRut(fotoFilePart, idRpteEjecRut);
 
-                call.enqueue(new Callback<String>() {
+                call.enqueue(new Callback<ResponseString>() {
                     @Override
-                    public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-                        if(response.isSuccessful()){
-                            String nombreFoto = response.body();
+                    public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
+
+                        if (response.code() == 401){  // La sesion ha expirado
+                            //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                            Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                        }
+
+                        if(response.isSuccessful() && response.body() != null){
+                            ResponseString responseStr = response.body();
+                            String nombreFoto = responseStr.getDatoString();
+
                             int idRutEquip = MetodosStaticos.idRutEquip;
                             int idEquipo = MetodosStaticos.idEquipo;
                             String semanaRut = MetodosStaticos.semanaRuts;
@@ -1077,15 +1080,11 @@ public class FragmtTabRpteEjecRut extends Fragment {
                             String dtsDocumt = nombreFoto +","+ idRutEquip +","+ idEquipo +","+ semanaRut +","+ numeroRut +","+ fechaEjec +","+ nombrEqui;
 
                             uploadInfoDocumentRut(dtsDocumt); //Sube información para que pueda ser vista en la version web
-
-                        } else {
-                            Toast.makeText(getContext(), "Failure to send photos !!!", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<String> call, Throwable throwable) {
-                        throwable.printStackTrace();
+                    public void onFailure(Call<ResponseString> call, Throwable throwable) {
                         Log.d("ErrorResponse: ", throwable.toString());
                         Toast.makeText(getContext(), "FALLO EN GUARDAR FOTO", Toast.LENGTH_LONG).show();
                     }
@@ -1102,21 +1101,23 @@ public class FragmtTabRpteEjecRut extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
 
         DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-        Call<String> call = service.uploadInfoDocumentRut(dtsDocument);
+        Call<ResponseString> call = service.uploadInfoDocumentRut(dtsDocument);
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<ResponseString>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if(response.isSuccessful()){
+            public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
 
-                } else {
-                    Toast.makeText(getContext(), "Fallo en cargar Info Doc ... !!!", Toast.LENGTH_SHORT).show();
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                }
+
+                if(response.isSuccessful()){
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable throwable) {
-                throwable.printStackTrace();
+            public void onFailure(Call<ResponseString> call, Throwable throwable) {
                 Log.d("ErrorResponse: ", throwable.toString());
                 Toast.makeText(getContext(), "Fallo en cargar informacion Doc ", Toast.LENGTH_LONG).show();
             }
@@ -1284,13 +1285,10 @@ public class FragmtTabRpteEjecRut extends Fragment {
             @Override
             public void onResponse(Call<List<PersonalTecn>> call, retrofit2.Response<List<PersonalTecn>> response) {
 
-                /*
-                if (response.code() == 401){  // El token ha expirado
-                    ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                    activCerrarSess.cleanSesionDeUsuario(getContext());
-                    Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                }  */
+                }
 
                 if(response.isSuccessful() && response.body() != null){
                     listPersTecn.addAll(response.body());
@@ -1473,13 +1471,11 @@ public class FragmtTabRpteEjecRut extends Fragment {
 
             @Override
             public void onResponse(Call<List<Usuarios_DTO>> call, retrofit2.Response<List<Usuarios_DTO>> response) {
-                /*
-                if (response.code() == 401){  // El token ha expirado
-                    ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                    activCerrarSess.cleanSesionDeUsuario(getContext());
-                    Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                }  */
+                }
 
                 if(response.isSuccessful() && response.body() != null){
                     listaUsuarios.addAll(response.body());
@@ -1493,10 +1489,6 @@ public class FragmtTabRpteEjecRut extends Fragment {
 
                     progressBar.setVisibility(View.GONE);
                     mostrarVentanaListaSupev(listaDeSupervis);
-
-                } else{
-                    Toast.makeText(getContext(), "Fallo al cargar lista supervisores", Toast.LENGTH_LONG).show();
-                    progressBar.setVisibility(View.GONE);
                 }
             }
 

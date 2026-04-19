@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
@@ -98,11 +99,24 @@
         android:name="com.mantprev.mantprevproaces2.ui.Rutinas.FragmentRutinasTabs"
         android:label="Rutinas mantenimiento"
         tools:layout="@layout/fragment_rutinas_tabs" />
+
     <fragment
         android:id="@+id/fragmentLogin"
         android:name="com.mantprev.mantprevproaces2.ui.Security.FragmentLogin"
-        android:label="Usuario Login"
+        android:label="User Login"
         tools:layout="@layout/fragment_login" />
+
+    <fragment
+        android:id="@+id/fragmentRecupPassw"
+        android:name="com.mantprev.mantprevproaces2.ui.OtrasUI.FragmentRecupPassw"
+        android:label="Recuperación password"
+        tools:layout="@layout/fragment_recup_passw" />
+
+    <fragment
+        android:id="@+id/fragmentListOtsAsignTecn"
+        android:name="com.mantprev.mantprevproaces2.ui.RevAutorizOTs.FragmentListOtsAsignTecn"
+        android:label="OTs asignadas pers. tecn."
+        tools:layout="@layout/fragment_list_ots_asign_tecn" />
 
 
 </navigation>

@@ -37,12 +37,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 //import com.mantprev.mantprevproaces2.BuildConfig;
 import com.mantprev.mantprevproaces2.ModelosDTO1.ConfigSpinners;
 import com.mantprev.mantprevproaces2.ModelosDTO1.Equipos;
 import com.mantprev.mantprevproaces2.ModelosDTO2.InformacionEmails;
 import com.mantprev.mantprevproaces2.ModelosDTO2.OrdenesTrab_DTO1;
+import com.mantprev.mantprevproaces2.ModelosDTO2.ResponseString;
 import com.mantprev.mantprevproaces2.ModelosDTO2.Usuarios_DTO;
 import com.mantprev.mantprevproaces2.R;
 import com.mantprev.mantprevproaces2.adapters.ExpandListEquipsAdapter;
@@ -73,24 +75,20 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
-@RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
+//@RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
 public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements Response.ErrorListener, Response.Listener<JSONObject>
 
     private FragmentNewOtBinding binding;
-    private java.lang.String nombreFoto;
-    private Button btnSeleccEquip, btnEnviarOt;
     private EditText etNombreEquip, etTrabSolic;
-    private TextView tvIdEquipo, tvOpcionesFotos;
+    private TextView tvIdEquipo;
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
-    private AlertDialog.Builder dialogBuilder;
     private AlertDialog alertDialog;
     private Spinner spinnerEjecut, spinnerPriorid;
     private ProgressBar progressBar;
     private GridView gvImagenes;
     private GridViewFotosAdapter gridViewAdapter;
-    private java.lang.String enviarEmails = "";
+    private String enviarEmails = "";
     private View root;
 
 
@@ -99,15 +97,15 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
         binding = FragmentNewOtBinding.inflate(inflater, container, false);
         root = binding.getRoot();
 
-        btnSeleccEquip = (Button) root.findViewById(R.id.btnSeleccEquip);
-        btnEnviarOt = (Button) root.findViewById(R.id.btnEnviarOt);
+        Button btnSeleccEquip = (Button) root.findViewById(R.id.btnSeleccEquip);
+        Button btnEnviarOt = (Button) root.findViewById(R.id.btnEnviarOt);
 
         etNombreEquip = (EditText) root.findViewById(R.id.etNombreEquip);
         etTrabSolic = (EditText) root.findViewById(R.id.etTrabajoRut);
         tvIdEquipo = (TextView) root.findViewById(R.id.tvCorrelat);  //TextView hidden
-        tvOpcionesFotos = (TextView) root.findViewById(R.id.tvIndicFotos);
+        TextView tvOpcionesFotos = (TextView) root.findViewById(R.id.tvIndicFotos);
 
-        spinnerEjecut = (Spinner) root.findViewById(R.id.tvEjecutoRutDt);
+        spinnerEjecut = (Spinner) root.findViewById(R.id.spnPersTecn);
         spinnerPriorid = (Spinner) root.findViewById(R.id.tvFrecucRutDt);
         progressBar = root.findViewById(R.id.progresBar);
         gvImagenes = root.findViewById(R.id.gvImagenes);
@@ -153,20 +151,17 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
         call.enqueue(new Callback<List<ConfigSpinners>>() {
 
             final ArrayList<ConfigSpinners> listaConfSpns = new ArrayList<>();
-            final ArrayList<java.lang.String> ejecutorestArray = new ArrayList<>();
-            final ArrayList<java.lang.String> clasificOTrabArray = new ArrayList<>();
-            final ArrayList<java.lang.String> prioridadesArray = new ArrayList<>();
+            final ArrayList<String> ejecutorestArray = new ArrayList<>();
+            final ArrayList<String> clasificOTrabArray = new ArrayList<>();
+            final ArrayList<String> prioridadesArray = new ArrayList<>();
 
             @Override
             public void onResponse(Call<List<ConfigSpinners>> call, Response<List<ConfigSpinners>> response) {
 
-                /*
-                if (response.code() == 401){  // El token ha expirado
-                    ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                    activCerrarSess.cleanSesionDeUsuario(getContext());
-                    Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                } */
+                }
 
                 if(response.isSuccessful() && response.body() != null){
 
@@ -178,10 +173,10 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
 
                             ConfigSpinners configSpnn = listaConfSpns.get(i);
 
-                            java.lang.String ejecutor  = configSpnn.getEjecutoresOTs();
-                            java.lang.String clasifTrb = configSpnn.getClasificTrabOTs();
-                            java.lang.String prioridad = configSpnn.getPrioridTrabOTs();
-                            java.lang.String confEmail = configSpnn.getConfigCorreos();
+                            String ejecutor  = configSpnn.getEjecutoresOTs();
+                            String clasifTrb = configSpnn.getClasificTrabOTs();
+                            String prioridad = configSpnn.getPrioridTrabOTs();
+                            String confEmail = configSpnn.getConfigCorreos();
 
                             if (ejecutor != null){
                                 if (!ejecutor.isEmpty()){
@@ -210,10 +205,7 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
 
                         setSpinnersToAdapters(arraysDeSpiners);
                     }
-                    progressBar.setVisibility(View.GONE);
 
-                } else {
-                    Toast.makeText(getContext(), "Fallo en cargar cofiguracion Spinner", Toast.LENGTH_LONG).show();
                     progressBar.setVisibility(View.GONE);
                 }
             }
@@ -231,9 +223,9 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
 
     public void setSpinnersToAdapters(ArrayList<ArrayList> arraysDeSpiners){
     /**********************************************************************/
-        ArrayList<java.lang.String> listaEjecutArray = arraysDeSpiners.get(0);
-        ArrayList<java.lang.String> listaClasifTrabArray = arraysDeSpiners.get(1);
-        ArrayList<java.lang.String> listaPrioridadesArray = arraysDeSpiners.get(2);
+        ArrayList<String> listaEjecutArray = arraysDeSpiners.get(0);
+        ArrayList<String> listaClasifTrabArray = arraysDeSpiners.get(1);
+        ArrayList<String> listaPrioridadesArray = arraysDeSpiners.get(2);
 
         //Adapter Spinner Ejecutores
         ArrayAdapter<CharSequence> adapterEject = new ArrayAdapter(requireContext(), R.layout.zspinners_items, listaEjecutArray); //
@@ -255,28 +247,33 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
         Call<List<Equipos>> call = service.getTodosLosEquipos();  //"equipos/getAll";
 
         call.enqueue(new Callback<List<Equipos>>() {
-            ArrayList<Equipos> listaEquipos = new ArrayList<>();
-            ArrayList<java.lang.String> parentsList = new ArrayList<>();
-            Map<java.lang.String, List<java.lang.String>> equipsMap;
-            ArrayList<java.lang.String> childList;
+            final ArrayList<Equipos> listaEquipos = new ArrayList<>();
+            final ArrayList<String> parentsList = new ArrayList<>();
+            Map<String, List<String>> equipsMap;
+            ArrayList<String> childList;
 
             @Override
             public void onResponse(Call<List<Equipos>> call, Response<List<Equipos>> response) {
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                }
 
                 if(response.isSuccessful() && response.body() != null){
                     listaEquipos.addAll(response.body());
                     listaEquipos.remove(0); //Remueve el nodo raiz (Planta General)
 
                     //SE CREA LA LISTA DE EQUIPOS PADRES
-                    equipsMap = new HashMap<java.lang.String, List<java.lang.String>>();
+                    equipsMap = new HashMap<String, List<String>>();
                     ArrayList<Equipos> listaEquiposPradre = new ArrayList<>();
 
                     int listaEquiposSize = listaEquipos.size();
                     for (int i=0; i< listaEquiposSize; i++){
 
                         int idEquipo = listaEquipos.get(i).getIdEquipo();
-                        java.lang.String correlat = listaEquipos.get(i).getCorrelativo();
-                        java.lang.String nombreEquip = listaEquipos.get(i).getNombEquipo();
+                        String correlat = listaEquipos.get(i).getCorrelativo();
+                        String nombreEquip = listaEquipos.get(i).getNombEquipo();
 
                         if (correlat.length() == 2){  //4
                             Equipos equipoPadre = new Equipos();
@@ -292,8 +289,8 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
                     int listaEquiposPadreSize = listaEquiposPradre.size();
                     for (int i=0; i< listaEquiposPadreSize; i++){
 
-                        java.lang.String correlatPadre = listaEquiposPradre.get(i).getCorrelativo();
-                        java.lang.String nombrEquipPrd = listaEquiposPradre.get(i).getNombEquipo();
+                        String correlatPadre = listaEquiposPradre.get(i).getCorrelativo();
+                        String nombrEquipPrd = listaEquiposPradre.get(i).getNombEquipo();
 
                         parentsList.add(nombrEquipPrd);
                         childList = new ArrayList<>();
@@ -302,8 +299,8 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
 
                             Equipos equipoHijo = listaEquipos.get(j);
                             int idEquipoHijo = equipoHijo.getIdEquipo();
-                            java.lang.String correlatHijo = equipoHijo.getCorrelativo();
-                            java.lang.String nombreEquipo = equipoHijo.getNombEquipo() + " (" + idEquipoHijo +")";
+                            String correlatHijo = equipoHijo.getCorrelativo();
+                            String nombreEquipo = equipoHijo.getNombEquipo() + " (" + idEquipoHijo +")";
 
                             if(correlatHijo.startsWith(correlatPadre)){
                                 childList.add(nombreEquipo);
@@ -312,13 +309,10 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
                         equipsMap.put(nombrEquipPrd, childList);
                     }
 
-                    progressBar.setVisibility(View.GONE);
                     mostrarVentanaEquipos(parentsList, equipsMap);
-
-                } else {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), "La LISTA EQUIPOS es nula", Toast.LENGTH_LONG).show();
                 }
+
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -331,7 +325,7 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
         });
     }
 
-    public void mostrarVentanaEquipos(ArrayList<java.lang.String> parentsList, Map<java.lang.String, List<java.lang.String>> equipsMap){
+    public void mostrarVentanaEquipos(ArrayList<String> parentsList, Map<String, List<String>> equipsMap){
     /****************************************************************************/
         final View windowEquipos = getLayoutInflater().inflate(R.layout.window_arbol_equipos, null);
 
@@ -355,11 +349,11 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                java.lang.String equipSelected = expandableListAdapter.getChild(i, i1).toString();
+                String equipSelected = expandableListAdapter.getChild(i, i1).toString();
 
                 //Separa el nombre y el id del equipo que viene con el nombre desde el ExpandableListView
                 int posCorchete  = equipSelected.lastIndexOf("(");
-                java.lang.String idEquipSt = equipSelected.substring(posCorchete + 1).replace(")", "");
+                String idEquipSt = equipSelected.substring(posCorchete + 1).replace(")", "");
                 equipSelected = equipSelected.substring(0, posCorchete);
 
                 etNombreEquip.setText(equipSelected);
@@ -371,7 +365,7 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
             }
         });
 
-        dialogBuilder = new AlertDialog.Builder(requireContext());
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
         dialogBuilder.setView(windowEquipos);
         alertDialog = dialogBuilder.create();
         alertDialog.show();
@@ -386,15 +380,15 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
 
 
     private static final int PERMISO_FOTOS_CODE = 99;
-    private final java.lang.String manifestPermiso = Manifest.permission.READ_MEDIA_IMAGES;
+    private final String manifestPermiso = Manifest.permission.READ_MEDIA_IMAGES;
 
     private void mostrarOpcionesFotos(View view){
     /*****************************************/
         //TRAE LOS TITULOS DE LA VENTANA DESDE String.xml
-        java.lang.String titleOpc = getResources().getString(R.string.titleOpc);
-        java.lang.String opcTakePict = getResources().getString(R.string.opcTakePict);
-        java.lang.String opcChoseGall = getResources().getString(R.string.opcChoseGall);
-        java.lang.String opcCancel = getResources().getString(R.string.opcCancel);
+        String titleOpc = getResources().getString(R.string.titleOpc);
+        String opcTakePict = getResources().getString(R.string.opcTakePict);
+        String opcChoseGall = getResources().getString(R.string.opcChoseGall);
+        String opcCancel = getResources().getString(R.string.opcCancel);
 
         final CharSequence[] opciones = {opcTakePict, opcChoseGall, opcCancel};
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());  //()
@@ -409,7 +403,7 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
                  }
                  if(opciones[opcSelected].equals(opcChoseGall)){
 
-                     ActivityCompat.requestPermissions(requireActivity(), new java.lang.String[]{manifestPermiso}, PERMISO_FOTOS_CODE);
+                     ActivityCompat.requestPermissions(requireActivity(), new String[]{manifestPermiso}, PERMISO_FOTOS_CODE);
                      openGallery();
                  }
                  if(opciones[opcSelected].equals(opcCancel)){
@@ -423,7 +417,7 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
 
 
     //Verifica permisos para activar la camara o abrir galeria de fotos
-    ActivityResultLauncher<java.lang.String> camaraPermiso = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
+    ActivityResultLauncher<String> camaraPermiso = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
         @Override
         public void onActivityResult(Boolean result) {
             if(result){
@@ -436,7 +430,7 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
     //Para trabajar con Fotos
     private Uri imageUri = null;
     private ArrayList<Uri> listaImgsUri = new ArrayList<>();
-    private java.lang.String currentPhotoPath;
+    private String currentPhotoPath;
 
     private void activarCamara(){
     /****************************/
@@ -451,7 +445,7 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
             } catch (IOException ex){ex.getMessage();}
 
             if (photoTmpFile != null){
-                java.lang.String authority = "com.mantprev.mantprevproaces2" + ".provider";
+                String authority = "com.mantprev.mantprevproaces2" + ".provider";
                 Uri photoUri = FileProvider.getUriForFile(Objects.requireNonNull(requireContext()), authority, photoTmpFile);
 
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
@@ -494,14 +488,14 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
     /*********************************************************/
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        java.lang.String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, getNombreDeFoto(), null);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, getNombreDeFoto(), null);
         return Uri.parse(path);
     }
 
 
     private File createImageTmpFile() throws IOException {
     /************************************************/
-        java.lang.String imgFileName = getNombreDeFoto();
+        String imgFileName = getNombreDeFoto();
         File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File imgTmpFile = File.createTempFile(imgFileName, ".jpg", storageDir);
         currentPhotoPath = imgTmpFile.getAbsolutePath();
@@ -582,18 +576,23 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
 
             /* RETROFIT */
             DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-            Call<java.lang.String> call = service.guardarNuevaOrdTrab(newOrdTrab);
+            Call<ResponseString> call = service.guardarNuevaOrdTrab(newOrdTrab);
 
-            call.enqueue(new Callback<java.lang.String>() {
-
+            call.enqueue(new Callback<ResponseString>() {
                 @Override
-                public void onResponse(Call<java.lang.String> call, Response<java.lang.String> response) {
+                public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
+
+                    if (response.code() == 401){  // La sesion ha expirado
+                        //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                        Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                    }
 
                     int idOrdTrab = 0; int canFotos = 0;
 
-                    if(response.isSuccessful()){
+                    if(response.isSuccessful() && response.body() != null){
                         Toast.makeText(getContext(), getResources().getString(R.string.exitoOT), Toast.LENGTH_SHORT).show();
-                        idOrdTrab = Integer.parseInt(response.body());
+                        ResponseString responseStr = response.body();
+                        idOrdTrab = Integer.parseInt(responseStr.getDatoString());
                         canFotos  = listaImgsUri.size();
                         etNombreEquip.setText(""); etTrabSolic.setText("");  //Limpia los EditText
                         gvImagenes.setAdapter(null);                         //Limpia el gridView de todas las imagenes
@@ -605,8 +604,7 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
                 }
 
                 @Override
-                public void onFailure(Call<java.lang.String> call, Throwable throwable) {
-                    throwable.printStackTrace();
+                public void onFailure(Call<ResponseString> call, Throwable throwable) {
                     Log.d("ErrorResponse: ", throwable.toString());
                     Toast.makeText(getContext(), getResources().getString(R.string.failSentOT), Toast.LENGTH_LONG).show();
                 }
@@ -646,21 +644,24 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
 
                 //* RETROFIT
                 DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-                Call<java.lang.String> call = service.uploadImgIngresoOT(fotoFilePart, idOrdTrab);
+                Call<ResponseString> call = service.uploadImgIngresoOT(fotoFilePart, idOrdTrab);
 
-                call.enqueue(new Callback<java.lang.String>() {
+                call.enqueue(new Callback<ResponseString>() {
                     @Override
-                    public void onResponse(Call<java.lang.String> call, Response<java.lang.String> response) {
+                    public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
+
+                        if (response.code() == 401){  // La sesion ha expirado
+                            //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                            Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                        }
+
                         if(response.isSuccessful()){
                             //Toast.makeText(getContext(), response.body(), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getContext(), "Failure to send photos !!!", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<java.lang.String> call, Throwable throwable) {
-                        throwable.printStackTrace();
+                    public void onFailure(Call<ResponseString> call, Throwable throwable) {
                         Log.d("ErrorResponse: ", throwable.toString());
                         Toast.makeText(getContext(), "FALLO EN GUARDAR FOTO", Toast.LENGTH_LONG).show();
                     }
@@ -697,32 +698,32 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
 
 
     //Metodo para generar una cadena aleatoria de longitud N
-    public java.lang.String getNombreDeFoto() {
+    public String getNombreDeFoto() {
     /*******************************/
         int count = 10;
 
-        java.lang.String CARACTERES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+        String CARACTERES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
         StringBuilder builder = new StringBuilder();
         while (count-- != 0) {
             int character = (int) (Math.random() * CARACTERES.length());
             builder.append(CARACTERES.charAt(character));
         }
 
-        java.lang.String nombreImagen = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
-        java.lang.String imageFileName = nombreImagen + ".jpg";
+        String nombreImagen = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
+        String imageFileName = nombreImagen + ".jpg";
 
-        nombreFoto = imageFileName;
+        String nombreFoto = imageFileName;
         nombreFoto = builder + "_" + nombreFoto;
 
         return nombreFoto;
     }
 
 
-    public java.lang.String getHoraActual(){
+    public String getHoraActual(){
     //****************************
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         Date date = new Date();
-        java.lang.String horaActual = dateFormat.format(date);
+        String horaActual = dateFormat.format(date);
 
         return horaActual;
     }
@@ -738,10 +739,15 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
 
         call.enqueue(new Callback<List<Usuarios_DTO>>() {
             ArrayList<Usuarios_DTO> listaSuperv = new ArrayList<>();
-            java.lang.String listaEmails = "";
+            String listaEmails = "";
 
             @Override
             public void onResponse(Call<List<Usuarios_DTO>> call, Response<List<Usuarios_DTO>> response) {
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                }
 
                 listaSuperv.addAll(response.body());
                 int listaSupervSize = listaSuperv.size();
@@ -749,8 +755,8 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
                 for (int i = 0; i < listaSupervSize; i++) {
 
                     Usuarios_DTO usuario = listaSuperv.get(i);
-                    java.lang.String emailUsuario  = usuario.getEmailUsuario();
-                    java.lang.String rolDelUsuario = usuario.getUserRol();
+                    String emailUsuario  = usuario.getEmailUsuario();
+                    String rolDelUsuario = usuario.getUserRol();
 
                     if (rolDelUsuario.substring(0, 3).equals("SDM") || rolDelUsuario.substring(0, 3).equals("ADM")){
                         if (listaEmails.isEmpty()){
@@ -775,29 +781,29 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
     }
 
 
-    private void emviarEmailsSuperv(java.lang.String emailsDeSuperv) {
+    private void emviarEmailsSuperv(String emailsDeSuperv) {
     /******************************************************/
-        java.lang.String nombrEquip = nombreEquipo;
-        java.lang.String trabSolicit = trabajoSolicit;
-        java.lang.String persEjecutor = spinnerEjecut.getSelectedItem().toString();
-        java.lang.String prioridadOT = spinnerPriorid.getSelectedItem().toString();
-        java.lang.String nombreSolict = StaticConfig.numbRealUser;
-        java.lang.String nombreEmpres = StaticConfig.nombrEmpresa;
+        String nombrEquip = nombreEquipo;
+        String trabSolicit = trabajoSolicit;
+        String persEjecutor = spinnerEjecut.getSelectedItem().toString();
+        String prioridadOT = spinnerPriorid.getSelectedItem().toString();
+        String nombreSolict = StaticConfig.numbRealUser;
+        String nombreEmpres = StaticConfig.nombrEmpresa;
 
-        java.lang.String asunto = getResources().getString(R.string.emailAsunto);
+        String asunto = getResources().getString(R.string.emailAsunto);
 
-        java.lang.String saludo = getResources().getString(R.string.saludo);
-        java.lang.String content01 = getResources().getString(R.string.content01);
-        java.lang.String content02 = getResources().getString(R.string.content02) + ":";
-        java.lang.String content03 = getResources().getString(R.string.content03);
-        java.lang.String content04 = getResources().getString(R.string.content04);
-        java.lang.String content05 = getResources().getString(R.string.content05);
-        java.lang.String content07 = getResources().getString(R.string.content07);
+        String saludo = getResources().getString(R.string.saludo);
+        String content01 = getResources().getString(R.string.content01);
+        String content02 = getResources().getString(R.string.content02) + ":";
+        String content03 = getResources().getString(R.string.content03);
+        String content04 = getResources().getString(R.string.content04);
+        String content05 = getResources().getString(R.string.content05);
+        String content07 = getResources().getString(R.string.content07);
         //String content08 = getResources().getString(R.string.content08) + ".";
-        java.lang.String content09 = getResources().getString(R.string.content09);
-        java.lang.String content10 = getResources().getString(R.string.content10);
+        String content09 = getResources().getString(R.string.content09);
+        String content10 = getResources().getString(R.string.content10);
 
-        java.lang.String mensaje = saludo + "<br>" +
+        String mensaje = saludo + "<br>" +
                 content01 + " " + nombreSolict +" (" + nombreEmpres +") "+ content02 + "<br><br>" +
 
                 "<b>" + content03 + "</b> " + nombrEquip + "<br>" +
@@ -833,11 +839,17 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
 
         /* RETROFIT */
         DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-        Call<java.lang.String> call = service.sendEmailNuevaOrdenTrab(informEmail);
+        Call<ResponseString> call = service.sendEmailNuevaOrdenTrab(informEmail);
 
-        call.enqueue(new Callback<java.lang.String>() {
+        call.enqueue(new Callback<ResponseString>() {
             @Override
-            public void onResponse(Call<java.lang.String> call, Response<java.lang.String> response) {
+            public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                }
+
                 if(response.isSuccessful() && response.body() != null){
                     Toast.makeText(getContext(), "An email was sent to maintenance staff", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
@@ -845,8 +857,7 @@ public class FragmentNewOrdTrab<listaImgsUri> extends Fragment {  // implements 
             }
 
             @Override
-            public void onFailure(Call<java.lang.String> call, Throwable throwable) {
-                throwable.printStackTrace();
+            public void onFailure(Call<ResponseString> call, Throwable throwable) {
                 Log.d("ErrorResponse: ", throwable.toString());
                 Toast.makeText(getContext(), "Fail to sent enail", Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);

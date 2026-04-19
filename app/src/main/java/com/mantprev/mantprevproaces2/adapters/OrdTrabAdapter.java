@@ -73,6 +73,7 @@ public class OrdTrabAdapter extends RecyclerView.Adapter <OrdTrabAdapter.ViewHol
         public TextView tvEjecutor;
         public TextView tvPrioridad;
         public TextView tvEstatuaAct;
+        public TextView tvTecnAsign;
 
         public ViewHolderOTs(@NonNull View itemView) {
             super(itemView);
@@ -85,6 +86,7 @@ public class OrdTrabAdapter extends RecyclerView.Adapter <OrdTrabAdapter.ViewHol
             tvEjecutor = (TextView) itemView.findViewById(R.id.tvEjecutor);
             tvPrioridad = (TextView) itemView.findViewById(R.id.tvPrioridad);
             tvEstatuaAct = (TextView) itemView.findViewById(R.id.tvEstatuaAct);
+            tvTecnAsign = (TextView) itemView.findViewById(R.id.tvTecnAsign);
         }
 
         private void cargarInfoOrdenTrabajo (OrdenesTrabajo ordenTrab){
@@ -101,6 +103,7 @@ public class OrdTrabAdapter extends RecyclerView.Adapter <OrdTrabAdapter.ViewHol
             tvEjecutor.setText(ordenTrab.getPersEjecutor());
             tvPrioridad.setText(ordenTrab.getPrioridadOT());
             tvEstatuaAct.setText(ordenTrab.getEstatusOT());
+            tvTecnAsign.setText(ordenTrab.getTecnAsignado());
         }
     }
 

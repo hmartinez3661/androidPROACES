@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.mantprev.mantprevproaces2.ModelosDTO2.InformacionEmails;
+import com.mantprev.mantprevproaces2.ModelosDTO2.ResponseString;
 import com.mantprev.mantprevproaces2.R;
 import com.mantprev.mantprevproaces2.retrofit.DataServices_Intf;
 import com.mantprev.mantprevproaces2.retrofit.Retrofit_Instance;
@@ -65,7 +66,7 @@ public class FragmentRecupPassw extends Fragment {
     }
 
     private void generarNvoPassword() {
-        /*********************************/
+    /*********************************/
         progresBar.setVisibility(View.VISIBLE);
         String emailUser = etUserEmail.getText().toString();
 
@@ -73,16 +74,16 @@ public class FragmentRecupPassw extends Fragment {
 
             /* RETROFIT */
             DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-            Call<String> call = service.getUserPasswProvis(emailUser);
+            Call<ResponseString> call = service.getUserPasswProvis(emailUser);
 
-            call.enqueue(new Callback<String>() {
+            call.enqueue(new Callback<ResponseString>() {
                 @Override
-                public void onResponse(Call<String> call, retrofit2.Response<String> response) {
-
+                public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
                     if(response.isSuccessful() && response.body() != null){
 
                         Toast.makeText(getContext(), getResources().getString(R.string.msgRecupPassw), Toast.LENGTH_LONG).show();
-                        String passwProv = response.body();
+                        ResponseString responseStr = response.body();
+                        String passwProv = responseStr.getDatoString();
                         enviarEmail(emailUser, passwProv);
                         cerrarSesionUsuario();
                         progresBar.setVisibility(View.GONE);
@@ -97,7 +98,7 @@ public class FragmentRecupPassw extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable throwable) {
+                public void onFailure(Call<ResponseString> call, Throwable throwable) {
                     progresBar.setVisibility(View.GONE);
                     throwable.printStackTrace();
                     Log.d("ErrorResponse: ", throwable.toString());
@@ -137,11 +138,11 @@ public class FragmentRecupPassw extends Fragment {
 
         /* RETROFIT */
         DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-        Call<String> call = service.sendEmailRecuperacPassword(informEmail);
+        Call<ResponseString> call = service.sendEmailRecuperacPassword(informEmail);
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<ResponseString>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
                 if(response.isSuccessful() && response.body() != null){
                     Toast.makeText(getContext(), "Un correo electrónico le fue enviado.", Toast.LENGTH_SHORT).show();
                     progresBar.setVisibility(View.GONE);
@@ -149,8 +150,7 @@ public class FragmentRecupPassw extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable throwable) {
-                throwable.printStackTrace();
+            public void onFailure(Call<ResponseString> call, Throwable throwable) {
                 Log.d("ErrorResponse: ", throwable.toString());
                 Toast.makeText(getContext(), "Fail to sent enail", Toast.LENGTH_LONG).show();
                 progresBar.setVisibility(View.GONE);

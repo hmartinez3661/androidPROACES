@@ -161,6 +161,14 @@
                 android:textStyle="bold"
                 android:textSize="14sp" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tvTecnAsign"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="14sp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -197,6 +205,14 @@
 
             <TextView
                 android:id="@+id/tvEstatuaAct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lrFile01"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvTecnAsign"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/lrFile01"

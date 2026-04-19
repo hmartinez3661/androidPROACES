@@ -1,5 +1,8 @@
 package com.mantprev.mantprevproaces2.adapters;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+import static java.security.AccessController.getContext;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mantprev.mantprevproaces2.R;
@@ -20,21 +25,22 @@ import com.mantprev.mantprevproaces2.retrofit.Retrofit_Instance;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import okhttp3.Request;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class FotosOtAdapter extends RecyclerView.Adapter <FotosOtAdapter.ViewHolderFotosOT>{
 
-    ArrayList <String> listaNombresFotosOT;
-    Context context;
+    private final ArrayList <String> listaNombresFotosOT;
+    private final Context context;
     private final VerFotosListener verFotosListener;
 
 
     //CONSTRUCTOR
     public FotosOtAdapter(ArrayList<String> listaNombresFotosOT, Context context, VerFotosListener verFotosListener) { //
         this.listaNombresFotosOT = listaNombresFotosOT;
-        this.context = context;
+        this.context = context.getApplicationContext();
         this.verFotosListener = verFotosListener;
     }
 
@@ -84,7 +90,7 @@ public class FotosOtAdapter extends RecyclerView.Adapter <FotosOtAdapter.ViewHol
 
 
         private void descargarImagenWebService(String nombreFoto){
-        /*********************************************************/
+        /*********************************************************/  //this.itemView.getContext()
             //* RETROFIT
             DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
             Call<ResponseBody> call = service.dowLoadFotoFromServer(nombreFoto);
@@ -92,8 +98,8 @@ public class FotosOtAdapter extends RecyclerView.Adapter <FotosOtAdapter.ViewHol
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                    if(response.isSuccessful()){
 
+                    if(response.isSuccessful()){
                         InputStream impStream = response.body().byteStream();
                         Bitmap bitmapImg = BitmapFactory.decodeStream(impStream);
                         ivFotoOT.setImageBitmap(bitmapImg);

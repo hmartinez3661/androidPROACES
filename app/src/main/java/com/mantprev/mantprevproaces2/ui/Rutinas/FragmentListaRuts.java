@@ -214,6 +214,11 @@ public class FragmentListaRuts extends Fragment {
             @Override
             public void onResponse(Call<List<RustEquiposDTO>> call, Response<List<RustEquiposDTO>> response) {
 
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                }
+
                 if(response.isSuccessful() && response.body() != null){
                     List<RustEquiposDTO> listaRutsEquips = new ArrayList<>(response.body());
                     int cantRorts= MetodosStaticos.getCantidadRutsConRepteEjec(listaRutsEquips);
@@ -244,9 +249,6 @@ public class FragmentListaRuts extends Fragment {
                     if (listaRutsEquips.isEmpty()){
                         Toast.makeText(getContext(), "No datos para mostrar ...", Toast.LENGTH_LONG).show();
                     }
-
-                } else {
-                    Toast.makeText(getContext(), getResources().getString(R.string.msgNoHayFallas), Toast.LENGTH_LONG).show();
                 }
 
                 progressBar.setVisibility(View.GONE);
@@ -325,56 +327,64 @@ public class FragmentListaRuts extends Fragment {
             @Override
             public void onResponse(Call<List<Equipos>> call, Response<List<Equipos>> response) {
 
-                listaEquipos.addAll(response.body());
-                listaEquipos.remove(0); //Remueve el nodo raiz (Planta General)
-
-                //SE CREA LA LISTA DE EQUIPOS PADRES
-                equipsMap = new HashMap<String, List<String>>();
-                ArrayList<Equipos> listaEquiposPadres = new ArrayList<>();
-                int listaEquiposSize = listaEquipos.size();
-
-                for (int i=0; i< listaEquiposSize; i++){
-
-                    int idEquipo = listaEquipos.get(i).getIdEquipo();
-                    String correlat = listaEquipos.get(i).getCorrelativo();
-                    String nombreEquip = listaEquipos.get(i).getNombEquipo();
-
-                    if (correlat.length() == 2){
-
-                        Equipos equipoPadre = new Equipos();
-                        equipoPadre.setIdEquipo(idEquipo);
-                        equipoPadre.setNombEquipo(nombreEquip);
-                        equipoPadre.setCorrelativo(correlat);
-
-                        listaEquiposPadres.add(equipoPadre);
-                    }
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(root).navigate(R.id.fragmentLogin);
                 }
 
-                //SE CREAN LA LISTA DE NOMBRES DE PADRES E HIJOS
-                int listaEquiposPadreSize = listaEquiposPadres.size();
-                for (int i=0; i< listaEquiposPadreSize; i++){
+                if(response.isSuccessful() && response.body() != null){
+                    listaEquipos.addAll(response.body());
+                    listaEquipos.remove(0); //Remueve el nodo raiz (Planta General)
 
-                    String correlatPadre = listaEquiposPadres.get(i).getCorrelativo();
-                    String nombrEquipPrd = listaEquiposPadres.get(i).getNombEquipo();
+                    //SE CREA LA LISTA DE EQUIPOS PADRES
+                    equipsMap = new HashMap<String, List<String>>();
+                    ArrayList<Equipos> listaEquiposPradre = new ArrayList<>();
+                    int listaEquiposSize = listaEquipos.size();
 
-                    parentsList.add(nombrEquipPrd);
-                    childList = new ArrayList<>();
+                    for (int i=0; i< listaEquiposSize; i++){
 
-                    for (int j=0; j<listaEquipos.size(); j++){
+                        int idEquipo = listaEquipos.get(i).getIdEquipo();
+                        String correlat = listaEquipos.get(i).getCorrelativo();
+                        String nombreEquip = listaEquipos.get(i).getNombEquipo();
 
-                        Equipos equipoHijo = listaEquipos.get(j);
-                        int idEquipoHijo = equipoHijo.getIdEquipo();
-                        String correlatHijo = equipoHijo.getCorrelativo();
-                        String nombreEquipo = equipoHijo.getNombEquipo() + " (" + correlatHijo +")";
+                        if (correlat.length() == 2){
 
-                        if(correlatHijo.startsWith(correlatPadre)){
-                            childList.add(nombreEquipo);
+                            Equipos equipoPadre = new Equipos();
+                            equipoPadre.setIdEquipo(idEquipo);
+                            equipoPadre.setNombEquipo(nombreEquip);
+                            equipoPadre.setCorrelativo(correlat);
+
+                            listaEquiposPradre.add(equipoPadre);
                         }
                     }
-                    equipsMap.put(nombrEquipPrd, childList);
+
+                    //SE CREAN LA LISTA DE NOMBRES DE PADRES E HIJOS
+                    int listaEquiposPadreSize = listaEquiposPradre.size();
+                    for (int i=0; i< listaEquiposPadreSize; i++){
+
+                        String correlatPadre = listaEquiposPradre.get(i).getCorrelativo();
+                        String nombrEquipPrd = listaEquiposPradre.get(i).getNombEquipo();
+
+                        parentsList.add(nombrEquipPrd);
+                        childList = new ArrayList<>();
+
+                        for (int j=0; j<listaEquipos.size(); j++){
+
+                            Equipos equipoHijo = listaEquipos.get(j);
+                            int idEquipoHijo = equipoHijo.getIdEquipo();
+                            String correlatHijo = equipoHijo.getCorrelativo();
+                            String nombreEquipo = equipoHijo.getNombEquipo() + " (" + correlatHijo +")";
+
+                            if(correlatHijo.startsWith(correlatPadre)){
+                                childList.add(nombreEquipo);
+                            }
+                        }
+                        equipsMap.put(nombrEquipPrd, childList);
+                    }
+
+                    mostrarVentanaEquipos(parentsList, equipsMap);
                 }
 
-                mostrarVentanaEquipos(parentsList, equipsMap);
                 progressBar.setVisibility(View.GONE);
             }
 
@@ -448,13 +458,11 @@ public class FragmentListaRuts extends Fragment {
 
             @Override
             public void onResponse(Call<List<ConfigSpinners>> call, retrofit2.Response<List<ConfigSpinners>> response) {
-                /*
-                if (response.code() == 401){  // El token ha expirado
-                    ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                    activCerrarSess.cleanSesionDeUsuario(getContext());
-                    Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                } */
+                }
 
                 if(response.isSuccessful() && response.body() != null){
                     listaConfigSpnn.addAll(response.body());
@@ -477,16 +485,11 @@ public class FragmentListaRuts extends Fragment {
 
                     progressBar.setVisibility(View.GONE);
                     mostrarVentanaEjecutores(listaEjcutRuts);
-
-                } else {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), "Fallo en cargar ejecutores ....", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<ConfigSpinners>> call, Throwable throwable) {
-                throwable.printStackTrace();
                 Log.d("ErrorResponse: ", throwable.toString());
                 progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "FALLO EN CARGAR DATOS", Toast.LENGTH_LONG).show();

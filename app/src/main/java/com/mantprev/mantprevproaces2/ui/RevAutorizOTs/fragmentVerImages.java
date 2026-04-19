@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.mantprev.mantprevproaces2.R;
 import com.mantprev.mantprevproaces2.retrofit.DataServices_Intf;
@@ -61,21 +63,16 @@ public class fragmentVerImages extends Fragment {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                /*
+
                 if (response.code() == 401){  // El token ha expirado
-                    ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                    activCerrarSess.cleanSesionDeUsuario(getContext());
-                    Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                }  */
+                }
 
                 if(response.isSuccessful()){
                     InputStream impStream = response.body().byteStream();
                     Bitmap bitmapImg = BitmapFactory.decodeStream(impStream);
                     tivVerFoto.setImageBitmap(bitmapImg);
-
-                } else {
-                    Log.d("Connection: ", "Fail to get photo...");
                 }
             }
 

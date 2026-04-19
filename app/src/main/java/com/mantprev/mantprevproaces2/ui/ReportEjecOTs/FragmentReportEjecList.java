@@ -66,7 +66,7 @@ public class FragmentReportEjecList extends Fragment {
         root = inflater.inflate(R.layout.fragment_report_ejec_list, container, false);
 
         tvIndicaciones2 = (TextView) root.findViewById(R.id.tvIndicaciones2);
-        spinnerEjecut = (Spinner) root.findViewById(R.id.tvEjecutoRutDt);
+        spinnerEjecut = (Spinner) root.findViewById(R.id.spnPersTecn);
         progressBar = (ProgressBar) root.findViewById(R.id.progresBar);
 
         recyclerView = (RecyclerView) root.findViewById(R.id.reciclerView);
@@ -114,13 +114,10 @@ public class FragmentReportEjecList extends Fragment {
             @Override
             public void onResponse(Call<List<ConfigSpinners>> call, retrofit2.Response<List<ConfigSpinners>> response) {
 
-                /*
-                if (response.code() == 401){  // El token ha expirado
-                    ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                    activCerrarSess.cleanSesionDeUsuario(getContext());
+                if (response.code() == 401){  // La sesion ha expirado
                     Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                }  */
+                }
 
                 if(response.isSuccessful() && response.body() != null){
                     listConfSpinner.addAll(response.body());
@@ -177,6 +174,11 @@ public class FragmentReportEjecList extends Fragment {
             @Override
             public void onResponse(Call<List<ConfigSpinners>> call, retrofit2.Response<List<ConfigSpinners>> response) {
 
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                }
+
                 if(response.isSuccessful() && response.body() != null){
                     listConfSpinner.addAll(response.body());
 
@@ -188,17 +190,11 @@ public class FragmentReportEjecList extends Fragment {
 
                     //Coloca las OTs en el Adapter
                     listarOTsReadyToCloseOnAdapter(statusRevisd, statusEnProc);
-
-                } else {
-                    Toast.makeText(getContext(), "Fallo en cargar status spinner", Toast.LENGTH_LONG).show();
-                    progressBar.setVisibility(View.GONE);
                 }
-
             }
 
             @Override
             public void onFailure(Call<List<ConfigSpinners>> call, Throwable throwable) {
-                throwable.printStackTrace();
                 Log.d("ErrorResponse: ", throwable.toString());
                 Toast.makeText(getContext(), "FALLO EN CARGAR CONFIG SPINNERS", Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
@@ -226,6 +222,11 @@ public class FragmentReportEjecList extends Fragment {
 
             @Override
             public void onResponse(Call<List<OrdenesTrab_DTO2>> call, retrofit2.Response<List<OrdenesTrab_DTO2>> response) {
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                }
 
                 if(response.isSuccessful() && response.body() != null){
                     listOTsDto.addAll(response.body());
@@ -288,10 +289,6 @@ public class FragmentReportEjecList extends Fragment {
 
                     recyclerView.setAdapter(ordTrabAdapter);
                     progressBar.setVisibility(View.GONE);
-
-                } else {
-                    Toast.makeText(getContext(), "Fallo en cargar OTs para cerrar", Toast.LENGTH_LONG).show();
-                    progressBar.setVisibility(View.GONE);
                 }
             }
 
@@ -324,6 +321,11 @@ public class FragmentReportEjecList extends Fragment {
 
                 @Override
                 public void onResponse(Call<List<OrdenesTrab_DTO2>> call, retrofit2.Response<List<OrdenesTrab_DTO2>> response) {
+
+                    if (response.code() == 401){  // La sesion ha expirado
+                        //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                        Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                    }
 
                     if(response.isSuccessful() && response.body() != null){
                         listaOrdTrabDto.addAll(response.body());
@@ -385,10 +387,6 @@ public class FragmentReportEjecList extends Fragment {
                         });
 
                         recyclerView.setAdapter(ordTrabAdapter);
-                        progressBar.setVisibility(View.GONE);
-
-                    } else {
-                        Toast.makeText(getContext(), "Fallo en cargar OTs para Cerrar - ejecutores", Toast.LENGTH_LONG).show();
                         progressBar.setVisibility(View.GONE);
                     }
                 }

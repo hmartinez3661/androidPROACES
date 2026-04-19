@@ -16,6 +16,7 @@ public class OrdenTrabRevis {
     private String statusDeOT;
     private String numEstimTecn;
     private String numEstimHrs;
+    private String tecnAsign;
     private String indicPrevTrab;
     private String explicRechazo;
 
@@ -136,6 +137,11 @@ public class OrdenTrabRevis {
         this.explicRechazo = explicRechazo;
     }
 
+    public String getTecnAsign() {
+        return tecnAsign;
+    }
 
-
+    public void setTecnAsign(String tecnAsign) {
+        this.tecnAsign = tecnAsign;
+    }
 }

@@ -20,6 +20,7 @@ import androidx.navigation.Navigation;
 import com.mantprev.mantprevproaces2.ModelosDTO1.ConfigSpinners;
 import com.mantprev.mantprevproaces2.ModelosDTO2.OrdenTrabRevis;
 import com.mantprev.mantprevproaces2.ModelosDTO2.OrdenesTrabDTO_2;
+import com.mantprev.mantprevproaces2.ModelosDTO2.ResponseString;
 import com.mantprev.mantprevproaces2.R;
 import com.mantprev.mantprevproaces2.retrofit.DataServices_Intf;
 import com.mantprev.mantprevproaces2.retrofit.Retrofit_Instance;
@@ -35,15 +36,15 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FragmentCheckupOT extends Fragment {
 
     private String idOT;
     private TextView tvNumOT;
-    private Button btnSaveRevisOT;
     private String numOT, persEjecut, prioridadOT, trabSolicit, nombrSolic, fechaIngrOT, horaIngrOT, estatusOT, nombrEquip;
     private EditText etNombreEquip, etDescripTrab, etNumPersEstim, etNumHrsEstim, etIndicPrev, etExplicRechazo;
-    private Spinner spinnerEjecut, spinnerPriorid, spnClasificOT, spnStatusOT;
+    private Spinner spinnerEjecut, spinnerPriorid, spnClasificOT, spnStatusOT, spnTecnAsign;
     private TextView tvIndicFotos;
     private int cantFotosAnex;
     private View root;
@@ -52,7 +53,6 @@ public class FragmentCheckupOT extends Fragment {
     public FragmentCheckupOT() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,16 +75,17 @@ public class FragmentCheckupOT extends Fragment {
         tvNumOT = (TextView) root.findViewById(R.id.tvNumRut);
         etNombreEquip = (EditText) root.findViewById(R.id.etNombreEquip);
         etDescripTrab = (EditText) root.findViewById(R.id.etTrabajoRut);
-        spinnerEjecut = (Spinner) root.findViewById(R.id.tvEjecutoRutDt);
+        spinnerEjecut = (Spinner) root.findViewById(R.id.spnPersTecn);
         spinnerPriorid = (Spinner) root.findViewById(R.id.tvFrecucRutDt);
         spnClasificOT = (Spinner) root.findViewById(R.id.spnClasificOT);
         spnStatusOT = (Spinner) root.findViewById(R.id.spnStatusOT);
+        spnTecnAsign = (Spinner) root.findViewById(R.id.spnTecnAsign);
         etNumPersEstim = (EditText) root.findViewById(R.id.etNumPersEstim);
         etNumHrsEstim = (EditText) root.findViewById(R.id.etNumHrsEstim);
         etIndicPrev = (EditText) root.findViewById(R.id.etMedidadSegur);
         etExplicRechazo = (EditText) root.findViewById(R.id.etExplicRechazo);
         tvIndicFotos = (TextView) root.findViewById(R.id.tvIndicFotos);
-        btnSaveRevisOT = (Button) root.findViewById(R.id.btnSaveRevisOT);
+        Button btnSaveRevisOT = (Button) root.findViewById(R.id.btnSaveRevisOT);
 
         progressBar = (ProgressBar) root.findViewById(R.id.progresBar);
 
@@ -108,9 +109,9 @@ public class FragmentCheckupOT extends Fragment {
 
         getAndShowOrdenTrabajo(idOT);
         poblarSpinners();
+        poblarSpinnerPersTecn();
         return root;
     }
-
 
     private void getAndShowOrdenTrabajo(String idOT){
     /***********************************************/
@@ -125,13 +126,11 @@ public class FragmentCheckupOT extends Fragment {
 
             @Override
             public void onResponse(@NonNull Call<OrdenesTrabDTO_2> call, @NonNull retrofit2.Response<OrdenesTrabDTO_2> response) {
-                /*
-                if (response.code() == 401){  // El token ha expirado
-                    ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                    activCerrarSess.cleanSesionDeUsuario(getContext());
-                    Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                }  */
+                }
 
                 if(response.isSuccessful() && response.body() != null){
                     OrdenesTrabDTO_2 ordenTrab = response.body();
@@ -156,15 +155,11 @@ public class FragmentCheckupOT extends Fragment {
                     etNumPersEstim.setText(persEsti);
                     etNumHrsEstim.setText(tmpoEsti);
                     tvIndicFotos.setText(indicFts);
-
-                } else {
-                    Toast.makeText(getContext(), "No se pudo cargar OT para Autorización", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<OrdenesTrabDTO_2> call, Throwable throwable) {
-                throwable.printStackTrace();
                 Log.d("ErrorResponse: ", throwable.toString());
                 Toast.makeText(getContext(), "FALLO AL CARGAR OT", Toast.LENGTH_LONG).show();
             }
@@ -172,7 +167,6 @@ public class FragmentCheckupOT extends Fragment {
 
         progressBar.setVisibility(View.GONE);
     }
-
 
     private void poblarSpinners(){
     /****************************/
@@ -190,6 +184,11 @@ public class FragmentCheckupOT extends Fragment {
 
             @Override
             public void onResponse(Call<List<ConfigSpinners>> call, retrofit2.Response<List<ConfigSpinners>> response) {
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                }
 
                 if(response.isSuccessful() && response.body() != null){
 
@@ -235,15 +234,11 @@ public class FragmentCheckupOT extends Fragment {
 
                     setItemsDeSpiner(arrayArraysItemsSpiners);
                     progressBar.setVisibility(View.GONE);
-
-                } else{
-                    Toast.makeText(getContext(), "Fallo en cargar config. SPINNERS", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<ConfigSpinners>> call, Throwable throwable) {
-                throwable.printStackTrace();
                 Log.d("ErrorResponse: ", throwable.toString());
                 Toast.makeText(getContext(), "FALLO EN CARGAR CONFIG SPINNERS", Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
@@ -320,10 +315,39 @@ public class FragmentCheckupOT extends Fragment {
         //Se asigna a los spinner el nuevo status y una clasificacion por default
         spnClasificOT.setSelection(1);
         spnStatusOT.setSelection(0);
-
-        //cambiarStatusDeOT(idOT); //Revision automatica de OT
     }
 
+    private void poblarSpinnerPersTecn(){
+    /***********************************/
+        DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
+
+        Call<List<String>> call2 = service.getNamesPersTecnAct();
+        call2.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                }
+
+                if(response.isSuccessful() && response.body() != null){
+                    List<String> listNamesTecnic = response.body();
+
+                    //Adapter Spinner personal técnico
+                    ArrayAdapter<CharSequence> adapterPersTecn = new ArrayAdapter(requireContext(), R.layout.zspinners_items, listNamesTecnic); //R.layout.zspinner_text
+                    adapterPersTecn.setDropDownViewResource(R.layout.zspinners_dropdown_items);
+                    spnTecnAsign.setAdapter(adapterPersTecn);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable throwable) {
+                Toast.makeText(getContext(), "Fallo en cargar lista de Técnicos", Toast.LENGTH_LONG).show();
+            }
+        });
+        //cambiarStatusDeOT(idOT); //Revision automatica de OT
+    }
 
     private void cambiarStatusDeOT(String idOT){  //Revision automatica de OT
     /******************************************/
@@ -352,19 +376,20 @@ public class FragmentCheckupOT extends Fragment {
 
             /* RETROFIT */
             DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-            Call<String> call = service.guardarRevisAutomatOT(dtosOrdTrab);   //"ordsTrab/saveRevAutmOT/"
+            Call<ResponseString> call = service.guardarRevisAutomatOT(dtosOrdTrab);   //"ordsTrab/saveRevAutmOT/"
 
-            call.enqueue(new Callback<String>() {
+            call.enqueue(new Callback<ResponseString>() {
                 @Override
-                public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
 
-                    if(response.body().equals("OK")){
+                    if (response.code() == 401){  // La sesion ha expirado
+                        //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                        Navigation.findNavController(root).navigate(R.id.fragmentLogin);
                     }
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable throwable) {
-                    throwable.printStackTrace();
+                public void onFailure(Call<ResponseString> call, Throwable throwable) {
                     Log.d("ErrorResponse: ", throwable.toString());
                     Toast.makeText(getContext(), "FALLO GUARDAR REVISION DE OT", Toast.LENGTH_LONG).show();
                 }
@@ -373,7 +398,6 @@ public class FragmentCheckupOT extends Fragment {
             progressBar.setVisibility(View.GONE);
         }
     }
-
 
     private void guardarRevisionOT(){
     /*******************************/
@@ -391,6 +415,7 @@ public class FragmentCheckupOT extends Fragment {
         String estatusOT = spnStatusOT.getSelectedItem().toString();
         String nEstimTec = etNumPersEstim.getText().toString();
         String nEstimHrs = etNumHrsEstim.getText().toString();
+        String tencAsign = spnTecnAsign.getSelectedItem().toString();
         String indPrevTrab = etIndicPrev.getText().toString().replaceAll(",", "\\$");
         String explRechazo = etExplicRechazo.getText().toString().replaceAll(",", "\\$");
 
@@ -410,15 +435,15 @@ public class FragmentCheckupOT extends Fragment {
             progressBar.setVisibility(View.GONE);
         }
 
-        if (explRechazo.equals("")){
+        if (explRechazo.isEmpty()){
             explRechazo = "--";
         }
-        if(indPrevTrab.equals("")){
+        if(indPrevTrab.isEmpty()){
             indPrevTrab = "--";
         }
 
         // SI DATOS ESTAN CORRECTOS PROCEDE A GUARDAR LA OT
-        if (datosCorrectos == true){
+        if (datosCorrectos){  //datosCorrectos == true
 
             OrdenTrabRevis dtosOrdTrab = new OrdenTrabRevis();
             dtosOrdTrab.setIdOrdTrab(idOrdTrab);
@@ -432,29 +457,33 @@ public class FragmentCheckupOT extends Fragment {
             dtosOrdTrab.setPrioridadOT(prioridOT);
             dtosOrdTrab.setNumEstimTecn(nEstimTec);
             dtosOrdTrab.setNumEstimHrs(nEstimHrs);
+            dtosOrdTrab.setTecnAsign(tencAsign);
             dtosOrdTrab.setIndicPrevTrab(indPrevTrab);
             dtosOrdTrab.setExplicRechazo(explRechazo);
 
             /* RETROFIT */
             DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-            Call<String> call = service.gurdarRevisionOT(dtosOrdTrab);   //"ordsTrab/saveRevOT/"
+            Call<OrdenTrabRevis> call = service.gurdarRevisionOT(dtosOrdTrab);   //"ordsTrab/saveRevOT/"
 
-            call.enqueue(new Callback<String>() {
+            call.enqueue(new Callback<OrdenTrabRevis>() {
                 @Override
-                public void onResponse(Call<String> call, retrofit2.Response<String> response) {
+                public void onResponse(Call<OrdenTrabRevis> call, Response<OrdenTrabRevis> response) {
 
-                    if(response.body().equals("OK")){
+                    if (response.code() == 401){  // La sesion ha expirado
+                        //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                        Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                    }
+
+                    if(response.body() != null){
                         Toast.makeText(getContext(), getResources().getString(R.string.exitoSaveRevOT), Toast.LENGTH_SHORT).show();
                         //Regresa al listado de nuevas OTs
                         Navigation.findNavController(root).navigate(R.id.fragmentAutorizOTList);
 
-                    } else {
-                        Toast.makeText(getContext(), getResources().getString(R.string.falloSaveRevOT), Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable throwable) {
+                public void onFailure(Call<OrdenTrabRevis> call, Throwable throwable) {
                     throwable.printStackTrace();
                     Log.d("ErrorResponse: ", throwable.toString());
                     Toast.makeText(getContext(), "FALLO GUARDAR REVISION DE OT", Toast.LENGTH_LONG).show();
@@ -464,7 +493,6 @@ public class FragmentCheckupOT extends Fragment {
             progressBar.setVisibility(View.GONE);
         }
     }
-
 
     public String getHoraActual(){
     /****************************/

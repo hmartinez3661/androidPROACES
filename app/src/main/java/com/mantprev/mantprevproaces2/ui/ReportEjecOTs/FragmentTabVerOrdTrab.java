@@ -33,10 +33,10 @@ public class FragmentTabVerOrdTrab extends Fragment {
 
 
     private TextView tvNumOT;
-    private String numOT, persEjecut, prioridadOT, trabSolicit, nombrSolic, fechaIngrOT, horaIngrOT;
+    private String numOT, persEjecut, prioridadOT, trabSolicit, tecnAsign, nombrSolic, fechaIngrOT, horaIngrOT;
     private String estatusOT, nombrEquip, clasificTrabj, indicPrevias, persReviso, horaRevOT, fechaRevOT;
     private EditText etNombreEquip, etDescripTrab, etNumPersEstim, etNumHrsEstim, etIndicPrev;
-    private Spinner spinnerEjecut, spinnerPriorid, spnClasificOT, spnStatusOT;
+    private Spinner spinnerEjecut, spinnerPriorid, spnClasificOT, spnStatusOT, spnTecnAsign;
     private TextView tvIndicFotos, tvPersReviso2, tvDateTime;
     private int cantFotosAnex, persEstim;
     private Double tiempoEstim;
@@ -60,10 +60,11 @@ public class FragmentTabVerOrdTrab extends Fragment {
         tvNumOT = (TextView) root.findViewById(R.id.tvNumRut);
         etNombreEquip = (EditText) root.findViewById(R.id.etNombreEquip);
         etDescripTrab = (EditText) root.findViewById(R.id.etTrabajoRut);
-        spinnerEjecut = (Spinner) root.findViewById(R.id.tvEjecutoRutDt);
+        spinnerEjecut = (Spinner) root.findViewById(R.id.spnPersTecn);
         spinnerPriorid = (Spinner) root.findViewById(R.id.tvFrecucRutDt);
         spnClasificOT = (Spinner) root.findViewById(R.id.spnClasificOT);
         spnStatusOT = (Spinner) root.findViewById(R.id.spnStatusOT);
+        spnTecnAsign = (Spinner) root.findViewById(R.id.spnTecnAsign);
         etNumPersEstim = (EditText) root.findViewById(R.id.etNumPersEstim);
         etNumHrsEstim = (EditText) root.findViewById(R.id.etNumHrsEstim);
         etIndicPrev = (EditText) root.findViewById(R.id.etMedidadSegur);
@@ -86,6 +87,7 @@ public class FragmentTabVerOrdTrab extends Fragment {
         });
 
         getAndShowOrdenTrabajo(idOT);
+        //poblarSpinnerPersTecn();
         return root;
     }
 
@@ -103,13 +105,11 @@ public class FragmentTabVerOrdTrab extends Fragment {
 
             @Override
             public void onResponse(Call<OrdenesTrabDTO_2> call, retrofit2.Response<OrdenesTrabDTO_2> response) {
-                /*
-                if (response.code() == 401){  // El token ha expirado
-                    ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                    activCerrarSess.cleanSesionDeUsuario(getContext());
-                    Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                } */
+                }
 
                 if(response.isSuccessful() && response.body() != null){
                     OrdenesTrabDTO_2 ordTrab = response.body();
@@ -136,10 +136,15 @@ public class FragmentTabVerOrdTrab extends Fragment {
                     clasificTrabj = ordTrab.getClasificTrabajo();
                     persEstim = ordTrab.getPersonalEstim();
                     tiempoEstim = ordTrab.getTiempoEstim();
+                    tecnAsign = ordTrab.getTecnAsignado();
                     indicPrevias = ordTrab.getIndicacPreviasTrab();
                     persReviso = ordTrab.getNombreAutorizo();
                     fechaRevOT = strDateReviOT;
                     horaRevOT = ordTrab.getHoraAutorizado();
+
+                    if(tecnAsign == null){
+                        tecnAsign = "";
+                    }
 
                     //Para ver Reporte de Ejecucion
                     int idRepteEjec = ordTrab.getIdRpteEjecOT();
@@ -172,6 +177,7 @@ public class FragmentTabVerOrdTrab extends Fragment {
                     ArrayList<String> clasificOTarray = new ArrayList<>();
                     ArrayList<String> prioridadesArray = new ArrayList<>();
                     ArrayList<String> estatusOTsArray = new ArrayList<>();
+                    ArrayList<String> tecnAsigndArray = new ArrayList<>();
 
                     //Si no ha sido revisada no tiene Clasificación todavía
                     if(clasificTrabj == null){
@@ -182,6 +188,7 @@ public class FragmentTabVerOrdTrab extends Fragment {
                     clasificOTarray.add(clasificTrabj);
                     prioridadesArray.add(prioridadOT);
                     estatusOTsArray.add(estatusOT);
+                    tecnAsigndArray.add(tecnAsign);
 
                     //Adapter Spinner Ejecutores
                     ArrayAdapter<CharSequence> adapterEject = new ArrayAdapter(getContext(), R.layout.zspinners_items, ejecutorestArray); //
@@ -199,14 +206,14 @@ public class FragmentTabVerOrdTrab extends Fragment {
                     ArrayAdapter<CharSequence> adapterStatusOTs = new ArrayAdapter(getContext(), R.layout.zspinners_items, estatusOTsArray); //R.layout.zspinner_text
                     spnStatusOT.setAdapter(adapterStatusOTs);
 
-                } else {
-                    Toast.makeText(getContext(), "La Orden de Trabajo es NULL", Toast.LENGTH_LONG).show();
+                    //Adapter Spinner statusOTs
+                    ArrayAdapter<CharSequence> adapterTecnAsign = new ArrayAdapter(getContext(), R.layout.zspinners_items, tecnAsigndArray); //R.layout.zspinner_text
+                    spnTecnAsign.setAdapter(adapterTecnAsign);
                 }
             }
 
             @Override
             public void onFailure(Call<OrdenesTrabDTO_2> call, Throwable throwable) {
-                throwable.printStackTrace();
                 Log.d("ErrorResponse: ", throwable.toString());
                 Toast.makeText(getContext(), "FALLO EN OBTENER DATOS DE LA OT", Toast.LENGTH_LONG).show();
             }
@@ -214,8 +221,6 @@ public class FragmentTabVerOrdTrab extends Fragment {
 
         progressBar.setVisibility(View.GONE);
     }
-
-
 
 
 

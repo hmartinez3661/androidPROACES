@@ -103,21 +103,29 @@ public class FragmentImages extends Fragment implements VerFotosListener{
             @Override
             public void onResponse(Call<List<Fotos_DTO>> call, retrofit2.Response<List<Fotos_DTO>> response) {
 
-                listaDeFotos.addAll(response.body());
-                int listaFotosSize = listaDeFotos.size();
-
-                for (int i=0; i< listaFotosSize; i++){
-                    Fotos_DTO dtsFoto = listaDeFotos.get(i);
-                    String nombreFoto = dtsFoto.getNombreFoto();
-
-                    if(!listaNamesFotosOT.contains(nombreFoto)){  //Para evitar la duplicidad de fotos
-                        listaNamesFotosOT.add(nombreFoto);
-                    }
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(root).navigate(R.id.fragmentLogin);
                 }
 
-                //SE OBTIENE UNA INSTANCIA DEL ADAPTADOR
-                FotosOtAdapter fotosOtAdapter = new FotosOtAdapter(listaNamesFotosOT, getContext(), verFotosListener);
-                recyclerViewFotosOT.setAdapter(fotosOtAdapter);
+                if(response.isSuccessful() && response.body() != null){
+                    listaDeFotos.addAll(response.body());
+                    int listaFotosSize = listaDeFotos.size();
+
+                    for (int i=0; i< listaFotosSize; i++){
+
+                        Fotos_DTO dtsFoto = listaDeFotos.get(i);
+                        String nombreFoto = dtsFoto.getNombreFoto();
+
+                        if(!listaNamesFotosOT.contains(nombreFoto)){  //Para evitar la duplicidad de fotos
+                            listaNamesFotosOT.add(nombreFoto);
+                        }
+                    }
+
+                    //SE OBTIENE UNA INSTANCIA DEL ADAPTADOR
+                    FotosOtAdapter fotosOtAdapter = new FotosOtAdapter(listaNamesFotosOT, getContext(), verFotosListener);
+                    recyclerViewFotosOT.setAdapter(fotosOtAdapter);
+                }
             }
 
             @Override

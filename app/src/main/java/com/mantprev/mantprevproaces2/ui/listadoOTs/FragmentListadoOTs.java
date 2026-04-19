@@ -36,6 +36,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,7 +55,6 @@ public class FragmentListadoOTs extends Fragment {
     private String esListaGenOTs = "Si";
     private ExpandableListView expandableListView;
     private ExpandableListAdapter expandableListAdapter;
-    private AlertDialog.Builder dialogBuilder;
     private AlertDialog alertDialog;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -187,13 +187,11 @@ public class FragmentListadoOTs extends Fragment {
         listaOTs.enqueue(new Callback<List<OrdenesTrabajo>>() {
             @Override
             public void onResponse(Call<List<OrdenesTrabajo>> call, Response<List<OrdenesTrabajo>> response) {
-                /*
-                if (response.code() == 401){  // El token ha expirado
-                    ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                    activCerrarSess.cleanSesionDeUsuario(getContext());
-                    Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                } */
+                }
 
                 if(response.isSuccessful() && response.body() != null){
                     listaOrdenesTrab = new ArrayList<>();
@@ -224,10 +222,10 @@ public class FragmentListadoOTs extends Fragment {
                     } else {
                         Toast.makeText(getContext(), getResources().getString(R.string.msgNoHayFallas), Toast.LENGTH_LONG).show();
                     }
-                } else {
+                } /*  else {
                     Toast.makeText(getContext(), getResources().getString(R.string.msgNoHayFallas), Toast.LENGTH_LONG).show();
                     tvMesListado.setText(mesMostradoTv);
-                }
+                }  */
 
                 progressBar.setVisibility(View.GONE);
             }
@@ -269,56 +267,64 @@ public class FragmentListadoOTs extends Fragment {
             @Override
             public void onResponse(Call<List<Equipos>> call, Response<List<Equipos>> response) {
 
-                listaEquipos.addAll(response.body());
-                listaEquipos.remove(0); //Remueve el nodo raiz (Planta General)
-
-                //SE CREA LA LISTA DE EQUIPOS PADRES
-                equipsMap = new HashMap<String, List<String>>();
-                ArrayList<Equipos> listaEquiposPradre = new ArrayList<>();
-                int listaEquiposSize = listaEquipos.size();
-
-                for (int i=0; i< listaEquiposSize; i++){
-
-                    int idEquipo = listaEquipos.get(i).getIdEquipo();
-                    String correlat = listaEquipos.get(i).getCorrelativo();
-                    String nombreEquip = listaEquipos.get(i).getNombEquipo();
-
-                    if (correlat.length() == 2){
-
-                        Equipos equipoPadre = new Equipos();
-                        equipoPadre.setIdEquipo(idEquipo);
-                        equipoPadre.setNombEquipo(nombreEquip);
-                        equipoPadre.setCorrelativo(correlat);
-
-                        listaEquiposPradre.add(equipoPadre);
-                    }
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(root).navigate(R.id.fragmentLogin);
                 }
 
-                //SE CREAN LA LISTA DE NOMBRES DE PADRES E HIJOS
-                int listaEquiposPadreSize = listaEquiposPradre.size();
-                for (int i=0; i< listaEquiposPadreSize; i++){
+                if(response.isSuccessful() && response.body() != null){
+                    listaEquipos.addAll(response.body());
+                    listaEquipos.remove(0); //Remueve el nodo raiz (Planta General)
 
-                    String correlatPadre = listaEquiposPradre.get(i).getCorrelativo();
-                    String nombrEquipPrd = listaEquiposPradre.get(i).getNombEquipo();
+                    //SE CREA LA LISTA DE EQUIPOS PADRES
+                    equipsMap = new HashMap<String, List<String>>();
+                    ArrayList<Equipos> listaEquiposPradre = new ArrayList<>();
+                    int listaEquiposSize = listaEquipos.size();
 
-                    parentsList.add(nombrEquipPrd);
-                    childList = new ArrayList<>();
+                    for (int i=0; i< listaEquiposSize; i++){
 
-                    for (int j=0; j<listaEquipos.size(); j++){
+                        int idEquipo = listaEquipos.get(i).getIdEquipo();
+                        String correlat = listaEquipos.get(i).getCorrelativo();
+                        String nombreEquip = listaEquipos.get(i).getNombEquipo();
 
-                        Equipos equipoHijo = listaEquipos.get(j);
-                        int idEquipoHijo = equipoHijo.getIdEquipo();
-                        String correlatHijo = equipoHijo.getCorrelativo();
-                        String nombreEquipo = equipoHijo.getNombEquipo() + " (" + correlatHijo +")";
+                        if (correlat.length() == 2){
 
-                        if(correlatHijo.startsWith(correlatPadre)){
-                            childList.add(nombreEquipo);
+                            Equipos equipoPadre = new Equipos();
+                            equipoPadre.setIdEquipo(idEquipo);
+                            equipoPadre.setNombEquipo(nombreEquip);
+                            equipoPadre.setCorrelativo(correlat);
+
+                            listaEquiposPradre.add(equipoPadre);
                         }
                     }
-                    equipsMap.put(nombrEquipPrd, childList);
+
+                    //SE CREAN LA LISTA DE NOMBRES DE PADRES E HIJOS
+                    int listaEquiposPadreSize = listaEquiposPradre.size();
+                    for (int i=0; i< listaEquiposPadreSize; i++){
+
+                        String correlatPadre = listaEquiposPradre.get(i).getCorrelativo();
+                        String nombrEquipPrd = listaEquiposPradre.get(i).getNombEquipo();
+
+                        parentsList.add(nombrEquipPrd);
+                        childList = new ArrayList<>();
+
+                        for (int j=0; j<listaEquipos.size(); j++){
+
+                            Equipos equipoHijo = listaEquipos.get(j);
+                            int idEquipoHijo = equipoHijo.getIdEquipo();
+                            String correlatHijo = equipoHijo.getCorrelativo();
+                            String nombreEquipo = equipoHijo.getNombEquipo() + " (" + correlatHijo +")";
+
+                            if(correlatHijo.startsWith(correlatPadre)){
+                                childList.add(nombreEquipo);
+                            }
+                        }
+                        equipsMap.put(nombrEquipPrd, childList);
+                    }
+
+                    mostrarVentanaEquipos(parentsList, equipsMap);
                 }
 
-                mostrarVentanaEquipos(parentsList, equipsMap);
                 progressBar.setVisibility(View.GONE);
             }
 
@@ -367,12 +373,11 @@ public class FragmentListadoOTs extends Fragment {
                 alertDialog.dismiss();
 
                 filtrarEquipsPorCorrelat();
-
                 return true;
             }
         });
 
-        dialogBuilder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireContext());
         dialogBuilder.setView(windowEquipos);
         alertDialog = dialogBuilder.create();
         alertDialog.show();

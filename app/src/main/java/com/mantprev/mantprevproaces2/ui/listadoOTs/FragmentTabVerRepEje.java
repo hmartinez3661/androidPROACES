@@ -147,13 +147,11 @@ public class FragmentTabVerRepEje extends Fragment {
 
             @Override
             public void onResponse(Call<RtesEjecOTs> call, retrofit2.Response<RtesEjecOTs> response) {
-                /*
-                if (response.code() == 401){  // El token ha expirado
-                    ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                    activCerrarSess.cleanSesionDeUsuario(getContext());
-                    Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                }  */
+                }
 
                 if(response.isSuccessful() && response.body() != null){
                     RtesEjecOTs repteEjec = response.body();
@@ -193,8 +191,6 @@ public class FragmentTabVerRepEje extends Fragment {
                     tvIndicServExt.setText(tvIndicServExtStr);
                     tvIndicFotosCierre.setText(tvIndicFotosStr);
 
-                } else {
-                    Toast.makeText(getContext(), "Fallo en cargar reporte de Ejecución Null", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -221,13 +217,11 @@ public class FragmentTabVerRepEje extends Fragment {
 
             @Override
             public void onResponse(Call<List<Repte2Datos>> call, retrofit2.Response<List<Repte2Datos>> response) {
-                /*
-                if (response.code() == 401){  // El token ha expirado
-                    ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                    activCerrarSess.cleanSesionDeUsuario(getContext());
-                    Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                }  */
+                }
 
                 if(response.isSuccessful() && response.body() != null){
                     listaReptes.addAll(response.body());
@@ -246,8 +240,6 @@ public class FragmentTabVerRepEje extends Fragment {
                     }
 
                     agregarPersTecnTabla(listaPersEjecOT);
-                }else {
-                    Toast.makeText(getContext(), "Fallo en cargar lista Ejecutores", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -345,6 +337,11 @@ public class FragmentTabVerRepEje extends Fragment {
                 @Override
                 public void onResponse(Call<List<Repte2Datos>> call, retrofit2.Response<List<Repte2Datos>> response) {
 
+                    if (response.code() == 401){  // La sesion ha expirado
+                        //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                        Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                    }
+
                     if(response.isSuccessful() && response.body() != null){
                         listaReptes.addAll(response.body());
                         ArrayList<String> listaReptosUtilz = new ArrayList<>();
@@ -362,8 +359,6 @@ public class FragmentTabVerRepEje extends Fragment {
                         }
 
                         agregarListaReptosTabla(listaReptosUtilz);
-                    } else {
-                        Toast.makeText(getContext(), "Fallo en cargas lista de repuestos", Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -452,6 +447,11 @@ public class FragmentTabVerRepEje extends Fragment {
                 @Override
                 public void onResponse(Call<List<Repte2Datos>> call, retrofit2.Response<List<Repte2Datos>> response) {
 
+                    if (response.code() == 401){  // La sesion ha expirado
+                        //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                        Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                    }
+
                     if(response.isSuccessful() && response.body() != null){
                         listReptes2Datos.addAll(response.body());
                         ArrayList<String> listaServExt = new ArrayList<>();
@@ -468,8 +468,6 @@ public class FragmentTabVerRepEje extends Fragment {
                         }
 
                         agregarServExternosTbl(listaServExt);
-                    } else {
-                        Toast.makeText(getContext(), "Fallo en cargar lista serv. externos", Toast.LENGTH_LONG).show();
                     }
                 }
 

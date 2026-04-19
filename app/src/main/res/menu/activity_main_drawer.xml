@@ -31,13 +31,18 @@
             android:title="@string/menu_revisarNvasOTs" />
 
         <item
+            android:id="@+id/fragmentListOtsAsignTecn"
+            android:icon="@drawable/mis_ord_trab"
+            android:title="@string/menu_otsAsignPersTec" />
+
+        <item
             android:id="@+id/fragmentReportEjecList"
             android:icon="@drawable/cerrar_ots"
             android:title="@string/menu_reportEjecsOTs" />
 
         <item
             android:id="@+id/fragmentListaRuts"
-            android:icon="@drawable/cerrar_ots"
+            android:icon="@drawable/rutinas"
             android:title="@string/menu_listaRuts" />
 
 

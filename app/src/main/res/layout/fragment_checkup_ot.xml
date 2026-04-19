@@ -136,7 +136,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline1"
                 app:layout_constraintTop_toBottomOf="@+id/etTrabajoRut"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0.02"/>
+                app:layout_constraintVertical_bias="0.035"/>
 
             <TextView
                 android:id="@+id/tvFrecuenc"
@@ -152,10 +152,10 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/guideline1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintVertical_bias="0.035"/>
+                app:layout_constraintVertical_bias="0.045"/>
 
             <Spinner
-                android:id="@+id/tvEjecutoRutDt"
+                android:id="@+id/spnPersTecn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -174,7 +174,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/style_spinners"
-                app:layout_constraintTop_toBottomOf="@+id/tvEjecutoRutDt"
+                app:layout_constraintTop_toBottomOf="@+id/spnPersTecn"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guideline1"
@@ -259,7 +259,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline1"
                 app:layout_constraintTop_toBottomOf="@+id/tvIndicaciones2"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0.03"/>
+                app:layout_constraintVertical_bias="0.045"/>
 
             <Spinner
                 android:id="@+id/spnClasificOT"
@@ -278,17 +278,18 @@
                 android:id="@+id/tvStatusOT"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/tvStatuscOT"
                 android:layout_marginStart="16dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
+                android:text="@string/tvStatuscOT"
                 android:textAlignment="textEnd"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline1"
-                app:layout_constraintTop_toBottomOf="@+id/tvClasificOT"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0.045"/>
+                app:layout_constraintEnd_toStartOf="@+id/guideline1"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvClasificOT"
+                app:layout_constraintVertical_bias="0.055" />
 
             <Spinner
                 android:id="@+id/spnStatusOT"
@@ -304,6 +305,35 @@
                 app:layout_constraintVertical_bias="0.02"/>
 
             <TextView
+                android:id="@+id/tvTecnAsign"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/tvTecnAsig"
+                android:layout_marginStart="16dp"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textAlignment="textEnd"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline1"
+                app:layout_constraintTop_toBottomOf="@+id/tvStatusOT"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0.065"/>
+
+            <Spinner
+                android:id="@+id/spnTecnAsign"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/style_spinners"
+                app:layout_constraintStart_toStartOf="@id/guideline1"
+                app:layout_constraintTop_toBottomOf="@+id/spnStatusOT"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0.02"/>
+
+            <TextView
                 android:id="@+id/tvNumPersEstim"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -315,14 +345,14 @@
                 android:textAlignment="textEnd"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
-                app:layout_constraintTop_toBottomOf="@+id/spnStatusOT"
+                app:layout_constraintTop_toBottomOf="@+id/spnTecnAsign"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0.025"/>
+                app:layout_constraintVertical_bias="0.035"/>
 
             <EditText
                 android:id="@+id/etNumPersEstim"
-                android:layout_width="45dp"
-                android:layout_height="wrap_content"
+                android:layout_width="55dp"
+                android:layout_height="30dp"
                 android:textSize="16sp"
                 android:background="@drawable/style_bordes_edittex3"
                 android:inputType="number"
@@ -330,7 +360,7 @@
                 android:layout_marginStart="10dp"
                 android:selectAllOnFocus="true"
                 app:layout_constraintStart_toEndOf="@+id/guideline2"
-                app:layout_constraintTop_toBottomOf="@+id/spnStatusOT"
+                app:layout_constraintTop_toBottomOf="@+id/spnTecnAsign"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0.02"/>
 
@@ -348,12 +378,12 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/tvNumPersEstim"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0.02"/>
+                app:layout_constraintVertical_bias="0.04"/>
 
             <EditText
                 android:id="@+id/etNumHrsEstim"
-                android:layout_width="45dp"
-                android:layout_height="wrap_content"
+                android:layout_width="55dp"
+                android:layout_height="30dp"
                 android:textSize="16sp"
                 android:background="@drawable/style_bordes_edittex3"
                 android:inputType="numberDecimal"

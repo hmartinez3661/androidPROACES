@@ -119,14 +119,10 @@ public class FragmentHome extends Fragment {
             @Override
             public void onResponse(Call<List<ConfigSpinners>> call, retrofit2.Response<List<ConfigSpinners>> response) {
 
-                /*
-                if (response.code() == 401){  // El token ha expirado
-                    ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                    activCerrarSess.cleanSesionDeUsuario(getContext());
-
-                    Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                } */
+                }
 
                 if(response.isSuccessful() && response.body() != null){
                     listConfSpinner.addAll(response.body());
@@ -153,7 +149,6 @@ public class FragmentHome extends Fragment {
 
             @Override
             public void onFailure(Call<List<ConfigSpinners>> call, Throwable throwable) {
-                throwable.printStackTrace();
                 Log.d("ErrorResponse: ", throwable.toString());
                 Toast.makeText(getContext(), "FALLO EN CARGAR CONFIG SPINNERS", Toast.LENGTH_LONG).show();
                 progresBar.setVisibility(View.GONE);
@@ -173,6 +168,12 @@ public class FragmentHome extends Fragment {
 
             @Override
             public void onResponse(Call<List<OrdenesTrabajo>> call, retrofit2.Response<List<OrdenesTrabajo>> response) {
+
+                /*
+                if (response.code() == 401){  // La sesion ha expirado
+                    Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                }  */
 
                 if(response.isSuccessful() && response.body() != null){
 

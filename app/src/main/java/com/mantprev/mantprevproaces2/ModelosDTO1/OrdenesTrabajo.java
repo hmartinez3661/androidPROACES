@@ -17,6 +17,7 @@ public class OrdenesTrabajo {
     private String correlativo;
     private String nombSolicitante;
     private String tpoParoProduc;
+    private String tecnAsignado;
     private String fechaEjecuc;
     private String repteHistor;
     private int   idReporteEjecuc;
@@ -164,14 +165,11 @@ public class OrdenesTrabajo {
         this.idReporteEjecuc = idReporteEjecuc;
     }
 
+    public String getTecnAsignado() {
+        return tecnAsignado;
+    }
 
-
-
-
-
-
-
-
-
-
+    public void setTecnAsignado(String tecnAsignado) {
+        this.tecnAsignado = tecnAsignado;
+    }
 }

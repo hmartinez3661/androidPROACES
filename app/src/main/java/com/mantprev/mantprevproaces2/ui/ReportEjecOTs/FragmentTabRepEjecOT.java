@@ -52,6 +52,7 @@ import com.mantprev.mantprevproaces2.ModelosDTO1.RtesPersEjecOTs;
 import com.mantprev.mantprevproaces2.ModelosDTO1.RtesReptosEjecOTs;
 import com.mantprev.mantprevproaces2.ModelosDTO1.RtesServExtEjecOTs;
 import com.mantprev.mantprevproaces2.ModelosDTO2.ReptesReptos_DTO;
+import com.mantprev.mantprevproaces2.ModelosDTO2.ResponseString;
 import com.mantprev.mantprevproaces2.ModelosDTO2.Usuarios_DTO;
 import com.mantprev.mantprevproaces2.R;
 import com.mantprev.mantprevproaces2.adapters.ExpandListFallasAdapter;
@@ -77,11 +78,12 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class FragmentTabRepEjecOT extends Fragment {
 
-    private java.lang.String idOT, numOT;
+    private String idOT, numOT;
     private TextView tvFechaFinaliz, tvNombrFalla, tvNombrSupOT, tvNombrePers;
     private EditText etHrsParoProduc, etHrsTrabajo, etCalidadTrab, etReportEjec, etNombRecivTrab, etHrsTrabajo2;
     private EditText etCostoRepsto, etNombreRepsto, etNombreServExt, etCostoServExt;
@@ -242,7 +244,7 @@ public class FragmentTabRepEjecOT extends Fragment {
         progressBar.setVisibility(View.GONE);
         cvRepuestos.setVisibility(View.GONE);
         cvServExt.setVisibility(View.GONE);
-        java.lang.String tvTexto = getResources().getString(R.string.tvAgregarFotosCierre) + " (0)";
+        String tvTexto = getResources().getString(R.string.tvAgregarFotosCierre) + " (0)";
         tvAgregarFotosCierre.setText(tvTexto);
         //etHrsParoProduc.requestFocus();
 
@@ -256,16 +258,16 @@ public class FragmentTabRepEjecOT extends Fragment {
 
 
     private static final int PERMISO_FOTOS_CODE = 99;
-    private final java.lang.String manifestPermiso = Manifest.permission.READ_MEDIA_IMAGES;
+    private final String manifestPermiso = Manifest.permission.READ_MEDIA_IMAGES;
 
 
     private void mostrarOpcionesFotos() {
     /**********************************/
         //TRAE LOS TITULOS DE LA VENTANA DESDE String.xml
-        java.lang.String titleOpc = getResources().getString(R.string.titleOpc);
-        java.lang.String opcTakePict = getResources().getString(R.string.opcTakePict);
-        java.lang.String opcChoseGall = getResources().getString(R.string.opcChoseGall);
-        java.lang.String opcCancel = getResources().getString(R.string.opcCancel);
+        String titleOpc = getResources().getString(R.string.titleOpc);
+        String opcTakePict = getResources().getString(R.string.opcTakePict);
+        String opcChoseGall = getResources().getString(R.string.opcChoseGall);
+        String opcCancel = getResources().getString(R.string.opcCancel);
 
         final CharSequence[] opciones = {opcTakePict, opcChoseGall, opcCancel};
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
@@ -281,7 +283,7 @@ public class FragmentTabRepEjecOT extends Fragment {
                 if(opciones[which].equals(opcChoseGall)){
 
                     if(Build.VERSION.SDK_INT >= 33){
-                        ActivityCompat.requestPermissions(requireActivity(), new java.lang.String[]{manifestPermiso}, PERMISO_FOTOS_CODE);
+                        ActivityCompat.requestPermissions(requireActivity(), new String[]{manifestPermiso}, PERMISO_FOTOS_CODE);
                         openGallery();
                     } else {
                         openGallery();
@@ -298,7 +300,7 @@ public class FragmentTabRepEjecOT extends Fragment {
 
 
     //Verifica permisos para activar la camara o abrir galeria de fotos
-    ActivityResultLauncher<java.lang.String> camaraPermiso = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
+    ActivityResultLauncher<String> camaraPermiso = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
         @Override
         public void onActivityResult(Boolean result) {
             if(result){
@@ -314,7 +316,7 @@ public class FragmentTabRepEjecOT extends Fragment {
     private Uri imageUri = null;
     Bitmap imageBitmap;
     ArrayList<Uri> listaImgsUri = new ArrayList<>();
-    java.lang.String currentPhotoPath;
+    String currentPhotoPath;
 
 
     //ACTIVA LA CAMARA PARA TOMAR FOTO
@@ -331,7 +333,7 @@ public class FragmentTabRepEjecOT extends Fragment {
             } catch (IOException ex){ex.getMessage();}
 
             if (photoFile != null){
-                java.lang.String authority = "com.mantprev.mantprevproaces2" + ".provider";    //BuildConfig.APPLICATION_ID
+                String authority = "com.mantprev.mantprevproaces2" + ".provider";    //BuildConfig.APPLICATION_ID
                 Uri photoUri = FileProvider.getUriForFile(requireContext(), authority, photoFile);
 
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
@@ -363,7 +365,7 @@ public class FragmentTabRepEjecOT extends Fragment {
                         listaImgsUri.add(imageUri);
 
                         int cantFotos = listaImgsUri.size();
-                        java.lang.String tvTexto = getResources().getString(R.string.tvAgregarFotosCierre);
+                        String tvTexto = getResources().getString(R.string.tvAgregarFotosCierre);
                         tvAgregarFotosCierre.setText(tvTexto + " (" + cantFotos + ")");
                     }
                 });
@@ -374,14 +376,14 @@ public class FragmentTabRepEjecOT extends Fragment {
     /*********************************************************/
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        java.lang.String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, getNombreDeFoto(), null);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, getNombreDeFoto(), null);
         return Uri.parse(path);
     }
 
 
     private File createImageFile() throws IOException {
     /************************************************/
-        java.lang.String imgFileName = getNombreDeFoto();
+        String imgFileName = getNombreDeFoto();
         File storageDir = getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imgFileName, ".jpg", storageDir);
         currentPhotoPath = image.getAbsolutePath();
@@ -441,14 +443,14 @@ public class FragmentTabRepEjecOT extends Fragment {
                     }
 
                     int cantFotos = listaImgsUri.size();
-                    java.lang.String tvTexto = getResources().getString(R.string.tvAgregarFotosCierre);
+                    String tvTexto = getResources().getString(R.string.tvAgregarFotosCierre);
                     tvAgregarFotosCierre.setText(tvTexto + " (" + cantFotos + ")");
                 }
             }
         });
     }
 
-    java.lang.String calidTrab, fechaEjec;
+    String calidTrab, fechaEjec;
 
     public void guardarReporteEjecucionOT() {
     /**************************************/
@@ -457,17 +459,17 @@ public class FragmentTabRepEjecOT extends Fragment {
         //CAPTURA LOS DATOS DE EJECUCION
         fechaEjec = datePickerFecha;   //Se utiliza el String en fromato de fecha sql
         calidTrab = etCalidadTrab.getText().toString();
-        java.lang.String idOrdTrab = idOT;
-        java.lang.String hrsParoProd = etHrsParoProduc.getText().toString();
-        java.lang.String hrsTrabajo  = etHrsTrabajo.getText().toString();
+        String idOrdTrab = idOT;
+        String hrsParoProd = etHrsParoProduc.getText().toString();
+        String hrsTrabajo  = etHrsTrabajo.getText().toString();
 
-        java.lang.String reportHist = etReportEjec.getText().toString();
-        java.lang.String nombrFalla = tvNombrFalla.getText().toString();
-        java.lang.String supervOT  = tvNombrSupOT.getText().toString();
-        java.lang.String recibTrab = etNombRecivTrab.getText().toString();
-        java.lang.String cantFotos = Integer.toString(listaImgsUri.size());
-        java.lang.String cantRptos = Integer.toString(tblRepuestos.getChildCount() - 1); //1 solo tiene el table head
-        java.lang.String cantSrvEx = Integer.toString(tblServExt.getChildCount() - 1);   //1 solo tiene el table head
+        String reportHist = etReportEjec.getText().toString();
+        String nombrFalla = tvNombrFalla.getText().toString();
+        String supervOT  = tvNombrSupOT.getText().toString();
+        String recibTrab = etNombRecivTrab.getText().toString();
+        String cantFotos = Integer.toString(listaImgsUri.size());
+        String cantRptos = Integer.toString(tblRepuestos.getChildCount() - 1); //1 solo tiene el table head
+        String cantSrvEx = Integer.toString(tblServExt.getChildCount() - 1);   //1 solo tiene el table head
 
         if (recibTrab.isEmpty()) {
             recibTrab = "--";
@@ -476,9 +478,9 @@ public class FragmentTabRepEjecOT extends Fragment {
         //Verifica que se hayan ingresado todos los datos
         boolean datosCorrectos = true;
 
-        java.lang.String nombPers = tvNombrePers.getText().toString();
-        java.lang.String nombRpto = etNombreRepsto.getText().toString();
-        java.lang.String nombServ = etNombreServExt.getText().toString();
+        String nombPers = tvNombrePers.getText().toString();
+        String nombRpto = etNombreRepsto.getText().toString();
+        String nombServ = etNombreServExt.getText().toString();
 
         if(!nombPers.isEmpty() || !nombRpto.isEmpty() || !nombServ.isEmpty()){
             Toast.makeText(getContext(), getResources().getString(R.string.msjInformTabl), Toast.LENGTH_LONG).show();
@@ -509,7 +511,7 @@ public class FragmentTabRepEjecOT extends Fragment {
 
             RtesEjecOTs repteEjecOT = new RtesEjecOTs();
             //Date fechaEjecucion = MetodosStaticos.getDateFromString(fechaEjec);
-            java.lang.String fechaTrabajo = fechaEjec;
+            String fechaTrabajo = fechaEjec;
 
             repteEjecOT.setIdOT(Integer.parseInt(idOrdTrab));
             //repteEjecOT.setFechaInicio(fechaEjecucion);
@@ -527,21 +529,20 @@ public class FragmentTabRepEjecOT extends Fragment {
 
             /* RETROFIT */
             DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-            Call<java.lang.String> call = service.guardarReporteEjecOT2(repteEjecOT);   //"reptes/saveRepteEjec/"
+            Call<ResponseString> call = service.guardarReporteEjecOT2(repteEjecOT);   //"reptes/saveRepteEjec/"
 
-            call.enqueue(new Callback<java.lang.String>() {
+            call.enqueue(new Callback<ResponseString>() {
                 @Override
-                public void onResponse(Call<java.lang.String> call, retrofit2.Response<java.lang.String> response) {
-                    /*
-                    if (response.code() == 401){  // El token ha expirado
-                        ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                        activCerrarSess.cleanSesionDeUsuario(getContext());
-                        Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
+
+                    if (response.code() == 401){  // La sesion ha expirado
+                        //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                         Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                    }  */
+                    }
 
                     if(response.isSuccessful() && response.body() != null){
-                        if(response.body().equals("EXITO")){
+                        ResponseString responseStr = response.body();
+                        if(responseStr.getDatoString().equals("EXITO")){
                             Toast.makeText(getContext(), getResources().getString(R.string.btnGuardaRepEjecOK), Toast.LENGTH_SHORT).show();
                             guardarReportPersTecn();  //GUARDA LOS REPORTES DEL PERSONAL TECNICO
 
@@ -549,16 +550,12 @@ public class FragmentTabRepEjecOT extends Fragment {
                             Toast.makeText(getContext(), getResources().getString(R.string.btnGuardaRepEjecNot), Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                         }
-
-                    } else {
-                        Toast.makeText(getContext(), "No se pudo guardar el reporte de Ejecución OT ...", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.GONE);
                     }
                 }
 
                 @Override
-                public void onFailure(Call<java.lang.String> call, Throwable throwable) {
-                    throwable.printStackTrace();
+                public void onFailure(Call<ResponseString> call, Throwable throwable) {
+                    progressBar.setVisibility(View.GONE);
                     Log.d("ErrorResponse: ", throwable.toString());
                     Toast.makeText(getContext(), getResources().getString(R.string.btnGuardaRepEjecNot), Toast.LENGTH_LONG).show();
                 }
@@ -586,9 +583,9 @@ public class FragmentTabRepEjecOT extends Fragment {
             TextView textView1 = (TextView) filaTbl.getChildAt(1);
             TextView textView2 = (TextView) filaTbl.getChildAt(2);
 
-            java.lang.String idPersTecn = textView0.getText().toString();
-            java.lang.String nombPerTec = textView1.getText().toString();  //No se guarda en la Base de Datos
-            java.lang.String hrsPersTec = textView2.getText().toString();
+            String idPersTecn = textView0.getText().toString();
+            String nombPerTec = textView1.getText().toString();  //No se guarda en la Base de Datos
+            String hrsPersTec = textView2.getText().toString();
 
             reptePersn = new RtesPersEjecOTs();
             reptePersn.setCantHrs(Double.parseDouble(hrsPersTec));
@@ -603,11 +600,11 @@ public class FragmentTabRepEjecOT extends Fragment {
         int arrayReptesPersSize = arrayReptesPersn.size();
         for (int i = 0; i < arrayReptesPersSize; i++) {
 
-            java.lang.String cantHrs = Double.toString(arrayReptesPersn.get(i).getCantHrs());
-            java.lang.String cddTrab = Double.toString(arrayReptesPersn.get(i).getCalidadTrab());  //Calidad de Trabajo
-            java.lang.String fchaEje = arrayReptesPersn.get(i).getFechaEjec();
-            java.lang.String idOrdTr = Integer.toString(arrayReptesPersn.get(i).getIdOT());
-            java.lang.String idEmple = Integer.toString(arrayReptesPersn.get(i).getIdEmpleado());
+            String cantHrs = Double.toString(arrayReptesPersn.get(i).getCantHrs());
+            String cddTrab = Double.toString(arrayReptesPersn.get(i).getCalidadTrab());  //Calidad de Trabajo
+            String fchaEje = arrayReptesPersn.get(i).getFechaEjec();
+            String idOrdTr = Integer.toString(arrayReptesPersn.get(i).getIdOT());
+            String idEmple = Integer.toString(arrayReptesPersn.get(i).getIdEmpleado());
 
             RtesPersEjecOTs reptePers = new RtesPersEjecOTs();
             reptePers.setCantHrs(Double.parseDouble(cantHrs));
@@ -618,30 +615,27 @@ public class FragmentTabRepEjecOT extends Fragment {
 
             /* RETROFIT */
             DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-            Call<java.lang.String> call = service.guardarReptePersEjecOT(reptePers);       //"reptes/saveReptePers/"
+            Call<ResponseString> call = service.guardarReptePersEjecOT(reptePers);       //"reptes/saveReptePers/"
 
-            call.enqueue(new Callback<java.lang.String>() {
-
+            call.enqueue(new Callback<ResponseString>() {
                 @Override
-                public void onResponse(Call<java.lang.String> call, retrofit2.Response<java.lang.String> response) {
-                    /*
-                    if (response.code() == 401){  // El token ha expirado
-                        ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                        activCerrarSess.cleanSesionDeUsuario(getContext());
-                        Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
+
+                    if (response.code() == 401){  // La sesion ha expirado
+                        //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                         Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                    }   */
+                    }
 
                     if(response.isSuccessful() && response.body() != null){
-                        if(!response.body().equals("OK")){
+                        ResponseString responseStr = response.body();
+                        if(!responseStr.getDatoString().equals("OK")){
                             Toast.makeText(getContext(), "No se pudo guardar Personal Tecnico .....", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
 
                 @Override
-                public void onFailure(Call<java.lang.String> call, Throwable throwable) {
-                    throwable.printStackTrace();
+                public void onFailure(Call<ResponseString> call, Throwable throwable) {
                     Log.d("ErrorResponse: ", throwable.toString());
                     Toast.makeText(getContext(), "No pudo guardar Personal Técnico", Toast.LENGTH_LONG).show();
                 }
@@ -669,8 +663,8 @@ public class FragmentTabRepEjecOT extends Fragment {
                 TextView textView0 = (TextView) filaTbl.getChildAt(0);
                 TextView textView1 = (TextView) filaTbl.getChildAt(1);
 
-                java.lang.String nombrRepto = textView0.getText().toString();
-                java.lang.String costoTotal = textView1.getText().toString();
+                String nombrRepto = textView0.getText().toString();
+                String costoTotal = textView1.getText().toString();
 
                 repteRepuesto = new RtesReptosEjecOTs();
                 repteRepuesto.setNombreRep(nombrRepto);
@@ -684,10 +678,10 @@ public class FragmentTabRepEjecOT extends Fragment {
 
         int arrayReptesReptosSize = arrayReptesReptos.size();
         for(int i=0; i< arrayReptesReptosSize; i++) {
-            java.lang.String nombRepto = arrayReptesReptos.get(i).getNombreRep();
-            java.lang.String costTotal = Double.toString(arrayReptesReptos.get(i).getCostoTotal());
-            java.lang.String fechConsu = arrayReptesReptos.get(i).getFechaConsumo();
-            java.lang.String idOrdTrab = Integer.toString(arrayReptesReptos.get(i).getIdOT());
+            String nombRepto = arrayReptesReptos.get(i).getNombreRep();
+            String costTotal = Double.toString(arrayReptesReptos.get(i).getCostoTotal());
+            String fechConsu = arrayReptesReptos.get(i).getFechaConsumo();
+            String idOrdTrab = Integer.toString(arrayReptesReptos.get(i).getIdOT());
 
             ReptesReptos_DTO repteRepto = new ReptesReptos_DTO();
             repteRepto.setIdOrdTrab(idOrdTrab);
@@ -697,30 +691,28 @@ public class FragmentTabRepEjecOT extends Fragment {
 
             /* RETROFIT */
             DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-            Call<java.lang.String> call = service.guardarRepteReptosEjecOT(repteRepto);   //"reptes/saveRepteRepto/"
+            Call<ResponseString> call = service.guardarRepteReptosEjecOT(repteRepto);   //"reptes/saveRepteRepto/"
 
-            call.enqueue(new Callback<java.lang.String>() {
-
+            call.enqueue(new Callback<ResponseString>() {
                 @Override
-                public void onResponse(Call<java.lang.String> call, retrofit2.Response<java.lang.String> response) {
-                    /*
-                    if (response.code() == 401){  // El token ha expirado
-                        ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                        activCerrarSess.cleanSesionDeUsuario(getContext());
-                        Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
+
+                    if (response.code() == 401){  // La sesion ha expirado
+                        //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                         Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                    }   */
+                    }
 
                     if(response.isSuccessful() && response.body() != null){
-                        if(!response.body().equals("OK")){
+                        ResponseString responseStr = response.body();
+                        if(!responseStr.getDatoString().equals("OK")){
                             Toast.makeText(getContext(), "No se pudo guardar Repuestos ..... ", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
 
                 @Override
-                public void onFailure(Call<java.lang.String> call, Throwable throwable) {
-                    throwable.printStackTrace();
+                public void onFailure(Call<ResponseString> call, Throwable throwable) {
+
                     Log.d("ErrorResponse: ", throwable.toString());
                     Toast.makeText(getContext(), "No puedo guardar Repuestos", Toast.LENGTH_LONG).show();
                 }
@@ -748,8 +740,8 @@ public class FragmentTabRepEjecOT extends Fragment {
                 TextView textView0 = (TextView) filaTbl.getChildAt(0);
                 TextView textView1 = (TextView) filaTbl.getChildAt(1);
 
-                java.lang.String nombreServ = textView0.getText().toString();
-                java.lang.String costoTotal = textView1.getText().toString();
+                String nombreServ = textView0.getText().toString();
+                String costoTotal = textView1.getText().toString();
 
                 repteServExt = new RtesServExtEjecOTs();
                 repteServExt.setNombreServic(nombreServ);
@@ -763,10 +755,10 @@ public class FragmentTabRepEjecOT extends Fragment {
 
         int arrayReptesServExtSize = arrayReptesServExt.size();
         for(int i=0; i< arrayReptesServExtSize; i++) {
-            java.lang.String nombrServ = arrayReptesServExt.get(i).getNombreServic();
-            java.lang.String costoServ  = Double.toString(arrayReptesServExt.get(i).getCostoServic());
-            java.lang.String fechaServ  = arrayReptesServExt.get(i).getFechaServic();
-            java.lang.String idOrdTrab = Integer.toString(arrayReptesServExt.get(i).getIdOT());
+            String nombrServ = arrayReptesServExt.get(i).getNombreServic();
+            String costoServ  = Double.toString(arrayReptesServExt.get(i).getCostoServic());
+            String fechaServ  = arrayReptesServExt.get(i).getFechaServic();
+            String idOrdTrab = Integer.toString(arrayReptesServExt.get(i).getIdOT());
 
             RtesServExtEjecOTs repteServExt = new RtesServExtEjecOTs();
             repteServExt.setIdOT(Integer.parseInt(idOrdTrab));
@@ -776,29 +768,27 @@ public class FragmentTabRepEjecOT extends Fragment {
 
             /* RETROFIT */
             DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-            Call<java.lang.String> call = service.guardarRepteServExtEjecOT(repteServExt);   // "reptes/saveRepteSevExt/"
+            Call<ResponseString> call = service.guardarRepteServExtEjecOT(repteServExt);   // "reptes/saveRepteSevExt/"
 
-            call.enqueue(new Callback<java.lang.String>() {
+            call.enqueue(new Callback<ResponseString>() {
                 @Override
-                public void onResponse(Call<java.lang.String> call, retrofit2.Response<java.lang.String> response) {
-                    /*
-                    if (response.code() == 401){  // El token ha expirado
-                        ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                        activCerrarSess.cleanSesionDeUsuario(getContext());
-                        Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
+
+                    if (response.code() == 401){  // La sesion ha expirado
+                        //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                         Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                    }  */
+                    }
 
                     if(response.isSuccessful() && response.body() != null){
-                        if(!response.body().equals("OK")){
+                        ResponseString responseStr = response.body();
+                        if(!responseStr.getDatoString().equals("OK")){
                             Toast.makeText(getContext(), "No se pudo guardar Serv. Ext......", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
 
                 @Override
-                public void onFailure(Call<java.lang.String> call, Throwable throwable) {
-                    throwable.printStackTrace();
+                public void onFailure(Call<ResponseString> call, Throwable throwable) {
                     Log.d("ErrorResponse: ", throwable.toString());
                     Toast.makeText(getContext(), "No se pudo guardar Serv. Ext.", Toast.LENGTH_LONG).show();
                 }
@@ -835,21 +825,24 @@ public class FragmentTabRepEjecOT extends Fragment {
 
                 //* RETROFIT
                 DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-                Call<java.lang.String> call = service.uploadImgCierreOT(fotoFilePart, idOTrab);
+                Call<ResponseString> call = service.uploadImgCierreOT(fotoFilePart, idOTrab);
 
-                call.enqueue(new Callback<java.lang.String>() {
+                call.enqueue(new Callback<ResponseString>() {
                     @Override
-                    public void onResponse(Call<java.lang.String> call, retrofit2.Response<java.lang.String> response) {
+                    public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
+
+                        if (response.code() == 401){  // La sesion ha expirado
+                            //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                            Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                        }
+
                         if(response.isSuccessful()){
                             //Toast.makeText(getContext(), response.body(), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getContext(), "Failure to send photos !!!", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<java.lang.String> call, Throwable throwable) {
-                        throwable.printStackTrace();
+                    public void onFailure(Call<ResponseString> call, Throwable throwable) {
                         Log.d("ErrorResponse: ", throwable.toString());
                         Toast.makeText(getContext(), "FALLO EN GUARDAR FOTO", Toast.LENGTH_LONG).show();
                     }
@@ -863,21 +856,21 @@ public class FragmentTabRepEjecOT extends Fragment {
 
 
     //Metodo para generar una cadena aleatoria de longitud N
-    public java.lang.String getNombreDeFoto() {
+    public String getNombreDeFoto() {
     /*******************************/
         int count = 10;
 
-        java.lang.String CARACTERES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+        String CARACTERES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
         StringBuilder builder = new StringBuilder();
         while (count-- != 0) {
             int character = (int) (Math.random() * CARACTERES.length());
             builder.append(CARACTERES.charAt(character));
         }
 
-        java.lang.String nombreImagen = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
-        java.lang.String imageFileName = nombreImagen + ".jpg";
+        String nombreImagen = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
+        String imageFileName = nombreImagen + ".jpg";
 
-        java.lang.String nombreFoto = imageFileName;
+        String nombreFoto = imageFileName;
         nombreFoto = builder + "_" + nombreFoto;
 
         return nombreFoto;
@@ -889,8 +882,8 @@ public class FragmentTabRepEjecOT extends Fragment {
 
     public void agregarServExtTabla(){
     /*********************************/
-        java.lang.String nombreServExt = etNombreServExt.getText().toString();
-        java.lang.String costoServExt  = etCostoServExt.getText().toString();
+        String nombreServExt = etNombreServExt.getText().toString();
+        String costoServExt  = etCostoServExt.getText().toString();
 
         if (!costoServExt.isEmpty() && !costoServExt.contains(".")){
             costoServExt = costoServExt + ".00";
@@ -948,16 +941,16 @@ public class FragmentTabRepEjecOT extends Fragment {
 
     public void agregarRepuestosTabla(){
     /*********************************/
-        java.lang.String nombreDeRepto = etNombreRepsto.getText().toString();
-        java.lang.String costoDeRepto  = etCostoRepsto.getText().toString();
+        String nombreDeRepto = etNombreRepsto.getText().toString();
+        String costoDeRepto  = etCostoRepsto.getText().toString();
 
-        if (costoDeRepto.length() > 0 && !costoDeRepto.contains(".")){
+        if (!costoDeRepto.isEmpty() && !costoDeRepto.contains(".")){
             costoDeRepto = costoDeRepto + ".00";
         }
 
         TableRow filaTabla = new TableRow(getContext());
 
-        if (nombreDeRepto.length() > 0 && costoDeRepto.length() > 0){ //
+        if (!nombreDeRepto.isEmpty() && !costoDeRepto.isEmpty()){ //
 
             TextView tvColum0 = new TextView(getContext());
             tvColum0.setBackgroundResource(R.drawable.style_edittex_tbls);
@@ -1016,32 +1009,29 @@ public class FragmentTabRepEjecOT extends Fragment {
         call.enqueue(new Callback<List<PersonalTecn>>() {
 
             final ArrayList<PersonalTecn> listPersTecn = new ArrayList<>();
-            Map<java.lang.String, List<java.lang.String>> mapaPersTecn;
-            ArrayList<java.lang.String> listaTiposDeEjecut;    //Lista de Padres de Ejecutores (Electricos, mecánicos, ete)
-            ArrayList<java.lang.String> grupoDeEjecutores;     //Hijos de ejecutores  (Ejecutores agrupados)
+            Map<String, List<String>> mapaPersTecn;
+            ArrayList<String> listaTiposDeEjecut;    //Lista de Padres de Ejecutores (Electricos, mecánicos, ete)
+            ArrayList<String> grupoDeEjecutores;     //Hijos de ejecutores  (Ejecutores agrupados)
 
             @Override
             public void onResponse(Call<List<PersonalTecn>> call, retrofit2.Response<List<PersonalTecn>> response) {
 
-                /*
-                if (response.code() == 401){  // El token ha expirado
-                    ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                    activCerrarSess.cleanSesionDeUsuario(getContext());
-                    Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                }  */
+                }
 
                 if(response.isSuccessful() && response.body() != null){
                     listPersTecn.addAll(response.body());
 
                     //SE CREA LA LISTA DE TIPOS DE EJECUTORES (lista de Padres)
-                    mapaPersTecn = new HashMap<java.lang.String, List<java.lang.String>>();
+                    mapaPersTecn = new HashMap<String, List<String>>();
                     listaTiposDeEjecut = new ArrayList<>();  //Lista de Padres (electrico, mecánico, ete)
 
                     int listaPersTecnSize = listPersTecn.size();
                     for (int i=0; i< listaPersTecnSize; i++){
 
-                        java.lang.String tipoEjecutor  = listPersTecn.get(i).getTipoEjecutor();
+                        String tipoEjecutor  = listPersTecn.get(i).getTipoEjecutor();
 
                         if (!listaTiposDeEjecut.contains(tipoEjecutor)){
                             listaTiposDeEjecut.add(tipoEjecutor);
@@ -1052,14 +1042,14 @@ public class FragmentTabRepEjecOT extends Fragment {
                     int listaTiposEjectSize = listaTiposDeEjecut.size();
                     for (int i=0; i< listaTiposEjectSize; i++){
 
-                        java.lang.String tipoDeEject = listaTiposDeEjecut.get(i);
+                        String tipoDeEject = listaTiposDeEjecut.get(i);
                         grupoDeEjecutores = new ArrayList<>();
 
                         for (int j=0; j< listaPersTecnSize; j++){
 
                             int idEmpleado = listPersTecn.get(j).getIdEmpleado();
-                            java.lang.String tipoEjecut = listPersTecn.get(j).getTipoEjecutor();
-                            java.lang.String nombrePers = listPersTecn.get(j).getNombre() + " (" +idEmpleado+ ")";
+                            String tipoEjecut = listPersTecn.get(j).getTipoEjecutor();
+                            String nombrePers = listPersTecn.get(j).getNombre() + " (" +idEmpleado+ ")";
 
                             if (tipoEjecut.equals(tipoDeEject)){
                                 grupoDeEjecutores.add(nombrePers);
@@ -1087,7 +1077,7 @@ public class FragmentTabRepEjecOT extends Fragment {
     }
 
 
-    public void mostrarVentanaPersTecn(ArrayList<java.lang.String> parentsList, Map<java.lang.String, List<java.lang.String>> persTecnMap){
+    public void mostrarVentanaPersTecn(ArrayList<String> parentsList, Map<String, List<String>> persTecnMap){
     /******************************************************************************************************/
         final View windowArbolPersTecn = getLayoutInflater().inflate(R.layout.window_lista_perstecn, null);
 
@@ -1112,7 +1102,7 @@ public class FragmentTabRepEjecOT extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
 
-                java.lang.String nombrePersTecn = expandableListAdapter.getChild(i, i1).toString();
+                String nombrePersTecn = expandableListAdapter.getChild(i, i1).toString();
                 tvNombrePers.setText(nombrePersTecn);
                 alertDialog.dismiss();
                 return true;
@@ -1129,8 +1119,8 @@ public class FragmentTabRepEjecOT extends Fragment {
     int idFila = 0; //Para agregarle un id a la fila
     public void agregarPersTecnTabla(){
     /*********************************/
-        java.lang.String nombreDeTecn = tvNombrePers.getText().toString();
-        java.lang.String hrsDeTrabajo = etHrsTrabajo2.getText().toString();
+        String nombreDeTecn = tvNombrePers.getText().toString();
+        String hrsDeTrabajo = etHrsTrabajo2.getText().toString();
 
         //int numFila = tblPersTecn.getChildCount() + 1;
         TableRow filaTabla = new TableRow(getContext());
@@ -1139,7 +1129,7 @@ public class FragmentTabRepEjecOT extends Fragment {
 
         if (nombreDeTecn != ""){
             int indOfCorchete = nombreDeTecn.indexOf("(");
-            java.lang.String idPersTecn = nombreDeTecn.substring(indOfCorchete);
+            String idPersTecn = nombreDeTecn.substring(indOfCorchete);
             idPersTecn = idPersTecn.replace("(", "").replace(")", "");
             nombreDeTecn = nombreDeTecn.substring(0, indOfCorchete-1);
 
@@ -1208,17 +1198,15 @@ public class FragmentTabRepEjecOT extends Fragment {
         call.enqueue(new Callback<List<Usuarios_DTO>>() {
 
             final ArrayList<Usuarios_DTO> listaUsuarios = new ArrayList<>();
-            final ArrayList<java.lang.String> listaDeSupervis = new ArrayList<>();
+            final ArrayList<String> listaDeSupervis = new ArrayList<>();
 
             @Override
             public void onResponse(Call<List<Usuarios_DTO>> call, retrofit2.Response<List<Usuarios_DTO>> response) {
-                /*
-                if (response.code() == 401){  // El token ha expirado
-                    ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                    activCerrarSess.cleanSesionDeUsuario(getContext());
-                    Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                }  */
+                }
 
                 if(response.isSuccessful() && response.body() != null){
                     listaUsuarios.addAll(response.body());
@@ -1226,16 +1214,12 @@ public class FragmentTabRepEjecOT extends Fragment {
 
                     for (int i = 0; i < listaUsuariosSize; i++) {
                         Usuarios_DTO usuario = listaUsuarios.get(i);
-                        java.lang.String nombreUsuario = usuario.getNombreUsuario();
+                        String nombreUsuario = usuario.getNombreUsuario();
                         listaDeSupervis.add(nombreUsuario);
                     }
 
                     progressBar.setVisibility(View.GONE);
                     mostrarVentanaListaSupev(listaDeSupervis);
-
-                } else{
-                    Toast.makeText(getContext(), "Fallo al cargar lista supervisores", Toast.LENGTH_LONG).show();
-                    progressBar.setVisibility(View.GONE);
                 }
             }
 
@@ -1248,7 +1232,7 @@ public class FragmentTabRepEjecOT extends Fragment {
         });
     }
 
-    public void mostrarVentanaListaSupev(ArrayList<java.lang.String> listaDeSupervis){
+    public void mostrarVentanaListaSupev(ArrayList<String> listaDeSupervis){
     /***********************************************************************/
         final View windowListaSuperv = getLayoutInflater().inflate(R.layout.window_lista_superv, null);
         ListView listViewSuperv = windowListaSuperv.findViewById(R.id.listViewSuperv);
@@ -1259,7 +1243,7 @@ public class FragmentTabRepEjecOT extends Fragment {
         listViewSuperv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                java.lang.String nombreSuperv = listaDeSupervis.get(position);
+                String nombreSuperv = listaDeSupervis.get(position);
                 tvNombrSupOT.setText(nombreSuperv);
                 alertDialog2.dismiss();
             }
@@ -1283,34 +1267,31 @@ public class FragmentTabRepEjecOT extends Fragment {
 
         call.enqueue(new Callback<List<Fallas>>() {
             final ArrayList<Fallas> listaDeFallas = new ArrayList<>();
-            Map<java.lang.String, List<java.lang.String>> mapaDeFallas;
+            Map<String, List<String>> mapaDeFallas;
 
-            ArrayList<java.lang.String> listaTiposDeFallas;
-            ArrayList<java.lang.String> grupoDeFallasArray;  //Grupo de fallas segun el tipo (mecanicas, electricas, etc)
+            ArrayList<String> listaTiposDeFallas;
+            ArrayList<String> grupoDeFallasArray;  //Grupo de fallas segun el tipo (mecanicas, electricas, etc)
 
             @Override
             public void onResponse(Call<List<Fallas>> call, retrofit2.Response<List<Fallas>> response) {
 
-                /*
-                if (response.code() == 401){  // El token ha expirado
-                    ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                    activCerrarSess.cleanSesionDeUsuario(getContext());
-                    Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                }  */
+                }
 
                 if(response.isSuccessful() && response.body() != null){
                     listaDeFallas.addAll(response.body());
 
                     //SE CREA LA LISTA DE TIPOS DE FALLAS
-                    mapaDeFallas = new HashMap<java.lang.String, List<java.lang.String>>();
+                    mapaDeFallas = new HashMap<String, List<String>>();
                     listaTiposDeFallas = new ArrayList<>();
                     int listaFallasSize = listaDeFallas.size();
 
                     for (int i=0; i< listaFallasSize; i++){
 
-                        java.lang.String nombreFalla = listaDeFallas.get(i).getNombreFalla();
-                        java.lang.String tipoDeFalla = listaDeFallas.get(i).getTipoFalla();
+                        String nombreFalla = listaDeFallas.get(i).getNombreFalla();
+                        String tipoDeFalla = listaDeFallas.get(i).getTipoFalla();
 
                         if (!listaTiposDeFallas.contains(tipoDeFalla)){
                             listaTiposDeFallas.add(tipoDeFalla);
@@ -1321,13 +1302,13 @@ public class FragmentTabRepEjecOT extends Fragment {
                     int listaTiposFallasSize = listaTiposDeFallas.size();
                     for (int i=0; i< listaTiposFallasSize; i++){
 
-                        java.lang.String tipoDeFalla = listaTiposDeFallas.get(i);
+                        String tipoDeFalla = listaTiposDeFallas.get(i);
                         grupoDeFallasArray = new ArrayList<>();
 
                         for (int j=0; j<listaDeFallas.size(); j++){
 
-                            java.lang.String tipoFalla  = listaDeFallas.get(j).getTipoFalla();
-                            java.lang.String nombrFalla = listaDeFallas.get(j).getNombreFalla();
+                            String tipoFalla  = listaDeFallas.get(j).getTipoFalla();
+                            String nombrFalla = listaDeFallas.get(j).getNombreFalla();
 
                             if (tipoFalla.equals(tipoDeFalla)){
                                 grupoDeFallasArray.add(nombrFalla);
@@ -1339,9 +1320,6 @@ public class FragmentTabRepEjecOT extends Fragment {
                     progressBar.setVisibility(View.GONE);
                     mostrarVentanaArbolFallas(listaTiposDeFallas, mapaDeFallas);
 
-                } else {
-                    Toast.makeText(getContext(), "Fallo al cargar el arbol de fallas", Toast.LENGTH_LONG).show();
-                    progressBar.setVisibility(View.GONE);
                 }
             }
 
@@ -1355,7 +1333,7 @@ public class FragmentTabRepEjecOT extends Fragment {
     }
 
 
-    public void mostrarVentanaArbolFallas(ArrayList<java.lang.String> parentsList, Map<java.lang.String, List<java.lang.String>> fallasMap){
+    public void mostrarVentanaArbolFallas(ArrayList<String> parentsList, Map<String, List<String>> fallasMap){
     /*********************************************************************************************************/
         final View windowArbolFallas = getLayoutInflater().inflate(R.layout.window_arbol_fallas, null);
 
@@ -1379,7 +1357,7 @@ public class FragmentTabRepEjecOT extends Fragment {
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                java.lang.String fallaSelected = expandableListAdapter.getChild(i, i1).toString();
+                String fallaSelected = expandableListAdapter.getChild(i, i1).toString();
 
                 tvNombrFalla.setText(fallaSelected);
                 alertDialog.dismiss();
@@ -1396,14 +1374,14 @@ public class FragmentTabRepEjecOT extends Fragment {
 
     //******************************************* VARIABLES DEL DATE PICKER
     int dayInt, monthInt, yearInt;
-    java.lang.String datePickerFecha;
+    String datePickerFecha;
 
     private void setFechaDeHoy(){  //Se asume que la fecha de finalización es la fecha de hoy
     /***************************/
         Date fechaHoy = new Date();
-        java.lang.String strDate = dateFormat.format(fechaHoy);
+        String strDate = dateFormat.format(fechaHoy);
 
-        java.lang.String[] dateSplited = strDate.split("/");
+        String[] dateSplited = strDate.split("/");
         dayInt = Integer.parseInt(dateSplited[0]);
         monthInt = Integer.parseInt(dateSplited[1]);
         yearInt = Integer.parseInt(dateSplited[2]);
@@ -1412,7 +1390,7 @@ public class FragmentTabRepEjecOT extends Fragment {
         datePickerFecha = yearInt +"-"+ monthInt +"-"+ dayInt;
 
         DateFormat dateFormat2 = DateFormat.getDateInstance(DateFormat.DEFAULT);
-        java.lang.String strDateFormated = dateFormat2.format(fechaHoy);
+        String strDateFormated = dateFormat2.format(fechaHoy);
         tvFechaFinaliz.setText(strDateFormated);
 
         monthInt = monthInt -1;
@@ -1432,7 +1410,7 @@ public class FragmentTabRepEjecOT extends Fragment {
                 //Guardamos la fecha en formato consultas BD
                 datePickerFecha = year +"-"+ mesSelect +"-"+ dayOfMonth;
 
-                java.lang.String strDateFormated = MetodosStaticos.getFechaStrFormated(datePickerFecha);
+                String strDateFormated = MetodosStaticos.getFechaStrFormated(datePickerFecha);
                 tvFechaFinaliz.setText(strDateFormated);
             }
         }, yearInt, monthInt, dayInt);

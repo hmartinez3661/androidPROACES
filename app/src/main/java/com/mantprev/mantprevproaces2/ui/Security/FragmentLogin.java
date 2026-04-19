@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mantprev.mantprevproaces2.ModelosDTO2.ResponseString;
 import com.mantprev.mantprevproaces2.ModelosDTO2.Usuarios_DTO;
 import com.mantprev.mantprevproaces2.R;
 import com.mantprev.mantprevproaces2.retrofit.DataServices_Intf;
@@ -218,9 +219,6 @@ public class FragmentLogin extends Fragment {
                     progresBar.setVisibility(View.GONE);
                 }
             });
-
-        } else {
-            Toast.makeText(getContext(), getResources().getString(R.string.msgIngrDts), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -239,7 +237,7 @@ public class FragmentLogin extends Fragment {
                     String idUsuario = Integer.toString(usuario.getIdUsuario());
                     String nombrUsuario = usuario.getNombreUsuario();
                     String emailUsuario = usuario.getEmailUsuario();
-                    String rolDeUsuario = "ROL_" + usuario.getUserRol();
+                    String rolDeUsuario = "ROLE_" + usuario.getUserRol();  //
 
                     //Ingresa los datos a las variables estaticas
                     StaticConfig.emailUsuario = emailUsuario;
@@ -295,25 +293,27 @@ public class FragmentLogin extends Fragment {
     }
 
     private void crearPasswordFinal(String emailUser){
-    //*******************************************  //el usuario tiene password provisional: mantprevXXXXXX).
+    //*******************************************  //el usuario tiene password provisional: mantprevXXXX).
         progresBar.setVisibility(View.VISIBLE);    //por tanto se le solcita ingresar su password final.
 
         DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
         Call<Usuarios_DTO> call = service.getUsuarioByEmail(emailUser);
 
         call.enqueue(new Callback<Usuarios_DTO>() {
-
             @Override
             public void onResponse(Call<Usuarios_DTO> call, Response<Usuarios_DTO> response) {
 
                 if(response.isSuccessful() && response.body() != null){
                     Usuarios_DTO usuario = response.body();
-                    idUsuarioStr = usuario.getIdUsuario() + "";
+                    idUsuarioStr = usuario.getIdUsuario();
+                    String nombreUser = usuario.getNombreUsuario();
+                    int indice = nombreUser.indexOf("(");
+                    nombreUser = nombreUser.substring(0, indice);
 
                     //Soliicta paswword final
                     linearLayout1.setVisibility(View.GONE);
                     linearLayout2.setVisibility(View.VISIBLE);
-                    etNombreApellido.setText(usuario.getNombreUsuario());
+                    etNombreApellido.setText(nombreUser);
                     etEmail.setText(usuario.getEmailUsuario());
                     tvLogin.setText(getResources().getString(R.string.tvLogin2));
                     progresBar.setVisibility(View.GONE);
@@ -336,7 +336,7 @@ public class FragmentLogin extends Fragment {
         });
     }
 
-    private String idUsuarioStr = "0";  //Se actualiza  cuando el usuario ingresa al sistema
+    private int idUsuarioStr = 0;               //Se actualiza cuando el usuario ingresa al sistema
     private void guardarPasswordFinaleUser() {  //Usuario que solo tenía paswword provisional (Mantprev)
     //************************************
         String nombreUser = etNombreApellido.getText().toString().trim();
@@ -374,18 +374,17 @@ public class FragmentLogin extends Fragment {
             progresBar.setVisibility(View.VISIBLE);
 
             Usuarios_DTO userDTO = new Usuarios_DTO();
-            userDTO.setIdUsuario(Integer.parseInt(idUsuarioStr));
+            userDTO.setIdUsuario(idUsuarioStr);
             userDTO.setNombreUsuario(nombreUser);
             userDTO.setEmailUsuario(emailUser);
             userDTO.setPassword(password1);
 
             DataServices_Intf service = Retrofit_Instance.getRetrofitInstance().create(DataServices_Intf.class);
-            Call<String> call = service.actualizarDatosNvoUser(userDTO);  //actualizarNvoUsuario.php";
+            Call<ResponseString> call = service.actualizarDatosNvoUser(userDTO);
 
-            call.enqueue(new Callback<String>() {
+            call.enqueue(new Callback<ResponseString>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-
+                public void onResponse(Call<ResponseString> call, Response<ResponseString> response) {
                     if(response.isSuccessful() && response.body() != null){
                         Toast.makeText(getContext(), getResources().getString(R.string.msgActualUser), Toast.LENGTH_SHORT).show();
 
@@ -409,10 +408,11 @@ public class FragmentLogin extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable throwable) {
+                public void onFailure(Call<ResponseString> call, Throwable throwable) {
+                    progresBar.setVisibility(View.GONE);
                     throwable.printStackTrace();
                     Log.d("ErrorResponse: ", throwable.toString());
-                    Toast.makeText(getContext(), "FALLO EN ACTUALIZAR EL NUEVO USUARIO", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "FALLO EN ACTUALIZAR PASSWORD USUARIO", Toast.LENGTH_LONG).show();
                 }
             });
 

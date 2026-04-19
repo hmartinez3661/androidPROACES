@@ -31,6 +31,7 @@ import com.mantprev.mantprevproaces2.utilities.StaticConfig;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -64,7 +65,7 @@ public class FragmentCheckOTsList extends Fragment {
         root = inflater.inflate(R.layout.fragment_check_ots_list, container, false);
 
         tvIndicaciones = (TextView) root.findViewById(R.id.tvTituloConfig);
-        spinnerEjecut = (Spinner) root.findViewById(R.id.tvEjecutoRutDt);
+        spinnerEjecut = (Spinner) root.findViewById(R.id.spnPersTecn);
         progressBar = (ProgressBar) root.findViewById(R.id.progresBar);
 
         recyclerView = (RecyclerView) root.findViewById(R.id.reciclerView);
@@ -108,40 +109,40 @@ public class FragmentCheckOTsList extends Fragment {
 
             @Override
             public void onResponse(Call<List<ConfigSpinners>> call, retrofit2.Response<List<ConfigSpinners>> response) {
-                /*
-                if (response.code() == 401){  // El token ha expirado
-                    ActivityCerarSesion activCerrarSess = new ActivityCerarSesion();
-                    activCerrarSess.cleanSesionDeUsuario(getContext());
-                    Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
                     Navigation.findNavController(root).navigate(R.id.fragmentLogin);
-                }  */
-
-                listConfSpinner.addAll(response.body());
-                int listaConfigSpinnSize = listConfSpinner.size();
-
-                for (int i=0; i< listaConfigSpinnSize; i++) {
-
-                    ConfigSpinners configSpn = listConfSpinner.get(i);
-                    String ejecutor  = configSpn.getEjecutoresOTs();
-
-                    if (ejecutor != null){
-                        if (!ejecutor.isEmpty()){
-                            listaEjecut.add(ejecutor);
-                        }
-                    }
                 }
 
-                //Adapter Spinner Ejecutores
-                ArrayAdapter<CharSequence> adapterEject = new ArrayAdapter(getContext(), R.layout.zspinners_items, listaEjecut);
-                adapterEject.setDropDownViewResource(R.layout.zspinners_dropdown_items);
-                spinnerEjecut.setAdapter(adapterEject);
+                if(response.isSuccessful() && response.body() != null){
+
+                    listConfSpinner.addAll(response.body());
+                    int listaConfigSpinnSize = listConfSpinner.size();
+
+                    for (int i=0; i< listaConfigSpinnSize; i++) {
+
+                        ConfigSpinners configSpn = listConfSpinner.get(i);
+                        String ejecutor  = configSpn.getEjecutoresOTs();
+
+                        if (ejecutor != null){
+                            if (!ejecutor.isEmpty()){
+                                listaEjecut.add(ejecutor);
+                            }
+                        }
+                    }
+
+                    //Adapter Spinner Ejecutores
+                    ArrayAdapter<CharSequence> adapterEject = new ArrayAdapter(getContext(), R.layout.zspinners_items, listaEjecut);
+                    adapterEject.setDropDownViewResource(R.layout.zspinners_dropdown_items);
+                    spinnerEjecut.setAdapter(adapterEject);
+                }
 
                 progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<List<ConfigSpinners>> call, Throwable throwable) {
-                throwable.printStackTrace();
                 Log.d("ErrorResponse: ", throwable.toString());
                 Toast.makeText(getContext(), "FALLO EN CARGAR CONFIG SPINNERS", Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
@@ -165,6 +166,11 @@ public class FragmentCheckOTsList extends Fragment {
 
             @Override
             public void onResponse(Call<List<OrdenesTrabajo>> call, retrofit2.Response<List<OrdenesTrabajo>> response) {
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                }
 
                 if(response.isSuccessful() && response.body() != null){
                     listaOrdenesTrab.addAll(response.body());
@@ -192,16 +198,11 @@ public class FragmentCheckOTsList extends Fragment {
 
                     recyclerView.setAdapter(ordTrabAdapter);
                     progressBar.setVisibility(View.GONE);
-
-                } else {
-                    Toast.makeText(getContext(), "No hay OTs para Autorizar", Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<List<OrdenesTrabajo>> call, Throwable throwable) {
-                throwable.printStackTrace();
                 Log.d("ErrorResponse: ", throwable.toString());
                 Toast.makeText(getContext(), "FALLO EN CARGAR LISTA OTs", Toast.LENGTH_LONG).show();
             }
@@ -229,6 +230,11 @@ public class FragmentCheckOTsList extends Fragment {
                 @Override
                 public void onResponse(Call<List<OrdenesTrabajo>> call, retrofit2.Response<List<OrdenesTrabajo>> response) {
 
+                    if (response.code() == 401){  // La sesion ha expirado
+                        //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                        Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                    }
+
                     if(response.isSuccessful() && response.body() != null){
                         listaOrdenesTrab.addAll(response.body());
 
@@ -255,10 +261,6 @@ public class FragmentCheckOTsList extends Fragment {
                         });
 
                         recyclerView.setAdapter(ordTrabAdapter);
-                        progressBar.setVisibility(View.GONE);
-
-                    } else {
-                        Toast.makeText(getContext(), "No hay OTs con el ejecutor seleccionado", Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.GONE);
                     }
                 }

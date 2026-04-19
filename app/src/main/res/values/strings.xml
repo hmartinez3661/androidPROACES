@@ -5,7 +5,7 @@
 
     <!-- ENCABESADO DE LOS FRAGMENTS -->
     <string name="app_name">MANTPREV</string>
-    <string name="appSlogan">Órdenes de Trabajo para mantenimiento Industrial.</string>
+    <string name="appSlogan">Gestion del Mantenimiento Industrial</string>
     <string name="appEmail">support@mantprev.com</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -49,11 +49,11 @@
     <!--  MENU HOME -->
     <string name="appName"><i>MANTPREV</i></string>
     <string name="wellcomeUser"><i>Bienvenido</i></string>
-    <string name="text_home2"><i>(Ordenes de Trabajo para Mantenimiento Industrial)</i></string>
+    <string name="text_home2"><i>(Gestión del Mantenimiento Industrial)</i></string>
     <string name="text_home3"><i>Mantenimiento Industrial)</i></string>
-    <string name="btnNewOT">CREAR NUEVA ORDEN DE TRAB.</string>
+    <string name="btnNewOT">CREAR UNA NUEVA OT</string>
     <string name="btnMisOTs">VER MIS ORDENES DE TRAB.</string>
-    <string name="btnAsigds">Ords. Trab. ASIGNADAS A MI</string>
+    <string name="btnAsigds">OTs ASIGNADAS A MI</string>
     <string name="infoHome1">RESUMEN ORDENES DE TRABAJO</string>
     <string name="infoHome2">(OTs generadas en los últimos 30 días)</string>
     <string name="OtsGeneraas">Total de OTs generadas:</string>
@@ -70,8 +70,9 @@
     <string name="menu_listadoOTs">Listado General de OTs</string>
     <string name="menu_verMisOTs">Ver mis Ord. de Trabajo</string>
     <string name="menu_revisarNvasOTs">Autorizar nuevas OTs</string>
-    <string name="menu_reportEjecsOTs">Cerrar Ordenes Trab.</string>
-    <string name="menu_listaRuts">Rutinas mantto. preventivo</string>
+    <string name="menu_otsAsignPersTec">OTs asignadas Pers. Tecn.</string>
+    <string name="menu_reportEjecsOTs">Cerrar Ordenes Trabajo</string>
+    <string name="menu_listaRuts">Reportar ejecución Rutinas</string>
     <string name="msg_IndicesMantto">Indices de Mantenimiento</string>
     <string name="menu_recurFallas">Recurrencia de Fallas</string>
     <string name="menu_tendecAverias">Tendencia de Averías</string>
@@ -122,6 +123,7 @@
     <string name="tbHeadEjecutor">EJECUTOR:</string>
     <string name="tblHeadPriorid">PRIORIDAD:</string>
     <string name="tblHeadStatusOT">ESTATUS ACTUAL:</string>
+    <string name="tvTecnAsign">TECN. ASIGNADO:</string>
     <string name="tblHeadFecha">FECHA:</string>
     <string name="tblHeadVerOT">VER OT:</string>
     <string name="tblHeadNameSolict">NOMBRE SOLICIT.:</string>
@@ -198,6 +200,7 @@
     <string name="tvIndicacion2">Confirme o modifique la siguiente inform.:</string>
     <string name="tvClasificOT">Clasificación OT:</string>
     <string name="tvStatuscOT">Nuevo estatus OT:</string>
+    <string name="tvTecnAsig">Técnico asignado:</string>
     <string name="tvNumPersEstim">Num. técnicos estimados:</string>
     <string name="tvNumHrsEstim">Número horas estimadas:</string>
     <string name="tvIndicPrev">Indicaciones previas a ejecución del trabajo:</string>
@@ -211,6 +214,12 @@
     <string name="msgNoReúestos">No se utlizaron Repuestos en esta OT</string>
     <string name="msgNoServExt">No Servicios Externos en esta OT</string>
     <string name="msgNoatachedFotos">No se anexaron Fotos</string>
+
+    <!-- REPORTAR EJECUCION DE OTs  -->
+    <string name="titOTsAsigTecn">OTs asignadas a técnicos mantto.</string>
+    <string name="otsAsigTecn1">Filtre el listado por el nombre del técnico</string>
+    <string name="otsAsigTecn2">Nombre técnicos:</string>
+
 
     <!-- REPORTAR EJECUCION DE OTs  -->
     <string name="reportEjecOTsIndic1">Reportar Ejecución de OTs</string>
@@ -584,8 +593,8 @@
     <string name="msgOpcion1">Descargar la nueva versión ahora</string>
     <string name="msgOpcion2">Recordarme más tarde</string>
     <string name="nombreApp">Mantenimiento Industrial - OTs</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 
 
 </resources>

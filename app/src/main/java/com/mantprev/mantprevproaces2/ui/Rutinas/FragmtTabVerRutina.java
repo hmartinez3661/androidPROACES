@@ -5,6 +5,7 @@ import static android.view.View.GONE;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +47,7 @@ public class FragmtTabVerRutina extends Fragment {
         tvNumRut = (TextView) root.findViewById(R.id.tvNumRut);
         etNombreEquip = (EditText) root.findViewById(R.id.etNombreEquip);
         etTrabajoRut = (EditText) root.findViewById(R.id.etTrabajoRut);
-        tvEjecutoRutDt = (TextView) root.findViewById(R.id.tvEjecutoRutDt);
+        tvEjecutoRutDt = (TextView) root.findViewById(R.id.spnPersTecn);
         tvFrecucRutDt = (TextView) root.findViewById(R.id.tvFrecucRutDt);
         tvtPersEstimDt = (TextView) root.findViewById(R.id.tvtPersEstimDt);
         tvTpoEstimDt = (TextView) root.findViewById(R.id.tvTpoEstimDt);
@@ -73,6 +74,11 @@ public class FragmtTabVerRutina extends Fragment {
         call.enqueue(new Callback<RustEquiposDTO>() {
             @Override
             public void onResponse(Call<RustEquiposDTO> call, Response<RustEquiposDTO> response) {
+
+                if (response.code() == 401){  // La sesion ha expirado
+                    //Toast.makeText(getContext(), "The session has ended", Toast.LENGTH_LONG).show();
+                    Navigation.findNavController(root).navigate(R.id.fragmentLogin);
+                }
 
                 if(response.isSuccessful() && response.body() != null){
                     RustEquiposDTO rutsEquipo = response.body();
@@ -102,9 +108,6 @@ public class FragmtTabVerRutina extends Fragment {
                     etPreparPrev.setText(preparacRpv);
 
                     MetodosStaticos.nombreEquipo = nombreEquip;
-
-                } else {
-                    Toast.makeText(getContext(), "No hay rutina que mostrar....", Toast.LENGTH_LONG).show();
                 }
 
                 progressBar.setVisibility(View.GONE);
