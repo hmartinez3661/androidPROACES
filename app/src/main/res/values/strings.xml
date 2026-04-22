@@ -218,7 +218,7 @@
     <!-- REPORTAR EJECUCION DE OTs  -->
     <string name="titOTsAsigTecn">OTs asignadas a técnicos mantto.</string>
     <string name="otsAsigTecn1">Filtre el listado por el nombre del técnico</string>
-    <string name="otsAsigTecn2">Nombre técnicos:</string>
+    <string name="otsAsigTecn2">Nombres pers. técnico:</string>
 
 
     <!-- REPORTAR EJECUCION DE OTs  -->

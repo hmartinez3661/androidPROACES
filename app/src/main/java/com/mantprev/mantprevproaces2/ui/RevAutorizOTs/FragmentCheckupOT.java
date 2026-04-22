@@ -93,6 +93,7 @@ public class FragmentCheckupOT extends Fragment {
             @Override
             public void onClick(View v) {
                 if(cantFotosAnex > 0){
+                    MetodosStaticos.fotosDeCierroOT = "No"; //Para que busque solo fotos anexadas en la generacion OT
                     Navigation.findNavController(root).navigate(R.id.fragmentImages);
                 } else {
                     Toast.makeText(getContext(), "No attached photos to show", Toast.LENGTH_SHORT).show();

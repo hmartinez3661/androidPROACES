@@ -57,9 +57,7 @@ public class FragmentImages extends Fragment implements VerFotosListener{
         recyclerViewFotosOT = (RecyclerView) root.findViewById(R.id.rvFotosOT);
         recyclerViewFotosOT.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
 
-
         getListaNombresFotos();
-
         return root;
     }
 
